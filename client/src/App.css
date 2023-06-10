@@ -1,0 +1,37 @@
+.App {
+  text-align: center;
+}
+
+.listIconImage {
+  cursor: pointer;
+  width: 20px;
+}
+
+.App-logo {
+  height: 40min;
+  pointer-events: none;
+}
+
+.CaptionLabel {
+  font-size: 14px;
+  color: black;
+}
+
+.DataLabel {
+  font-size: 14px;
+  color:black;
+}
+
+.ErrorLabel {
+  font-size: 12px;
+  color:red;
+}
+
+.wrapper{
+  border: 1px solid rgb(206,212,218);
+}
+
+div.card-header {
+  background-color: #F5F5F5 !important;
+}
+
