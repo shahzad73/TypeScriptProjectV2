@@ -234,6 +234,8 @@ companyDataRouter.post("/editCompanyContact", async (req: Request, res: Response
     delete( req.body.recordID );
     delete ( req.body.id );
 
+    console.log( req.body );
+
     const errors = await validate(newUpdates, { skipMissingProperties: true });
 
     if (errors.length > 0) {

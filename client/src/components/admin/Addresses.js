@@ -101,7 +101,7 @@ export default function Addresses(params) {
 
         axios.get("/accounts/backend/getProfileAddress?recordID=" + params.id + "&type=" + params.addressType ).then(response => {
             setAddressTypes ( response.data.addressTypes );
-            setAddressesData ( response.data.usrAddresses )
+            setAddressesData ( response.data.usrAddresses );
         }).catch(function(error) {
             console.log(error);
         }); 
@@ -131,7 +131,7 @@ export default function Addresses(params) {
                             <div className="card-block table-border-style">
 
                                 {addressesData && addressesData.map(dat =>                                    
-                                    <span>                                        
+                                    <span>                                  
                                         <div className="row">
                                             <div className="col-xl-4">
                                                 <img src="/img/edit.png" width="22px" className="listIconImage" onClick={editAddressDataForm(dat.id)}></img>

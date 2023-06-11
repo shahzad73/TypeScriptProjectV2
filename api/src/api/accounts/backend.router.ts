@@ -75,6 +75,8 @@ bckendDataRouter.post("/editContact", async (req: Request, res: Response) => {
     delete req.body.id;
     delete req.body.userid;
 
+    console.log(id)
+
     const manager = getManager();
     const newUpdates = manager.create(user_contacts, req.body);    
 
@@ -196,7 +198,8 @@ bckendDataRouter.post("/addAddress", async (req: Request, res: Response) => {
     else
         recordID = req.body.recordID;
 
-    req.body.userid = recordID;
+    // recordID indicates user id or company id etc.
+    req.body.recordID = recordID;
 
     const manager = getManager();
     const newUpdates = manager.create(addresses, req.body);    

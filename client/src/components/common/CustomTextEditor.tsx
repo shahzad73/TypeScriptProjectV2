@@ -55,7 +55,7 @@ export default function CustomTextEditor(props: { defaultHTML: any; onChange: (a
                 toolbarClassName="toolbar"
                 editorState={editorState}                                                
                 onEditorStateChange={handleEditorChange}
-                // editorStyle={{background-color: "white", border: "0px solid", height: props.height, padding: "10px"}}
+                editorStyle={{backgroundColor: 'white', border: "0px solid", height: props.height, padding: "10px"}}
             /> 
       </div>
     );

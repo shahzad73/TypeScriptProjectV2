@@ -1,6 +1,6 @@
 
 const commons = {
-    
+
     getDBErrorMessagesText: function(errors: any[]) {
         var objErrors = "";
         errors.forEach(obj=>{

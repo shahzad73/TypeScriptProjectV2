@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AxiosResponse, AxiosProgressEvent } from 'axios';
-import { useState } from 'react';
+//import { useState } from 'react';
 
 const uploadFilesArray: Record<string, any> = {};
 type SetStateFunction<T> = (newValue: T | ((prevValue: T) => T)) => void;
@@ -13,7 +13,6 @@ type JsonFunction = (json: MyJsonResponse) => void;
 
 
 const commons = {
-
 
     getDBErrorMessagesText: function(errors: any[]) {
         var objErrors = "";
@@ -47,8 +46,8 @@ const commons = {
         updatePercentage: SetStateFunction<number>,
         documentFilesUploadedEvent: JsonFunction
     ) {
-        //let formData = new FormData();
-        const [formData, setFormData] = useState<FormData>(new FormData());
+        let formData = new FormData();
+        //const [formData, setFormData] = useState<FormData>(new FormData());
 
         formData.append("file", uploadFilesArray[fileID]);
 

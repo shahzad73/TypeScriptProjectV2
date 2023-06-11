@@ -111,7 +111,7 @@ export default function SendEmail() {
                                                             <CustomTextEditor                                                 
                                                                 defaultHTML={""}  
                                                                 onChange={textEditorTextChangeEvent} 
-                                                                height="100px" 
+                                                                height="200px" 
                                                             />
                                                         </div>
                                                     </div>
