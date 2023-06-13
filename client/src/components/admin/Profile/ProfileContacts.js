@@ -38,7 +38,7 @@ export default function ProfileContacts() {
     function openEditContact() {
         setOperation(1);
         setProfileErrorMessages("")
-        reset({});
+        reset({contact: "", });
         setContactModelShow(true);
     }
     const deleteContactDataForm = value => () => {
@@ -88,13 +88,13 @@ export default function ProfileContacts() {
     React.useEffect(() => {
         axios.get("/accounts/backend/getProfileContacts").then(response => {
             setUserContacts ( response.data.userContacts );
-            setMobileTypes ( response.data.mobileTypes );            
+            setMobileTypes ( response.data.mobileTypes );  
         }).catch(function(error) {
             console.log(error);
         });   
 
         return () => {
-          
+            
         };
     }, []);
 

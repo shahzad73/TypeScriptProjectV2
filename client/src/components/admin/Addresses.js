@@ -44,7 +44,7 @@ export default function Addresses(params) {
 
 
     function openEditAddresses() {
-        reset({});
+        reset({"contact": "", "state": "", "zip": ""});
         setProfileErrorMessages("")
         setAddressesModelShow(true);
     }

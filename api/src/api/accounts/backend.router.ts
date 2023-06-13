@@ -75,8 +75,6 @@ bckendDataRouter.post("/editContact", async (req: Request, res: Response) => {
     delete req.body.id;
     delete req.body.userid;
 
-    console.log(id)
-
     const manager = getManager();
     const newUpdates = manager.create(user_contacts, req.body);    
 
@@ -97,12 +95,12 @@ bckendDataRouter.post("/editContact", async (req: Request, res: Response) => {
 });
 
 bckendDataRouter.get("/getContactRecord", async (req: Request, res: Response) => {
-    const data = await user_contacts.find ({
-        id: req.query.id,
+    const data = await user_contacts.findOne ({where: {
+        id: parseInt(req.query.id),
         userid: req.userid
-    });
+    }});
 
-    res.json( data[0] );
+    res.json( data );
 });
 
 bckendDataRouter.post("/deleteContact", async (req: Request, res: Response) => {
@@ -119,7 +117,7 @@ bckendDataRouter.post("/deleteContact", async (req: Request, res: Response) => {
 
 
 
- 
+
 bckendDataRouter.get("/getProfileAddress", async (req: Request, res: Response) => {
     var recordID = 0;
 
@@ -151,11 +149,11 @@ bckendDataRouter.post("/deleteAddress", async (req: Request, res: Response) => {
 });
 
 bckendDataRouter.get("/getAddressRecord", async (req: Request, res: Response) => {
-    const data = await addresses.find ({
+    const data = await addresses.findOne ({where: {
         id: req.query.id
-    });
+    }});
 
-    res.json( data[0] );
+    res.json( data );
 });
 
 bckendDataRouter.post("/editAddress", async (req: Request, res: Response) => {
