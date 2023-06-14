@@ -43,7 +43,7 @@ export default function EditCompany(props) {
             <Addresses 
                 id={location.state.id}
                 addressType="2"
-                caption="Comp addresses" 
+                caption="Company addresses" 
                 sectionHelperText="you can add companies addresses here Addresses "                
                 icon = "address.png" 
             ></Addresses>            

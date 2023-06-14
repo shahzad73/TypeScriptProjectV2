@@ -41,11 +41,14 @@ export default function ProfileContacts(params) {
     const [icon, setIcon] = useState("");        
         
     function openEditContact() {
+        reset({"nameOfPerson": "", "contact": ""});
         setOperation(0);
         setErrorMessages("");
         setContactModelShow(true);
         reset({});
     }
+
+     
 
     const deleteContactDataForm = value => () => {
         setConfirmationMessage("Are you sure you want to delete ?");
@@ -166,7 +169,7 @@ export default function ProfileContacts(params) {
                             <div className="row">
 
                             <span className="ErrorLabel">{errorMessages}</span>
-
+                            
                                 <div className="row">
                                     <div className="col-md-2"> Person Name </div>
                                     <div className="col-md-10">
