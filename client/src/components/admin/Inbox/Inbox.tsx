@@ -4,17 +4,32 @@ import {Modal} from 'react-bootstrap'
 import { Link } from "react-router-dom";
 import { Button, Label } from 'semantic-ui-react'
 import Moment from 'moment';
-import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse";
 
 
-export default function Inbox(props) {
-  const [inboxDataSet, setInboxDataSet] = useState([]);
+export default function Inbox(props: any) {
+    interface Inbox {
+        ID: number;
+        Title: string;
+        isResponded: number;
+        DateEmail: Date
+      }
+
+      const inboxDataSet2: Inbox[] = [
+        // Your inbox data objects here
+      ];
+
+
+  const [inboxDataSet, setInboxDataSet] = useState(inboxDataSet2);
 
   const [deleteModelShow, setDeleteModelShow] = useState(false);
   const [deleteRecordID, setDeleteRecordID] = useState(0);
 
 
-  React.useEffect((props) => {
+
+
+
+
+  React.useEffect(() => {
       //alert("This is where you initialization code is execute");
 
       axios.get("/accounts/others/inbox").then(response => {
@@ -30,7 +45,7 @@ export default function Inbox(props) {
   }, []);
 
 
-const deleteRecord = id => () => {
+const deleteRecord = (id: React.SetStateAction<number>) => () => {
     setDeleteRecordID(id);
     setDeleteModelShow(true);
 }
@@ -80,7 +95,7 @@ function handleDeleteModelEvent() {
                                                 &nbsp; &nbsp; 
                                                 <Label color='red' size="tiny" horizontal>
                                                 Not Responded
-                                              </Label></span>
+                                                </Label></span>
                                             }                                               
                                         </div>
                                         <div className="col-xl-2">

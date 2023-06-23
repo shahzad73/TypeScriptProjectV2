@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
     Link
   } from "react-router-dom";
+ 
 
 export default function Dashboard() {
 
@@ -85,17 +86,7 @@ export default function Dashboard() {
                                 </div>
                                 <div className="card-block table-border-style">
 
-                                    This is dashboard 22
-                                    <br /><br /> 
-
-                                    <Link to={`/investormain`} activeClassName="active">
-                                        <span class="pcoded-micon">
-                                            <i class="feather icon-file-text"></i>
-                                        </span>
-                                        <span class="pcoded-mtext">
-                                            Investor dashboard
-                                        </span>
-                                    </Link>
+                                    This is investor dashboard
 
                                     </div>
                             </div>

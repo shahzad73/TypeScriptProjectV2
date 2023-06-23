@@ -63,6 +63,18 @@ export default function Main() {
 
 
             <li data-username="" class="nav-item">
+                <Link to={`/adminmain/investorList`} activeClassName="active">
+                    <span class="pcoded-micon">
+                        <i class="feather icon-cloud-snow"></i>
+                    </span>
+                    <span class="pcoded-mtext">
+                        Investors
+                    </span>
+                </Link>
+            </li>  
+
+
+            <li data-username="" class="nav-item">
                 <Link to={`/adminmain/inbox`} activeClassName="active">
                     <span class="pcoded-micon">
                         <i class="feather icon-file-text"></i>

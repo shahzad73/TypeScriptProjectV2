@@ -1,24 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
-import Dashboard from "./admin/Dashboard";
-import Profile from "./admin/Profile/Profile";
-import Items from "./admin/test/Items";
+import Dashboard from "./investor/Dashboard";
 import AppContext from './common/AppContext';
-import SideBar from './admin/sidebar';
-import Test from './admin/test/Example2';
+import SideBar from './investor/sidebar';
 import $ from 'jquery';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-
-import SendEmail from "./admin/Inbox/SendEmail.js"
-import Inbox from "./admin/Inbox/Inbox"
-import ViewInbox from "./admin/Inbox/ViewInbox"
-import Company from "./admin/Company/Company.js"
-import AddCompany from "./admin/Company/Add.js"
-import EditCompany from "./admin/Company/Edit.js"
-import Token from "./admin/Token/Token"
-import ViewToken from "./admin/Token/View"
-
-import InvestorList from "./admin/investor/list"
 import { Label } from "semantic-ui-react";
 
 
@@ -28,7 +14,6 @@ export default function Main() {
     const appContext = useContext(AppContext);
     const navigate = useNavigate();
     const [floatNAVBar, setFloatNAVBar] = useState(true);
-
 
     function toggleNavbarFloat() {
         setFloatNAVBar( !floatNAVBar );
@@ -122,17 +107,17 @@ export default function Main() {
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item dropdown">
-                            <h3>Issuer Dashboard</h3>
+                            <h3>Investor Dashboard</h3>                            
                         </li>
                         <li className="nav-item dropdown">
-                            <Link to={`/investormain`}>
+                            <Link to={`/adminmain`}>
                                 <span className="pcoded-mtext">
                                     <Label color='red' size="medium" horizontal>
-                                            Switch to Investor
+                                            Switch to Issuer
                                     </Label>
-                                </span>                               
-                            </Link>                          
-                        </li>                        
+                                </span>
+                            </Link>                            
+                        </li>
                     </ul>
 
 
@@ -161,19 +146,6 @@ export default function Main() {
                                 <div className="page-wrapper">
                                     <Routes>
                                         <Route path="/" element={<Dashboard />} />
-                                        <Route path="/items" element={<Items />} /> 
-                                        <Route path="/test" element={<Test />} /> 
-                                        <Route path="/profile" element={<Profile />} />   
-                                        <Route path="/sendemail" element={<SendEmail />} />
-                                        <Route path="/inbox" element={<Inbox />} />
-                                        <Route path="/viewinbox" element={<ViewInbox />} />   
-                                        <Route path="/company" element={<Company />} />   
-                                        <Route path="/addcompany" element={<AddCompany />} />  
-                                        <Route path="/editcompany" element={<EditCompany />} />
-                                        <Route path="/token" element={<Token />} />     
-                                        <Route path="/tokenview" element={<ViewToken />} />
-
-                                        <Route path="/investorList" element={<InvestorList />} />
                                     </Routes>
                                 </div>
                             </div>

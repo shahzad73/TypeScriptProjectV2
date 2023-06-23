@@ -5,12 +5,29 @@ import { Button } from 'semantic-ui-react';
 import "react-datepicker/dist/react-datepicker.css";
 
 
-export default function ViewInbox(props) {
+export default function ViewInbox(props: any) {
+
+    const textStyle = {};
+
+    interface emailData2 {
+        ID: number;
+        Title: string;
+        Details: string;
+        Response: string
+      }
+
+      const inboxDataSet2: emailData2 = {
+          ID: 0,
+          Title: "",
+          Details: "",
+          Response: ""
+      };
+
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [emailData, setEmailData] = useState({});
+    const [emailData, setEmailData] = useState(inboxDataSet2);
     const [showResposeSection, setShowResposeSection] = useState(false);    
 
 
@@ -52,7 +69,7 @@ export default function ViewInbox(props) {
                     </div>
                     <div className="card-block table-border-style">
 
-                        <span style={{"font-size": "22px"}}> {emailData.Title} </span>
+                        <span style={textStyle}> {emailData.Title} </span>
                         <br /><br />
                         <div  dangerouslySetInnerHTML={   {__html: emailData.Details}    }></div>
                         <br /><br /><br /><br />
