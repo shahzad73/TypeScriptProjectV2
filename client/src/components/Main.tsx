@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Route, Routes } from "react-router";
 import MyAppContext  from './common/AppContext';
-import AdminMain from "./AdminMain";
-import PublicMain from './PublicMain';
-import InvestorMain  from './InvestorMain';
+import AdminMain from "./Admin";
+import PublicMain from './Public';
+import InvestorMain  from './Investor';
 
 
-
+ 
 export default function Main() {
 
     const { 
@@ -25,14 +25,15 @@ export default function Main() {
     }, []);
 
 
-    return (  
+    return (
       <div>
-        <Routes>
-            <Route path="/adminmain/*" element={<AdminMain />} />
-            <Route path="/investormain/*" element={<InvestorMain />} />
+          <Routes>
+            <Route path="/admin/*" element={<AdminMain />} />
+            <Route path="/investor/*" element={<InvestorMain />} />
             <Route path="/*" element={<PublicMain />} />
           </Routes>
       </div>
     );
 
 }
+

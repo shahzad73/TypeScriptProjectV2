@@ -78,7 +78,7 @@ export default function Dashboard() {
                                                 {dat.title}
                                             </div>
                                             <div className="col-xl-2">
-                                                <Link to="/adminmain/tokenview" 
+                                                <Link to="/admin/tokenview" 
                                                 state = {{id: dat.id}}
                                                 > <Button color="vk" size='tiny'>View</Button> </Link>
                                             </div>

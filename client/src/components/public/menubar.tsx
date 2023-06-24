@@ -39,7 +39,7 @@ export default function MenuBar() {
                     </div>
                 )}                  
                 {appContext.showDashboardHomeLink && (
-                    <li><Link to={`/adminmain`}>My Dashboard</Link></li>
+                    <li><Link to={`/admin`}>My Dashboard</Link></li>
                 )}  
 
                                

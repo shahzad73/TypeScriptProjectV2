@@ -48,7 +48,7 @@ export default function Items() {
                 localStorage.setItem("siteJWTTokenString", response.data.token);
                 localStorage.setItem("siteUserName", response.data.name);
 
-                navigate('/adminmain', { replace: true })
+                navigate('/admin', { replace: true })
             }
       })
       .catch(function (error) {

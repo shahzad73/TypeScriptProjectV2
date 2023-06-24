@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import Dashboard from "./investor/Dashboard";
-import AppContext from './common/AppContext';
+import MyAppContext from './common/AppContext';
 import SideBar from './investor/sidebar';
 import $ from 'jquery';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
@@ -11,7 +11,7 @@ import { Label } from "semantic-ui-react";
 
 export default function Main() {
 
-    const appContext = useContext(AppContext);
+    const appContext = useContext(MyAppContext);
     const navigate = useNavigate();
     const [floatNAVBar, setFloatNAVBar] = useState(true);
 
@@ -37,7 +37,7 @@ export default function Main() {
     };
 
     async function myProfile() {
-        navigate('/adminmain/profile', { replace: true })
+        navigate('/admin/profile', { replace: true })
     };
 
 
@@ -110,7 +110,7 @@ export default function Main() {
                             <h3>Investor Dashboard</h3>                            
                         </li>
                         <li className="nav-item dropdown">
-                            <Link to={`/adminmain`}>
+                            <Link to={`/admin`}>
                                 <span className="pcoded-mtext">
                                     <Label color='red' size="medium" horizontal>
                                             Switch to Issuer

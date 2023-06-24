@@ -16,7 +16,7 @@ export default function Main() {
     <div>
         <ul class="nav pcoded-inner-navbar">
             <li data-username="" class="nav-item">
-                <Link to={`/adminmain`} activeClassName="active">
+                <Link to={`/admin`} activeClassName="active">
                     <span class="pcoded-micon">
                         <i class="feather icon-alert-triangle"></i>
                     </span>
@@ -27,7 +27,7 @@ export default function Main() {
             </li>
 
             <li data-username="" class="nav-item">
-                <Link to={`/adminmain/profile`} activeClassName="active">
+                <Link to={`/admin/profile`} activeClassName="active">
                     <span class="pcoded-micon">
                         <i class="feather icon-cloud-snow"></i>
                     </span>
@@ -39,7 +39,7 @@ export default function Main() {
             
 
             <li data-username="" class="nav-item">
-                <Link to={`/adminmain/company`} activeClassName="active">
+                <Link to={`/admin/company`} activeClassName="active">
                     <span class="pcoded-micon">
                         <i class="feather icon-cloud-snow"></i>
                     </span>
@@ -51,7 +51,7 @@ export default function Main() {
                         
 
             <li data-username="" class="nav-item">
-                <Link to={`/adminmain/token`} activeClassName="active">
+                <Link to={`/admin/token`} activeClassName="active">
                     <span class="pcoded-micon">
                         <i class="feather icon-monitor"></i>
                     </span>
@@ -63,7 +63,7 @@ export default function Main() {
 
 
             <li data-username="" class="nav-item">
-                <Link to={`/adminmain/investorList`} activeClassName="active">
+                <Link to={`/admin/investorList`} activeClassName="active">
                     <span class="pcoded-micon">
                         <i class="feather icon-cloud-snow"></i>
                     </span>
@@ -75,7 +75,7 @@ export default function Main() {
 
 
             <li data-username="" class="nav-item">
-                <Link to={`/adminmain/inbox`} activeClassName="active">
+                <Link to={`/admin/inbox`} activeClassName="active">
                     <span class="pcoded-micon">
                         <i class="feather icon-file-text"></i>
                     </span>
@@ -88,7 +88,7 @@ export default function Main() {
 
 
             <li data-username="" class="nav-item">
-                <Link to={`/adminmain/test`} activeClassName="active">
+                <Link to={`/admin/test`} activeClassName="active">
                     <span class="pcoded-micon">
                         <i class="feather icon-cloud-snow"></i>
                     </span>

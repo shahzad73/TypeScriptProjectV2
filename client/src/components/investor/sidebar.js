@@ -16,12 +16,12 @@ export default function Main() {
     <div>
         <ul class="nav pcoded-inner-navbar">
             <li data-username="" class="nav-item">
-                <Link to={`/investormain`} activeClassName="active">
+                <Link to={`/investor`} activeClassName="active">
                     <span class="pcoded-micon">
                         <i class="feather icon-alert-triangle"></i>
                     </span>
                     <span class="pcoded-mtext">
-                        Dashboard Inv
+                        Dashboard
                     </span> 
                 </Link>
             </li>

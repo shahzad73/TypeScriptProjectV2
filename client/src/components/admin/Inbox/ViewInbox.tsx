@@ -32,7 +32,7 @@ export default function ViewInbox(props: any) {
 
 
     function cancel() {
-        navigate('/adminmain/inbox', { replace: true })
+        navigate('/admin/inbox', { replace: true })
     } 
 
     React.useEffect(() => {   

@@ -12,12 +12,10 @@ var SHA256 = require("crypto-js/sha256");
 export const loginRouter = express.Router();
 
 loginRouter.get("/test" , async (req: Request, res: Response) => { 
-    res.send("ddddddddd")
+    res.send("test")
 })
 
 loginRouter.post("/login", async (req: Request, res: Response) => {
-
-console.log("got here ....")
 
     const usr = await users.find({
         where: {  email: req.body.email  }

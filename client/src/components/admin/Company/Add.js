@@ -33,7 +33,7 @@ export default function Company() {
 
 
     function cancel() {
-        navigate('/adminmain/company', { replace: true })
+        navigate('/admin/company', { replace: true })
     } 
 
     const onFormSubmit = (data) => {
@@ -43,7 +43,7 @@ export default function Company() {
             if(response.data.status == -1) {
                 setProfileErrorMessages(  commons.getDBErrorMessagesText(response.data.error) )                
             } else                
-                navigate('/adminmain/company', { replace: true });
+                navigate('/admin/company', { replace: true });
 
         }).catch(function(error) {
             console.log(error);

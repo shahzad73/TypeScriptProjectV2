@@ -1,7 +1,7 @@
-import { bckendDataRouter } from "../api/accounts/backend.router";
-import { othersDataRouter } from "../api/accounts/others.router";
-import { companyDataRouter } from "../api/accounts/company.router";
-import { tokenDataRouter } from "../api/accounts/token.router";
+import { bckendDataRouter } from "../api/users/backend.router";
+import { othersDataRouter } from "../api/users/others.router";
+import { companyDataRouter } from "../api/users/company.router";
+import { tokenDataRouter } from "../api/users/token.router";
 
 var jwt = require('jsonwebtoken');
 

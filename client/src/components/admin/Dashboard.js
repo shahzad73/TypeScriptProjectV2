@@ -88,7 +88,7 @@ export default function Dashboard() {
                                     This is dashboard 22
                                     <br /><br /> 
 
-                                    <Link to={`/investormain`} activeClassName="active">
+                                    <Link to={`/investor`} activeClassName="active">
                                         <span class="pcoded-micon">
                                             <i class="feather icon-file-text"></i>
                                         </span>

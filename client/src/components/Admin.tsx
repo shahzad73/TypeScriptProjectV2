@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import Dashboard from "./admin/Dashboard";
 import Profile from "./admin/Profile/Profile";
 import Items from "./admin/test/Items";
-import AppContext from './common/AppContext';
+import MyAppContext from './common/AppContext';
 import SideBar from './admin/sidebar';
 import Test from './admin/test/Example2';
 import $ from 'jquery';
@@ -25,7 +25,7 @@ import { Label } from "semantic-ui-react";
 
 export default function Main() {
 
-    const appContext = useContext(AppContext);
+    const appContext = useContext(MyAppContext);
     const navigate = useNavigate();
     const [floatNAVBar, setFloatNAVBar] = useState(true);
 
@@ -52,7 +52,7 @@ export default function Main() {
     };
 
     async function myProfile() {
-        navigate('/adminmain/profile', { replace: true })
+        navigate('/admin/profile', { replace: true })
     };
 
 
@@ -125,7 +125,7 @@ export default function Main() {
                             <h3>Issuer Dashboard</h3>
                         </li>
                         <li className="nav-item dropdown">
-                            <Link to={`/investormain`}>
+                            <Link to={`/investor`}>
                                 <span className="pcoded-mtext">
                                     <Label color='red' size="medium" horizontal>
                                             Switch to Investor
