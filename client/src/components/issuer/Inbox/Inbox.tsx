@@ -74,7 +74,7 @@ function handleDeleteModelEvent() {
                             <span className="d-block m-t-5">use className <code>table</code> inside table element</span>
                         </div>
                         <div className="col-xl-2">
-                            <Link to="/admin/sendemail" > <Button color="vk" size='tiny'>Email to Admin</Button> </Link>
+                            <Link to="/admin/issuer/sendemail" > <Button color="vk" size='tiny'>Email to Admin</Button> </Link>
                         </div>
                     </div>
                 </div>      
@@ -102,7 +102,7 @@ function handleDeleteModelEvent() {
                                             {Moment(inbox.DateEmail).format('DD MMM-YYYY')} 
                                         </div>
                                         <div className="col-xl-2">                                        
-                                            <Link to="/admin/viewinbox" 
+                                            <Link to="/admin/issuer/viewinbox" 
                                                 state = {{id: inbox.ID, update: 1}} >
                                             <Button color="vk" size='tiny'>View</Button> </Link>
                                         </div>

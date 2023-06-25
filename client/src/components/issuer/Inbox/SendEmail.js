@@ -50,7 +50,7 @@ export default function SendEmail() {
                 setErrorMessage(  commons.getDBErrorMessagesText(response.data.error) )
                 setShowErrorMessage(1)
             } else                
-                navigate('/admin/inbox', { replace: true });
+                navigate('/admin/issuer/inbox', { replace: true });
 
         }).catch(function(error) {
             console.log(error);
@@ -59,7 +59,7 @@ export default function SendEmail() {
     }
 
     function cancel() {
-        navigate('/admin/inbox', { replace: true })
+        navigate('/admin/issuer/inbox', { replace: true })
     } 
 
     function handleCloseErrorMessage() {

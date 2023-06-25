@@ -34,7 +34,7 @@ export default function Company() {
                                             <span className="d-block m-t-5">use className <code>table</code> inside table element</span>
                                         </div>
                                         <div className="col-xl-2">
-                                            <Link to="/admin/addcompany" state = {{update: 0}}> <Button color="vk" size='tiny'>New Company</Button> </Link>
+                                            <Link to="/admin/issuer/addcompany" state = {{update: 0}}> <Button color="vk" size='tiny'>New Company</Button> </Link>
                                         </div>
                                     </div>
 
@@ -52,7 +52,7 @@ export default function Company() {
                                                     {data.country}
                                                 </div>
                                                 <div className="col-xl-2">
-                                                    <Link to="/admin/editcompany" 
+                                                    <Link to="/admin/issuer/editcompany" 
                                                         state = {{id: data.id, update: 1}} >
                                                     <Button color="vk" size='tiny'>View &nbsp; / &nbsp; Edit</Button> </Link>
                                                 </div>

@@ -12,7 +12,7 @@ import About from './public/About';
 import Services from './public/Services';
 import VerifyPassword from './public/VerifyRegister';
 
-export default function PublicMain() {
+export default function Public() {
 
     const appContext = useContext(AppContext);
     const navigate = useNavigate();

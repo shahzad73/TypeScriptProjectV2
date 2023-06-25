@@ -1,19 +1,34 @@
 import React, { useState, useContext } from "react";
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
-import Dashboard from "./investor/Dashboard";
+import Dashboard from "./issuer/Dashboard";
+import Profile from "./issuer/Profile/Profile";
+import Items from "./issuer/test/Items";
 import MyAppContext from './common/AppContext';
-import SideBar from './investor/sidebar';
+import SideBar from './issuer/sidebar';
+import Test from './issuer/test/Example2';
 import $ from 'jquery';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+
+import SendEmail from "./issuer/Inbox/SendEmail.js"
+import Inbox from "./issuer/Inbox/Inbox"
+import ViewInbox from "./issuer/Inbox/ViewInbox"
+import Company from "./issuer/Company/Company.js"
+import AddCompany from "./issuer/Company/Add.js"
+import EditCompany from "./issuer/Company/Edit.js"
+import Token from "./issuer/Token/Token"
+import ViewToken from "./issuer/Token/View"
+
+import InvestorList from "./issuer/investor/list"
 import { Label } from "semantic-ui-react";
 
 
 
-export default function Investor() {
+export default function Issuer() {
 
     const appContext = useContext(MyAppContext);
     const navigate = useNavigate();
     const [floatNAVBar, setFloatNAVBar] = useState(true);
+
 
     function toggleNavbarFloat() {
         setFloatNAVBar( !floatNAVBar );
@@ -107,17 +122,17 @@ export default function Investor() {
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item dropdown">
-                            <h3>Investor Dashboard</h3>                            
+                            <h3>Issuer Dashboard</h3>
                         </li>
                         <li className="nav-item dropdown">
-                            <Link to={`/admin/issuer`}>
+                            <Link to={`/admin/investor`}>
                                 <span className="pcoded-mtext">
                                     <Label color='red' size="medium" horizontal>
-                                            Switch to Issuer
+                                            Switch to Investor
                                     </Label>
-                                </span>
-                            </Link>                            
-                        </li>
+                                </span>                               
+                            </Link>                          
+                        </li>                        
                     </ul>
 
 
@@ -146,6 +161,19 @@ export default function Investor() {
                                 <div className="page-wrapper">
                                     <Routes>
                                         <Route path="/" element={<Dashboard />} />
+                                        <Route path="/items" element={<Items />} /> 
+                                        <Route path="/test" element={<Test />} /> 
+                                        <Route path="/profile" element={<Profile />} />   
+                                        <Route path="/sendemail" element={<SendEmail />} />
+                                        <Route path="/inbox" element={<Inbox />} />
+                                        <Route path="/viewinbox" element={<ViewInbox />} />   
+                                        <Route path="/company" element={<Company />} />   
+                                        <Route path="/addcompany" element={<AddCompany />} />  
+                                        <Route path="/editcompany" element={<EditCompany />} />
+                                        <Route path="/token" element={<Token />} />     
+                                        <Route path="/tokenview" element={<ViewToken />} />
+
+                                        <Route path="/investorList" element={<InvestorList />} />
                                     </Routes>
                                 </div>
                             </div>

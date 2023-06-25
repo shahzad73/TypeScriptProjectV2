@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
 import { Route, Routes } from "react-router";
 import MyAppContext  from './common/AppContext';
-import AdminMain from "./Admin";
-import PublicMain from './Public';
-import InvestorMain  from './Investor';
+import Admin from "./Admin";
+import Public from './Public';
 
 
  
@@ -28,9 +27,8 @@ export default function Main() {
     return (
       <div>
           <Routes>
-            <Route path="/admin/*" element={<AdminMain />} />
-            <Route path="/investor/*" element={<InvestorMain />} />
-            <Route path="/*" element={<PublicMain />} />
+            <Route path="/admin/*" element={<Admin />} />
+            <Route path="/*" element={<Public />} />
           </Routes>
       </div>
     );
