@@ -12,14 +12,18 @@ export const companyDataRouter = express.Router();
 
 companyDataRouter.get("/companies", async (req: Request, res: Response) => {
 
-    const typ2 = await getConnection()
-    .createQueryBuilder()
-    .select(["*"])
-    .from(company, "company")
-    .where("userid = :id", { id: req.userid })
-    .execute();
+    const [result, total] = await company.findAndCount(
+        {
+            where: { userid: req.userid }, order: { id: "ASC" },
+            take: req.query.size,
+            skip: (req.query.page * req.query.size)
+        }
+    );
 
-    res.json( typ2 );
+    res.json( {
+        data: result,
+        count: total
+    } );
 
 })
 
@@ -233,8 +237,6 @@ companyDataRouter.post("/editCompanyContact", async (req: Request, res: Response
     const id = req.body.id;
     delete( req.body.recordID );
     delete ( req.body.id );
-
-    console.log( req.body );
 
     const errors = await validate(newUpdates, { skipMissingProperties: true });
 

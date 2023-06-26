@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 
 
 interface AppContext {
   count: number;
   tickCounter: () => void;
   
+  currentSideMenu: number;
+  setCurrentSideMenu: (value: number) => void;  
+
   jwtToken: String;
   globalSetJwtToken: (token: string) => void;
 
@@ -23,6 +26,9 @@ const MyAppContext = React.createContext<AppContext>({
   count: 0,
   tickCounter: () => {},
   
+  currentSideMenu: 0,
+  setCurrentSideMenu: (value: number) => {},
+
   jwtToken: "",
   globalSetJwtToken: (token: string) => {},
 

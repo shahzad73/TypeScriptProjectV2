@@ -10,6 +10,9 @@ export default function App() {
     const tickCounter = () => {
         setCount(count + 1)
     };
+
+    const [currentSideMenu, setCurrentSideMenu] = useState(0);
+   
     const [jwtToken, setJwtToken] = useState("");
     const globalSetJwtToken = (token: React.SetStateAction<string>) => {
       setJwtToken(token)
@@ -50,6 +53,9 @@ export default function App() {
       <MyAppContext.Provider value={{
         count, 
         tickCounter,
+
+        currentSideMenu, 
+        setCurrentSideMenu,        
   
         jwtToken,
         globalSetJwtToken,

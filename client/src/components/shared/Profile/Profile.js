@@ -1,7 +1,7 @@
 import React from "react";
 import ProfilePersonal from "./ProfilePersonal";
 import ProfileContacts from "./ProfileContacts";
-import Addresses from "../Addresses";
+import Addresses from "../../issuer/Addresses";
 
 export default function Profile() {
 

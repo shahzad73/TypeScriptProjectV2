@@ -1,23 +1,39 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
-import { Button } from 'semantic-ui-react'
+import { Button, Pagination } from 'semantic-ui-react';
+import commons from '../../common/commons'
+
 
 export default function Company() {
     const [companyDataSet, setCompanyDataSet] = useState([]);
 
+    const [totalPages, setTotalPages] = useState(0);
+
     React.useEffect(() => {
-        axios.get("/accounts/company/companies").then(response => {
-            setCompanyDataSet(response.data);
-        }).catch(function(error) {
-            console.log(error);
-        });
+        getPageData(0);
 
         return () => {
             //alert("Bye");
         };
     }, []);
 
+
+    const handlePageChange = (event, data) => {        
+        getPageData(data.activePage - 1);
+    };
+
+
+    function getPageData(page) {
+
+        axios.get("/accounts/company/companies?page=" + page + "&size=" + commons.getPaginationSize() ).then(response => {
+            setTotalPages ( commons.calculateTotalPages ( response.data.count ) );
+            setCompanyDataSet(response.data.data);
+        }).catch(function(error) {
+            console.log(error);
+        });
+
+    }
 
     return (
         <div>
@@ -56,11 +72,20 @@ export default function Company() {
                                                         state = {{id: data.id, update: 1}} >
                                                     <Button color="vk" size='tiny'>View &nbsp; / &nbsp; Edit</Button> </Link>
                                                 </div>
-                                            </div>
+                                            </div>                                      
                                             <br />
                                         </span>
-                                            
                                     )}
+
+                                    {
+                                        totalPages > 1
+                                        &&
+                                        <Pagination 
+                                            defaultActivePage={1} 
+                                            totalPages={totalPages} 
+                                            onPageChange={handlePageChange}
+                                        />     
+                                    }
 
                                 </div>
                             </div>

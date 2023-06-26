@@ -10,7 +10,7 @@ interface MyJsonResponse {
 }
 type JsonFunction = (json: MyJsonResponse) => void;
 
-
+const PaginationSize :number = 2;
 
 const commons = {
 
@@ -37,6 +37,21 @@ const commons = {
         uploadFilesArray[event.target.id] = event.target.files ? event.target.files[0] : undefined;
     },
 
+    calculateTotalPages(value: number) {
+        if(value == 0)
+            return 0;
+        
+        var quotient = Math.floor(value / PaginationSize);
+        const remainder = value % PaginationSize;
+        if(remainder > 0)
+            quotient++;
+
+        return quotient;
+    },
+
+    getPaginationSize() {
+        return PaginationSize;
+    },
 
 
     uploadFile: function( 

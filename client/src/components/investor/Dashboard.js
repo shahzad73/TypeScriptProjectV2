@@ -1,19 +1,15 @@
 import React from "react";
 import axios from 'axios';
-import {
-    Link
-  } from "react-router-dom";
- 
+
 
 export default function Dashboard() {
 
     React.useEffect(() => {
-        axios.get("/accounts/backend/test").then(response => {
-            console.log("here")
+        /*axios.get("/accounts/backend/test").then(response => {
         }).catch(function(error) {
             console.log(error);
-        });
-         
+        });*/
+
         return () => {
             //alert("Bye");
         };

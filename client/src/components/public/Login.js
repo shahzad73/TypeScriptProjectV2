@@ -47,8 +47,9 @@ export default function Items() {
 
                 localStorage.setItem("siteJWTTokenString", response.data.token);
                 localStorage.setItem("siteUserName", response.data.name);
-
-                navigate('/admin', { replace: true })
+                
+                appContext.setCurrentSideMenu(1);
+                navigate('/admin/share', { replace: true })
             }
       })
       .catch(function (error) {

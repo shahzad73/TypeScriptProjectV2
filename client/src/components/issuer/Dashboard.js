@@ -85,17 +85,8 @@ export default function Dashboard() {
                                 </div>
                                 <div className="card-block table-border-style">
 
-                                    This is dashboard 22
+                                    This is issuer dashboard
                                     <br /><br /> 
-
-                                    <Link to={`/investor`} activeClassName="active">
-                                        <span class="pcoded-micon">
-                                            <i class="feather icon-file-text"></i>
-                                        </span>
-                                        <span class="pcoded-mtext">
-                                            Investor dashboard
-                                        </span>
-                                    </Link>
 
                                     </div>
                             </div>

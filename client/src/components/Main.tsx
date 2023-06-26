@@ -4,25 +4,17 @@ import MyAppContext  from './common/AppContext';
 import Admin from "./Admin";
 import Public from './Public';
 
-
  
 export default function Main() {
 
-    const { 
-      count, 
-      tickCounter,
-            
-      s3DocumentBaseURL
-    } = useContext(MyAppContext);
+  const appContext = useContext(MyAppContext);
 
+  React.useEffect(() => {
 
-    React.useEffect(() => {
+      return () => {
 
-        return () => {
-            //alert("Bye");
-        };
-    }, []);
-
+      };
+  }, []);
 
     return (
       <div>

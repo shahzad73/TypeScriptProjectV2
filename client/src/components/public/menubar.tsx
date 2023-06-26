@@ -5,7 +5,12 @@ import AppContext from '../common/AppContext';
 
 export default function MenuBar() {
   const appContext = useContext(AppContext);
-  const navigate = useNavigate();
+  const navigate = useNavigate();    
+
+  const navigateToSwithTo = () => {
+     appContext.setCurrentSideMenu(1);
+     navigate('/admin/share', { replace: true })
+  }
 
 
   React.useEffect(() => {
@@ -14,7 +19,7 @@ export default function MenuBar() {
       };
   }, []);
 
-
+  
   return (  
       <header id="header" className="fixed-top d-flex align-items-center">
           <div className="container d-flex align-items-center">
@@ -39,7 +44,7 @@ export default function MenuBar() {
                     </div>
                 )}                  
                 {appContext.showDashboardHomeLink && (
-                    <li><Link to={`/admin`}>My Dashboard</Link></li>
+                    <span onClick={navigateToSwithTo}> &nbsp;&nbsp; My Dahboard</span>
                 )}  
 
                                
