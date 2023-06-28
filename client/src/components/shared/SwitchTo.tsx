@@ -1,25 +1,18 @@
-import React, { useContext } from "react";
-import MyAppContext  from '../common/AppContext';
-import { useNavigate } from "react-router-dom";
-
-
+import React from "react";
+import { useDashboardNavigateHook } from "../common/useDashboardNavigateHook";
 
 export default function SwitchTo() {
-
-    const appContext = useContext(MyAppContext);
-    const navigate = useNavigate();
+    const dashboardNavigationhook = useDashboardNavigateHook();
 
     function switchInvestorDashboard() {
-        appContext.setCurrentSideMenu(3);
-        navigate('/admin/investor', { replace: true })
+        dashboardNavigationhook(3, "")
     }
 
     function switchIssuerDashboard() {
-        appContext.setCurrentSideMenu(2);
-        navigate('/admin/issuer', { replace: true })        
+        dashboardNavigationhook(2, "")      
     }
 
-
+     
     React.useEffect(() => {
 
         return () => {
@@ -29,12 +22,9 @@ export default function SwitchTo() {
 
 
     return (
-        <div className="row">
-
-
-
+        <div className="row">            
             <span onClick = {switchInvestorDashboard} >
-                Switch to Investor
+                Switch to Holder
             </span>
             <br /><br />
             <span onClick = {switchIssuerDashboard} >

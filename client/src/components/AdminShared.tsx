@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
-import MyAppContext  from '../common/AppContext';
 import { Routes, Route } from "react-router-dom";
 
-import Profile from "./Profile/Profile";
-import SwitchTo  from './SwitchTo';
-
+import Profile from "./shared/Profile/Profile";
+import SwitchTo  from './shared/SwitchTo';
+import Inbox from "./shared/Inbox/Inbox"
 
 export default function ShareAdmin() {
 
@@ -27,6 +26,7 @@ export default function ShareAdmin() {
                             <Routes>
                                 <Route path="/" element={<SwitchTo />} />
                                 <Route path="/profile" element={<Profile />} />   
+                                <Route path="/inbox" element={<Inbox />} />
                             </Routes>
 
                       </div>

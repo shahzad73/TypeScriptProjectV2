@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
 import { Form, Button } from 'semantic-ui-react';
 import Loading from '../../common/loading';
-import commons from "../../common/commons"
+import commons from "../../common/Commons"
 
 
 export default function Company() {

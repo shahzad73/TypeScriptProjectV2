@@ -5,9 +5,8 @@ import Items from "./issuer/test/Items";
 import Test from './issuer/test/Example2';
 import $ from 'jquery';
 
-import SendEmail from "./issuer/Inbox/SendEmail.js"
-import Inbox from "./issuer/Inbox/Inbox"
-import ViewInbox from "./issuer/Inbox/ViewInbox"
+import SendEmail from "./shared/Inbox/SendEmail.js"
+import ViewInbox from "./shared/Inbox/ViewInbox"
 import Company from "./issuer/Company/Company.js"
 import AddCompany from "./issuer/Company/Add.js"
 import EditCompany from "./issuer/Company/Edit.js"
@@ -40,7 +39,6 @@ export default function Issuer() {
                                         <Route path="/items" element={<Items />} /> 
                                         <Route path="/test" element={<Test />} /> 
                                         <Route path="/sendemail" element={<SendEmail />} />
-                                        <Route path="/inbox" element={<Inbox />} />
                                         <Route path="/viewinbox" element={<ViewInbox />} />   
                                         <Route path="/company" element={<Company />} />   
                                         <Route path="/addcompany" element={<AddCompany />} />  

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import Loading from "../../common/loading"
 import DatePicker from "react-datepicker";
 import moment from "moment";
-import commons from "../../common/commons";
+import commons from "../../common/Commons";
 
 export default function ProfilePersonal() {
 

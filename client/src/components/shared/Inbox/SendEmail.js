@@ -5,7 +5,7 @@ import { Form, Button } from 'semantic-ui-react';
 import { useForm } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
 import Loading from '../../common/loading';
-import commons from "../../common/commons";
+import commons from "../../common/Commons";
 import Modal from "react-bootstrap/Modal";
 import CustomTextEditor from "../../common/CustomTextEditor"
 

@@ -5,7 +5,7 @@ import { Modal } from 'react-bootstrap'
 import Loading from "../common/loading"
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import CustomTextEditor from "../common/CustomTextEditor"
-import commons from "../common/commons"
+import commons from "../common/Commons"
 
 
 export default function ProfileContacts(params) {

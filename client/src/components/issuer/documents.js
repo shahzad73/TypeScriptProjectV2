@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from 'semantic-ui-react'
 import { Modal } from 'react-bootstrap'
-import commons from "../common/commons";
+import commons from "../common/Commons";
 import Loading from "../common/loading"
 import { useForm } from "react-hook-form";
 import axios from 'axios';

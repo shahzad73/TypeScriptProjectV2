@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import validator from "validator";
 import Modal from "react-bootstrap/Modal";
 import axios from 'axios';
-import commons from "../common/commons";
+import commons from "../common/Commons";
 import { useNavigate } from "react-router-dom";
 
 export default function RecoverPassword() {

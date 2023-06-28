@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { AxiosResponse, AxiosProgressEvent } from 'axios';
-//import { useState } from 'react';
+import { useDashboardNavigateHook } from './useDashboardNavigateHook';
+
 
 const uploadFilesArray: Record<string, any> = {};
 type SetStateFunction<T> = (newValue: T | ((prevValue: T) => T)) => void;
@@ -11,8 +12,9 @@ interface MyJsonResponse {
 type JsonFunction = (json: MyJsonResponse) => void;
 
 const PaginationSize :number = 2;
+const LinkToAPIServer: string = "http://localhost:7000";
 
-const commons = {
+const Commons = {
 
     getDBErrorMessagesText: function(errors: any[]) {
         var objErrors = "";
@@ -53,6 +55,9 @@ const commons = {
         return PaginationSize;
     },
 
+    getLinkToAPIServer() {
+        return LinkToAPIServer;
+    },
 
     uploadFile: function( 
         url: string, 
@@ -93,4 +98,4 @@ const commons = {
 }
 
 
-export default commons;
+export default Commons;

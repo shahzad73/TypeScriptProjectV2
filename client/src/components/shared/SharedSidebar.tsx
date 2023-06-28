@@ -15,16 +15,42 @@ export default function SharedSidebar() {
   return (  
     <div>
         <ul className="nav pcoded-inner-navbar">
+
             <li data-username="" className="nav-item">
                 <Link to={`/admin/share`}>
                     <span className="pcoded-micon">
                         <i className="feather icon-alert-triangle"></i>
                     </span>
                     <span className="pcoded-mtext">
-                        Dashboard
+                        Switch to Dashboard
                     </span> 
                 </Link>
             </li>
+
+
+            <li data-username="" className="nav-item">
+                <Link to={`/admin/share`}>
+                    <span className="pcoded-micon">
+                        <i className="feather icon-alert-triangle"></i>
+                    </span>
+                    <span className="pcoded-mtext">
+                        Holder Dashboard
+                    </span> 
+                </Link>
+            </li>
+
+
+            <li data-username="" className="nav-item">
+                <Link to={`/admin/share`}>
+                    <span className="pcoded-micon">
+                        <i className="feather icon-alert-triangle"></i>
+                    </span>
+                    <span className="pcoded-mtext">
+                        Issuer Dashboard
+                    </span> 
+                </Link>
+            </li>            
+
 
             <li data-username="" className="nav-item">
                 <Link to={`/admin/share/profile`} >
@@ -32,11 +58,24 @@ export default function SharedSidebar() {
                         <i className="feather icon-cloud-snow"></i>
                     </span>
                     <span className="pcoded-mtext">
-                        Profile
+                        My Profile
                     </span>
                 </Link>
             </li>  
-                        
+
+
+            <li data-username="" className="nav-item">
+                <Link to={`/admin/share/inbox`} >
+                    <span className="pcoded-micon">
+                        <i className="feather icon-cloud-snow"></i>
+                    </span>
+                    <span className="pcoded-mtext">
+                        Inbox
+                    </span>
+                </Link>
+            </li>  
+
+
         </ul>
     </div>
   );

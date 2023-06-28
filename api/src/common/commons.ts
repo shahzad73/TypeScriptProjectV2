@@ -1,6 +1,7 @@
 import fs from "fs";
 import { s3DeleteFile } from "../common/s3";
 
+
 async function deleteFileFromuploadedLocation(file:string, destination:number) {
 
     if(destination == 1) {
@@ -20,7 +21,6 @@ async function deleteFileFromuploadedLocation(file:string, destination:number) {
         return;
 
 }
-
 
 export {
     deleteFileFromuploadedLocation

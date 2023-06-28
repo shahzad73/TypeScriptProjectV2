@@ -3,6 +3,7 @@ import AppContext from '../common/AppContext';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Commons from "../common/Commons";
 
 
 export default function Items() {
@@ -31,7 +32,7 @@ export default function Items() {
 
   async function getJwt() {
 
-      axios.post('http://localhost:7000/public/login', {
+      axios.post( Commons.getLinkToAPIServer() + '/public/login', {
         email: inputs.email,
         password: inputs.password
       })

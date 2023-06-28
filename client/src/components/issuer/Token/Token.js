@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Pagination } from 'semantic-ui-react';
 import { Modal } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import commons from '../../common/Commons'
+
 
 export default function Dashboard() {
     const {register, handleSubmit, reset, formState: { errors }} = useForm();
@@ -11,21 +13,31 @@ export default function Dashboard() {
     const [errorMessages, setErrorMessages] = useState("");
     const [companiesList, setCompaniesList] = useState([]);
     const [tokenList, setTokenList] = useState([]);    
+    const [totalPages, setTotalPages] = useState(0);
+
 
     React.useEffect(() => {
-        axios.get("/accounts/token/token").then(response => {
-            response.data.company.unshift({id:-1, Title:"<No Company>"});
-            setCompaniesList(  response.data.company  );
-            setTokenList(  response.data.token  );
-        }).catch(function(error) {
-            console.log(error);
-        });
-
+        getPageData(0)
         return () => {
             //alert("Bye");
         };
     }, []);
 
+    const handlePageChange = (event, data) => {        
+        getPageData(data.activePage - 1);
+    };    
+
+    function getPageData(page) {
+        axios.get("/accounts/token/token",
+        { params: {page: page, size: commons.getPaginationSize()} }).then(response => {
+            response.data.company.unshift({id:-1, Title:"<No Company>"});
+            setCompaniesList(  response.data.company  );
+            setTokenList(  response.data.token  );
+            setTotalPages ( commons.calculateTotalPages ( response.data.tokenRecordCount ) );
+        }).catch(function(error) {
+            console.log(error);
+        });
+    }
 
     const onFormSubmit = (data) => {
         axios.post("/accounts/token/addtoken", data).then(response => {
@@ -38,12 +50,10 @@ export default function Dashboard() {
         });
     }
 
-
     const newToken = () => {
         reset();
         setContactModelShow(true);
     }
-
 
     return (          
         <div>
@@ -80,11 +90,23 @@ export default function Dashboard() {
                                             <div className="col-xl-2">
                                                 <Link to="/admin/issuer/tokenview" 
                                                 state = {{id: dat.id}}
-                                                > <Button color="vk" size='tiny'>View</Button> </Link>
+                                                > <Button color="vk" size='tiny'>Info</Button> </Link>
                                             </div>
                                         </div>
                                     </span> 
                                 )}
+
+                                <br />
+
+                                {
+                                    totalPages > 1
+                                    &&
+                                    <Pagination 
+                                        defaultActivePage={1} 
+                                        totalPages={totalPages} 
+                                        onPageChange={handlePageChange}
+                                    />     
+                                }
 
                             </div>
                         </div>

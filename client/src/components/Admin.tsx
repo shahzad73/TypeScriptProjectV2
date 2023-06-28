@@ -3,21 +3,20 @@ import MyAppContext  from './common/AppContext';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import Issuer from "./Issuer";
-import Investor  from './Investor';
-import ShareAdmin from './shared/SharedAdmin';
+import Holder  from './Holder';
+import ShareAdmin from './AdminShared';
 
 import SharedSidebar from './shared/SharedSidebar';
 import IssuerSidebar from './issuer/IssuerSidebar';
-import InvestorSidebar from './investor/InvestorSidebar';
-
-
-
+import InvestorSidebar from './holders/InvestorSidebar';
+import Commons from './common/Commons';
 
 
 import $ from 'jquery';
 import { Label } from "semantic-ui-react";
 
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
+import { useDashboardNavigateHook } from "./common/useDashboardNavigateHook";
 
 
 export default function Admin() {
@@ -26,6 +25,8 @@ export default function Admin() {
     const navigate = useNavigate();
 
     const [floatNAVBar, setFloatNAVBar] = useState(true);
+
+    const dashboardNavigationhook = useDashboardNavigateHook();
 
 
     function toggleNavbarFloat() {
@@ -50,22 +51,19 @@ export default function Admin() {
     };
 
     async function myProfile() {
-        appContext.setCurrentSideMenu(1);
-        navigate('/admin/share/profile', { replace: true })
+        dashboardNavigationhook(1, "profile");
     };
 
     function switchDashboard() {
-        if(appContext.currentSideMenu == 1 || appContext.currentSideMenu == 3 ) {
-            appContext.setCurrentSideMenu(2);
-            navigate('/admin/issuer', { replace: true })        
-        } else if (appContext.currentSideMenu == 2) {
-            appContext.setCurrentSideMenu(3);
-            navigate('/admin/investor', { replace: true })
+        if(appContext.currentSideMenu === 1 || appContext.currentSideMenu === 3 ) {
+            dashboardNavigationhook(2, "")
+        } else if (appContext.currentSideMenu === 2) {
+            dashboardNavigationhook(3, "")
         }                                    
     }
 
 
-    axios.defaults.baseURL = 'http://localhost:7000'; 
+    axios.defaults.baseURL = Commons.getLinkToAPIServer();
     var interceptors: any;
     React.useEffect(() => {
         if(appContext.jwtToken == "") {
@@ -136,14 +134,14 @@ export default function Admin() {
                             <li className="nav-item dropdown">
                                 { appContext.currentSideMenu == 1 && <h3>Dashboard</h3> }
                                 { appContext.currentSideMenu == 2 && <h3>Issuer Dashboard</h3> }
-                                { appContext.currentSideMenu == 3 && <h3>Investor Dashboard</h3> }
+                                { appContext.currentSideMenu == 3 && <h3>HOlder Dashboard</h3> }
                             </li>
                             <li className="nav-item dropdown">
                                 <span className="pcoded-mtext" onClick={switchDashboard}>
                                     <Label color='red' size="medium" horizontal>
-                                            { appContext.currentSideMenu == 1 && <span>Switch to Issuer</span> }
-                                            { appContext.currentSideMenu == 2 && <span>Switch to Investor</span> }
-                                            { appContext.currentSideMenu == 3 && <span>Switch to Issuer</span> }
+                                            { appContext.currentSideMenu == 1 && <span>Switch to Issuer Dashboard</span> }
+                                            { appContext.currentSideMenu == 2 && <span>Switch to Holder Dashboard</span> }
+                                            { appContext.currentSideMenu == 3 && <span>Switch to Issuer Dashboard</span> }
                                     </Label>
                                 </span>
                             </li>
@@ -167,7 +165,7 @@ export default function Admin() {
                 <Routes>
                     <Route path="/share/*" element={<ShareAdmin />} />
                     <Route path="/issuer/*" element={<Issuer />} />
-                    <Route path="/investor/*" element={<Investor />} />
+                    <Route path="/holder/*" element={<Holder />} />
                 </Routes>
 
         </>

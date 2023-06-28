@@ -4,11 +4,12 @@ import { company } from "../../entity/company";
 import { token } from "../../entity/token";
 import {validate} from "class-validator";
 
+
 export const tokenDataRouter = express.Router();
 
 tokenDataRouter.get("/token", async (req: Request, res: Response) => {
     res.json( 
-        await( getCompanyContacts(req.userid) ) 
+        await( getCompanyContacts(req.userid, req.query.size,  (req.query.page * req.query.size) ) ) 
     );
 });
 
@@ -26,7 +27,7 @@ tokenDataRouter.post("/addtoken", async (req: Request, res: Response) => {
         await token.insert ( newUpdates );
 
         res.json( 
-            await( getCompanyContacts(req.userid) ) 
+            await( getCompanyContacts(req.userid, req.query.size, 0) ) 
         );
     }
 
@@ -47,7 +48,7 @@ tokenDataRouter.get("/gettoken", async (req: Request, res: Response) => {
     res.json( tok[0] )
 });
 
-async function getCompanyContacts(userid: Number) {
+async function getCompanyContacts(userid: number, size: number, skipRecord: number) {
 
     var comp = await getConnection()
     .createQueryBuilder()
@@ -59,18 +60,19 @@ async function getCompanyContacts(userid: Number) {
     .where("userID = :id", { id: userid })
     .execute();
 
-
-    const tok = await getConnection()
-    .createQueryBuilder()
-    .select(["*"])
-    .from(token, "t")
-    .where("t.userID = :id", { id: userid })
-    .execute();    
+    const [tok, total] = await token.findAndCount(
+        {
+            where: { userID: userid }, order: { id: "ASC" },
+            take: size,
+            skip: skipRecord
+        }
+    );
 
  
     return({
         company: comp,
-        token: tok
+        token: tok,
+        tokenRecordCount: total
     });
 
 }

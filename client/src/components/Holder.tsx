@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
-import Dashboard from "./investor/Dashboard";
+import Dashboard from "./holders/Dashboard";
 
 
-export default function Investor() {
+export default function Holder() {
 
     React.useEffect(() => {
         return () => {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { Button, Pagination } from 'semantic-ui-react';
-import commons from '../../common/commons'
+import commons from '../../common/Commons'
 
 
 export default function Company() {
@@ -26,7 +26,9 @@ export default function Company() {
 
     function getPageData(page) {
 
-        axios.get("/accounts/company/companies?page=" + page + "&size=" + commons.getPaginationSize() ).then(response => {
+        axios.get(
+            "/accounts/company/companies",
+            { params: {page: page, size: commons.getPaginationSize()} }).then(response => {
             setTotalPages ( commons.calculateTotalPages ( response.data.count ) );
             setCompanyDataSet(response.data.data);
         }).catch(function(error) {

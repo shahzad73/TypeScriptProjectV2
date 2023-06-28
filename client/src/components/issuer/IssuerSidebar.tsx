@@ -81,23 +81,11 @@ export default function IssuerSidebar() {
                         <i className="feather icon-cloud-snow"></i>
                     </span>
                     <span className="pcoded-mtext">
-                        Investors
+                        Holders
                     </span>
                 </Link>
             </li>  
 
-
-            <li data-username="" className="nav-item">
-                <Link to={`/admin/issuer/inbox`} >
-                    <span className="pcoded-micon">
-                        <i className="feather icon-file-text"></i>
-                    </span>
-                    <span className="pcoded-mtext">
-                        Inbox
-                    </span>
-                </Link>
-            </li>  
-                                    
 
 
             <li data-username="" className="nav-item">

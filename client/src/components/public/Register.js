@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Form, Checkbox } from 'semantic-ui-react';
 import axios from 'axios';
-import commons from "../common/commons";
+import commons from "../common/Commons";
 import Modal from "react-bootstrap/Modal";
 import validator from "validator";
 import { useNavigate } from "react-router-dom";

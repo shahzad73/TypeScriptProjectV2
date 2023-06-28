@@ -4,7 +4,7 @@ import { Button, Form } from 'semantic-ui-react'
 import { Modal } from 'react-bootstrap'
 import Loading from "../../common/loading"
 import { useForm } from "react-hook-form";
-import commons from "../../common/commons";
+import commons from "../../common/Commons";
 
 export default function ProfileContacts() {
 

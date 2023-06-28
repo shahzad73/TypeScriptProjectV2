@@ -16,7 +16,7 @@ export default function InvestorSidebar() {
     <div>
         <ul className="nav pcoded-inner-navbar">
             <li data-username="" className="nav-item">
-                <Link to={`/admin/investor`}>
+                <Link to={`/admin/holder`}>
                     <span className="pcoded-micon">
                         <i className="feather icon-alert-triangle"></i>
                     </span>
@@ -26,6 +26,8 @@ export default function InvestorSidebar() {
                 </Link>
             </li>
         </ul>
+
+
     </div>
   );
 

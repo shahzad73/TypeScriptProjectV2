@@ -4,7 +4,7 @@ import MyAppContext  from './common/AppContext';
 import Admin from "./Admin";
 import Public from './Public';
 
- 
+
 export default function Main() {
 
   const appContext = useContext(MyAppContext);
