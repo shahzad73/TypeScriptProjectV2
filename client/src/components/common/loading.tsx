@@ -10,9 +10,9 @@ export default function Loading(props :{message: string}) {
 
 
     return (  
-      <div>
+      <span>
         <img src="/img/loadingdots2.gif" height="50px" /> {props.message}  
-      </div>
+      </span>
     );
 
 }

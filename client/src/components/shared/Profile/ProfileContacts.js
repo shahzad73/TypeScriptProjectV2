@@ -15,8 +15,10 @@ export default function ProfileContacts() {
     function confirmationOK() {
         if(conformationOption.option == 1) {
             setShowContactLoading(true);
+            setApiLoadingMessage("Deleting contact");
             axios.post("/accounts/backend/deleteContact", {id: conformationOption.id}).then(response => {
-                setUserContacts ( response.data.userContacts )
+                setUserContacts ( response.data.userContacts );
+                setApiLoadingMessage("");
                 setShowContactLoading(false);
             }).catch(function(error) {
                 console.log(error);
@@ -27,6 +29,7 @@ export default function ProfileContacts() {
     }
 
     const [profileErrorMessages, setProfileErrorMessages] = useState("");    
+    const [apiLoadingMessage, setApiLoadingMessage] = useState("");        
     // Contacts information
     const [userContacts, setUserContacts] = useState([]); 
     const [operation, setOperation] = useState(0);        
@@ -34,6 +37,7 @@ export default function ProfileContacts() {
     const [contactModelShow, setContactModelShow] = useState(false);
     const [showContactLoading, setShowContactLoading] = useState(false);         
     const {register, handleSubmit, reset, formState: { errors }} = useForm();
+
 
     function openEditContact() {
         setOperation(1);
@@ -51,6 +55,7 @@ export default function ProfileContacts() {
         setConfirmationModelShow(true);
     };
     const editContactDataForm = value => () => {
+        setApiLoadingMessage("Loading contact for editing");                
         setShowContactLoading(true);
         setProfileErrorMessages("")
         axios.get("/accounts/backend/getContactRecord?id=" + value, {}).then(response => {
@@ -67,8 +72,13 @@ export default function ProfileContacts() {
         setShowContactLoading(true);
 
         var link = "/accounts/backend/addContact";
-        if( operation == 2 )
+        setApiLoadingMessage("Adding new contact");        
+        if( operation == 2 ) {
             link = "/accounts/backend/editContact";
+            setApiLoadingMessage("Saving contact");
+        }
+
+        setShowContactLoading(true);            
 
         axios.post(link, data).then(response => {
 
@@ -86,9 +96,13 @@ export default function ProfileContacts() {
     }
 
     React.useEffect(() => {
+        setApiLoadingMessage("Loading Contacts");
+        setShowContactLoading(true);
         axios.get("/accounts/backend/getProfileContacts").then(response => {
             setUserContacts ( response.data.userContacts );
             setMobileTypes ( response.data.mobileTypes );  
+            setApiLoadingMessage("");
+            setShowContactLoading(false);            
         }).catch(function(error) {
             console.log(error);
         });   
@@ -138,7 +152,7 @@ export default function ProfileContacts() {
 
                             </div>
                             
-                        { showContactLoading && ( <Loading message="Updating Contact" /> ) }
+                            { showContactLoading && ( <Loading message={apiLoadingMessage} /> ) }
                     </div>
                 </div>
             </div>

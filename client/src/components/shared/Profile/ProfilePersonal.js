@@ -12,12 +12,14 @@ export default function ProfilePersonal() {
 
     // Profile related data
     const [data, setData] = useState([]);
-    const [profileErrorMessages, setProfileErrorMessages] = useState("");    
+    const [profileErrorMessages, setProfileErrorMessages] = useState("");  
+    const [apiOperationMessage, setApiOperationMessage] = useState("Loading Profile ...");      
     const [showLoading, setShowLoading] = useState(true);
     const {register, handleSubmit, reset, formState: { errors }} = useForm();
     const [DOBDate, setDOBDate] = useState("");
     const [profileModelShow, setProfileModelShow] = useState(false); 
     const onFormSubmit = (data) => {
+        setApiOperationMessage("Saving Profile");        
         setShowLoading(true);
         setProfileModelShow(false);
         
@@ -25,7 +27,7 @@ export default function ProfilePersonal() {
             data.DOB =  new Date(  moment(DOBDate).format('YYYY-MM-DD')  ) 
         
         axios.post("/accounts/backend/setProfile", data).then(response => {
-
+            setApiOperationMessage("");
             setShowLoading(false);
             if(response.data.status == -1) {
                 setProfileErrorMessages(  commons.getDBErrorMessagesText(response.data.error)   );
@@ -47,8 +49,9 @@ export default function ProfilePersonal() {
 
 
     React.useEffect(() => {
-
+        setApiOperationMessage("Loading Profile");
         axios.get("/accounts/backend/getProfilePersonal").then(response => {
+            setApiOperationMessage("");
             setData( response.data );
             setShowLoading(false);
         }).catch(function(error) {
@@ -146,7 +149,7 @@ export default function ProfilePersonal() {
                                 </div>
                             </div>
 
-                            { showLoading && ( <Loading message="Saving Ptofile" /> ) }
+                            { showLoading && ( <Loading message={apiOperationMessage} /> ) }
 
                         </div>
                 </div>

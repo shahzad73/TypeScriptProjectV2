@@ -15,16 +15,19 @@ export default function ProfileContacts(params) {
     const [confirmationModelShow, setConfirmationModelShow] = React.useState(false);        
     const [conformationOption, setConformationOption] = React.useState({});                
     function confirmationOK() {
-        setConfirmationModelShow(false);
+        setApiLoadingMessage("Deleting contact");
         setShowContactLoading(true);
+        setConfirmationModelShow(false);
         axios.post("/accounts/company/deleteContact", {id: conformationOption.id, recordID: recordID, type: contactType }).then(response => {
             setUserContacts ( response.data.userContacts )
+            setApiLoadingMessage("");
             setShowContactLoading(false);
         }).catch(function(error) {
             console.log(error);
         });
     }
 
+    const [apiLoadingMessage, setApiLoadingMessage] = useState("");     
     // Contacts information
     const [recordID, setRecordID] = useState(0);    
     const [userContacts, setUserContacts] = useState([]);    
@@ -48,8 +51,6 @@ export default function ProfileContacts(params) {
         reset({});
     }
 
-     
-
     const deleteContactDataForm = value => () => {
         setConfirmationMessage("Are you sure you want to delete ?");
         setConformationOption({ id: value });
@@ -62,18 +63,24 @@ export default function ProfileContacts(params) {
         data.recordID = recordID;
         data.type = contactType
         var link = "/accounts/company/addContact";
+        setApiLoadingMessage("Adding contact");
         if(operation == 1) {
             data.id = editID;
             link =  "/accounts/company/editCompanyContact";
+            setApiLoadingMessage("Saving contact");
         }
 
+        setContactModelShow(false);
+        setShowContactLoading(true);        
         axios.post(link, data).then(response => {
             if(response.data.status == -1) {
                 setErrorMessages(  commons.getDBErrorMessagesText(response.data.error) );
+                setApiLoadingMessage("");
                 setShowContactLoading(false);
             } else {
                 setContactModelShow(false);
                 setUserContacts ( response.data.userContacts );
+                setApiLoadingMessage("");                
                 setShowContactLoading(false);
             }
         }).catch(function(error) {
@@ -85,9 +92,13 @@ export default function ProfileContacts(params) {
         setOperation(1);
         setEditID(value);
         setErrorMessages("");
+        setApiLoadingMessage("Loading contact for editing");
+        setShowContactLoading(true);        
         axios.get(`/accounts/company/getCompanyContact?id=${value}&recordID=${recordID}`).then(response => {
             reset(response.data);
             setContactModelShow(true);
+            setApiLoadingMessage("");
+            setShowContactLoading(false);            
         }).catch(function(error) {
             console.log(error);
         });
@@ -100,9 +111,13 @@ export default function ProfileContacts(params) {
         ssetSectionHelperText(params.sectionHelperText);
         setIcon("/img/" + params.icon);
 
+        setApiLoadingMessage("Loading contacts");
+        setShowContactLoading(true);
         axios.get("/accounts/company/getdetails?id=" + params.id + "&type=" + params.contactType).then(response => {
             setMobileTypes ( response.data.mobileTypes );        
             setUserContacts ( response.data.userContacts );
+            setApiLoadingMessage("");
+            setShowContactLoading(false);
         }).catch(function(error) {
             console.log(error);
         });
@@ -154,7 +169,7 @@ export default function ProfileContacts(params) {
 
                         </div>
                         
-                    { showContactLoading && ( <Loading message="Updating Contact" /> ) }
+                    { showContactLoading && ( <Loading message={apiLoadingMessage} /> ) }
                 </div>
             </div>
 

@@ -5,13 +5,18 @@ import { Link } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import Documents from "../documents";
 import Paras from "../paras";
-import Contacts from "../Contacts"
+import Contacts from "../Contacts";
+import { useDashboardNavigateHook } from "../../common/useDashboardNavigateHook";
+
 
 
 export default function Dashboard() {
     const location = useLocation();
     const [tokenID, setTokenID] = useState("");
-    const [tokenRecord, setTokenRecord] = useState([]);    
+    const [tokenRecord, setTokenRecord] = useState([]);   
+    
+    const dashboardNavigationhook = useDashboardNavigateHook();
+
 
     React.useEffect(() => {
         setTokenID( location.state.id );
@@ -27,8 +32,8 @@ export default function Dashboard() {
         };
     }, []);
 
-    const backList = () => {
-
+    const backToTokenList = () => {
+        dashboardNavigationhook(2, "token");
     }
 
     return (          
@@ -44,8 +49,7 @@ export default function Dashboard() {
                                         <h5><img src="/img/token.png" width="33px"/> &nbsp; Tokens List</h5>
                                     </div>
                                     <div className="col-xl-2">
-                                    <Link to="/adminmain/token" 
-                                    > <Button color="vk" size='tiny'>Back to Token List</Button> </Link>
+                                        <Button onClick={backToTokenList} color="vk" size='tiny'>Back to Token List</Button> 
                                     </div>
                                 </div>
                             </div>

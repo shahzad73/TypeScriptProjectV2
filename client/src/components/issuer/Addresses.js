@@ -11,6 +11,7 @@ export default function Addresses(params) {
     const countries = commons.getCountryNamesJSON();
 
     // confirmation Button 
+    const [apiLoadingMessage, setApiLoadingMessage] = useState(""); 
     const [recordID, setRecordID] = React.useState("");   
     const [addressType, setAddressType] = React.useState("");          
     const [confirmationMessage, setConfirmationMessage] = React.useState("");    
@@ -19,6 +20,7 @@ export default function Addresses(params) {
     function confirmationOK() {
         if(conformationOption.option === 1) {
             setShowAddressesLoading(true);
+            setApiLoadingMessage("Deleting address");
             axios.post("/accounts/backend/deleteAddress", {id: conformationOption.id, recordID:recordID, type:addressType}).then(response => {
                 setAddressesData ( response.data.usrAddresses );
                 setShowAddressesLoading(false);
@@ -59,9 +61,11 @@ export default function Addresses(params) {
     };
     const editAddressDataForm = value => () => {
         setShowAddressesLoading(true);
+        setApiLoadingMessage("Loading address for editing");
         axios.get("/accounts/backend/getAddressRecord?id=" + value, {}).then(response => {
             reset(response.data);
-            setProfileErrorMessages("")
+            setProfileErrorMessages("");
+            setApiLoadingMessage("");
             setShowAddressesLoading(false);
             setAddressesModelShow(true);    
             setOperation(2);        
@@ -70,23 +74,25 @@ export default function Addresses(params) {
         });
     }
     const onFormSubmit = (data) => {
-        setShowAddressesLoading(true);
-
         data.recordID = recordID;
         data.type = addressType;
         var link = "/accounts/backend/addAddress";
-        if( operation === 2 )
+        setApiLoadingMessage("Adding new address");
+        if( operation === 2 ) {
             link = "/accounts/backend/editAddress";
+            setApiLoadingMessage("Editing address details");
+        }
 
+        setShowAddressesLoading(true);            
+        setAddressesModelShow(false);
         axios.post(link, data).then(response => {
 
             if(response.data.status === -1) {
                 setProfileErrorMessages(  commons.getDBErrorMessagesText(response.data.error)   );
-            } else {
-                setAddressesModelShow(false);
+            } else                 
                 setAddressesData ( response.data.usrAddresses );
-            }
-
+            
+            setApiLoadingMessage("");
             setShowAddressesLoading(false);
         }).catch(function(error) {
             console.log(error);
@@ -100,7 +106,11 @@ export default function Addresses(params) {
         ssetSectionHelperText(params.sectionHelperText);
         setIcon("/img/" + params.icon);
 
+        setApiLoadingMessage("Loading Addresses");
+        setShowAddressesLoading(true);
         axios.get("/accounts/backend/getProfileAddress?recordID=" + params.id + "&type=" + params.addressType ).then(response => {
+            setApiLoadingMessage("");
+            setShowAddressesLoading(false);    
             setAddressTypes ( response.data.addressTypes );
             setAddressesData ( response.data.usrAddresses );
         }).catch(function(error) {
@@ -156,7 +166,7 @@ export default function Addresses(params) {
 
                             </div>
                             
-                        { showAddressesLoading && ( <Loading message="Updating Address Information" /> ) }
+                        { showAddressesLoading && ( <Loading message={apiLoadingMessage} /> ) }
                     </div>
                 </div>
             </div>

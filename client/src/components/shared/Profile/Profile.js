@@ -75,7 +75,7 @@ export default function Profile() {
         <Addresses 
             id="-1"
             addressType="1"
-            caption="I addresses" 
+            caption="List of Addresses" 
             sectionHelperText="you can add your addresses here Addresses "                
             icon = "address.png" 
         ></Addresses>
