@@ -6,6 +6,8 @@ import Paras from "../paras";
 import Contacts from "../Contacts"
 import Documents from "../documents";
 import Addresses from "../Addresses";
+import Public_Enums_Constants from "../../common/PublicEnums";
+
 
 export default function EditCompany(props) {
     const [companyID, setCompanyID] = useState(0);
@@ -28,21 +30,21 @@ export default function EditCompany(props) {
 
             <Paras 
                 id={location.state.id} 
-                typePara="1"
+                typePara = {Public_Enums_Constants.PARAGRAPH_TYPES.Company}
                 caption="List of Company paragraphs"                
                 sectionHelperText="Please set company paragraphs"                
                 icon = "document.png"                
             ></Paras>
             <Contacts 
                 id={location.state.id} 
-                contactType="1"
+                contactType = {Public_Enums_Constants.CONTACT_TYPES.Company}
                 caption="List of Company Contacts" 
                 sectionHelperText="Set your company contacts"                
                 icon = "contacts.png"                 
             ></Contacts> 
             <Addresses 
                 id={location.state.id}
-                addressType="2"
+                addressType = {Public_Enums_Constants.ADDRESS_TYPES.Company}
                 caption="Company addresses" 
                 sectionHelperText="you can add companies addresses here Addresses "                
                 icon = "address.png" 
@@ -50,8 +52,8 @@ export default function EditCompany(props) {
             <Documents 
                 id={location.state.id} 
                 caption="List of Company Document"
-                typeDocuments="1"
-                destination="2"
+                typeDocuments={Public_Enums_Constants.DOCUMENT_TYPES.Company_Document}
+                destination = {Public_Enums_Constants.SERVER_FILE_DESTINATION.AWS_Bucket_Public}
                 buttonCaption="Upload Document"
                 icon = "document.png"
                 uploadDialogMessage="Upload Document"
@@ -60,8 +62,8 @@ export default function EditCompany(props) {
             <Documents 
                 id={location.state.id} 
                 caption="List of Company Images"
-                typeDocuments="2"
-                destination="2"                
+                typeDocuments={Public_Enums_Constants.DOCUMENT_TYPES.Company_Image}
+                destination = {Public_Enums_Constants.SERVER_FILE_DESTINATION.AWS_Bucket_Public}                
                 buttonCaption="Upload Image"   
                 icon = "image.png"           
                 uploadDialogMessage="Upload Image"                  

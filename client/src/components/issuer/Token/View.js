@@ -7,7 +7,7 @@ import Documents from "../documents";
 import Paras from "../paras";
 import Contacts from "../Contacts";
 import { useDashboardNavigateHook } from "../../common/useDashboardNavigateHook";
-
+import Public_Enums_Constants from "../../common/PublicEnums";
 
 
 export default function Dashboard() {
@@ -16,7 +16,6 @@ export default function Dashboard() {
     const [tokenRecord, setTokenRecord] = useState([]);   
     
     const dashboardNavigationhook = useDashboardNavigateHook();
-
 
     React.useEffect(() => {
         setTokenID( location.state.id );
@@ -76,23 +75,24 @@ export default function Dashboard() {
 
             <Paras 
                 id={location.state.id} 
-                typePara="2"
+                typePara={Public_Enums_Constants.PARAGRAPH_TYPES.Token}
                 caption="List of Token Paragraphs" 
                 sectionHelperText="Set your token Paragraphs"                
                 icon = "contacts.png"                                                 
             ></Paras>
             <Contacts 
                 id={location.state.id} 
-                contactType="2"
+                contactType = {Public_Enums_Constants.CONTACT_TYPES.Token}
                 caption="List of Token Contacts" 
                 sectionHelperText="Set your token contacts"                
                 icon = "contacts.png"                                 
             ></Contacts>
+
             <Documents 
                 id={location.state.id} 
                 caption="List of Token Document"
-                typeDocuments="3"
-                destination="2"
+                typeDocuments ={Public_Enums_Constants.DOCUMENT_TYPES.Token_Document}
+                destination = {Public_Enums_Constants.SERVER_FILE_DESTINATION.AWS_Bucket_Public}
                 buttonCaption="Upload Document"
                 icon = "document.png"
                 uploadDialogMessage="Upload Document"
@@ -101,9 +101,9 @@ export default function Dashboard() {
 
             <Documents 
                 id={location.state.id} 
-                caption="List of Company Images"
-                typeDocuments="4"
-                destination="2"                
+                caption="List of Token Images"
+                typeDocuments = {Public_Enums_Constants.DOCUMENT_TYPES.Token_Images}
+                destination = {Public_Enums_Constants.SERVER_FILE_DESTINATION.AWS_Bucket_Public}
                 buttonCaption="Upload Image"   
                 icon = "image.png"           
                 uploadDialogMessage="Upload Image"                  

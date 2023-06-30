@@ -2,6 +2,8 @@ import React from "react";
 import ProfilePersonal from "./ProfilePersonal";
 import ProfileContacts from "./ProfileContacts";
 import Addresses from "../../issuer/Addresses";
+import Public_Enums_Constants from "../../common/PublicEnums";
+
 
 export default function Profile() {
 
@@ -74,7 +76,7 @@ export default function Profile() {
         <ProfileContacts></ProfileContacts>
         <Addresses 
             id="-1"
-            addressType="1"
+            addressType = {Public_Enums_Constants.ADDRESS_TYPES.Profile}
             caption="List of Addresses" 
             sectionHelperText="you can add your addresses here Addresses "                
             icon = "address.png" 

@@ -19,6 +19,7 @@ export const useDashboardNavigateHook = () => {
       else if( dashboard === 3 ) 
           link = '/admin/holder';
 
+      // if move to specific page
       if(specificPage != "")
           link = `${link}/${specificPage}`;
 

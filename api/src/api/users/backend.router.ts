@@ -226,20 +226,20 @@ bckendDataRouter.post("/uploadfile", async (req: Request, res: Response) => {
 
         fs.rename(__dirname + "/../../uploads/" + req.file.originalname, __dirname + "/../../uploads/" + filname, async function(err) {
 
-            if(req.query.destination == "1") {
+            if(req.query.destination == "Server_Public_Folder") {
                 fs.rename(__dirname + "/../../uploads/" + filname, __dirname + "/../../../public/files/" + filname, function(err) {
                     console.log("file in internal puvlic");
                     res.send({'status': 1, fileName: filname});
                 });
             }  
 
-            if(req.query.destination == "2" || req.query.destination == "3") {
+            if(req.query.destination == "AWS_Bucket_Public" || req.query.destination == "AWS_Bucker_Private") {
                 // var newPath:String = await uploadFile(req.body.fileName, __dirname + "/../../uploads");
                 try {
                     var bucket = "";
-                    if(req.query.destination == "2")
+                    if(req.query.destination == "AWS_Bucket_Public")
                         bucket = "inftmaker";
-                    if(req.query.destination == "3")                    
+                    if(req.query.destination == "AWS_Bucker_Private")                    
                         bucket = "inftmakerprivate"
 
                     const newPath = await s3UploadFile(filname, __dirname + "/../../uploads", bucket);
@@ -253,7 +253,7 @@ bckendDataRouter.post("/uploadfile", async (req: Request, res: Response) => {
                 }
             }
 
-            if(req.query.destination == "4") {
+            if(req.query.destination == "IPFS_Server") {
                 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDY2QjdjRDgxNTRlNkI2REI1ZDZFMjQ4N2EwNGZGNzM3NTNiYUE1MjYiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTU0NDY5NzIxNDksIm5hbWUiOiJJTkZUTWFrZXIifQ.4nvG3j2ebgjpJkMe_23j1nebw0oElxF2ajFxQo418uE";
                 const client = new Web3Storage({ token })
                 
