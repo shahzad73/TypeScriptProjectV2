@@ -3,10 +3,14 @@ import { bool } from 'aws-sdk/clients/signer';
 import fs from 'fs';
 import { Exception } from 'handlebars';
 import { json } from 'stream/consumers';
+import { params } from "../entity/params";
 
 async function s3GetBucketsList(): Promise<any> {
 
-    let promise = new Promise<any>((resolve, reject) => {
+    let promise = new Promise<any>(async (resolve, reject) => {
+
+        const data = await params.findOne ({where: { param: "AWS_API_Version" }});
+        
         const s3 = new AWS.S3({apiVersion: '2006-03-01'});
 
         s3.listBuckets((err: any, data: any) => {            
@@ -22,18 +26,20 @@ async function s3GetBucketsList(): Promise<any> {
 
 async function s3UploadFile(fileName: string, filePath: string, bucket: string): Promise<string> {
 
-    let promise = new Promise<any>((resolve, reject) => {
+    let promise = new Promise<any>(async (resolve, reject) => {
+        
+        const data = await params.findOne ({where: { param: "AWS_API_Version" }});
 
-        const s3 = new AWS.S3({apiVersion: '2006-03-01'});
+        const s3 = new AWS.S3({apiVersion: data?.strValue});
         const fileContent = fs.readFileSync(filePath + "/" +fileName);
 
-        const params = {
+        const params2 = {
             Bucket: bucket,
             Key: `${fileName}`,
             Body: fileContent
         }
 
-        s3.upload(params, (err: any, data: any ) => {
+        s3.upload(params2, (err: any, data: any ) => {
             if (err) 
                 reject(err)
             else 
@@ -50,16 +56,17 @@ async function s3DeleteFile(fileName: string, bucket: string): Promise<void> {
 
     let promise = new Promise<any>(async (resolve, reject) => {
 
+        const data = await params.findOne ({where: { param: "AWS_API_Version" }});
 
-        const s3 = new AWS.S3({apiVersion: '2006-03-01'});
+        const s3 = new AWS.S3({apiVersion: data?.strValue});
 
-        const params = {
+        const params2 = {
             Bucket: bucket,
             Key: fileName,
         };
 
         try {
-            await s3.deleteObject(params);
+            await s3.deleteObject(params2);
             resolve("done");
         } catch (e:any) {
             console.log("first catch")

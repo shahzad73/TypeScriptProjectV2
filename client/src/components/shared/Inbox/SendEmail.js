@@ -8,7 +8,8 @@ import Loading from '../../common/loading';
 import commons from "../../common/Commons";
 import Modal from "react-bootstrap/Modal";
 import CustomTextEditor from "../../common/CustomTextEditor"
-
+import { useDashboardNavigateHook } from "../..//common/useDashboardNavigateHook";
+import Public_Enums_Constants from "../../common/PublicEnums";
 
 export default function SendEmail() {
 
@@ -20,6 +21,8 @@ export default function SendEmail() {
     const [textBoxErrorMessage, setTextBoxErrorMessage] = useState("");
 
     const { register, handleSubmit, trigger, setValue, reset, formState: { errors } } = useForm();
+
+    const dashboardNavigationhook = useDashboardNavigateHook();
 
 
     const [htmlText, setHtmlText] = useState("");
@@ -59,7 +62,7 @@ export default function SendEmail() {
     }
 
     function cancel() {
-        navigate('/admin/issuer/inbox', { replace: true })
+        dashboardNavigationhook(Public_Enums_Constants.DASHBOARD.Shared, "inbox");
     } 
 
     function handleCloseErrorMessage() {

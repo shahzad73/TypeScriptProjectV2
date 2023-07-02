@@ -1,14 +1,20 @@
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
+import { params } from "../entity/params";
 
 async function sendEmail(senderName: string, senderEmail: string, receiverEmail: string,  subject: string, text: string): Promise<void> {
 
+      const host = await params.findOne ({where: { param: "Platform_Email_Host" }});
+      const port = await params.findOne ({where: { param: "Platform_Email_Port" }});
+      const user = await params.findOne ({where: { param: "Platform_Email_User" }});
+      const pass = await params.findOne ({where: { param: "Platform_Email_Password" }});                  
+      
       var transport = nodemailer.createTransport({
-        host: "smtp.mailtrap.io",
-        port: 2525,
+        host: host?.strValue,
+        port: port?.intValue,
         auth: {
-          user: "c09e9a77d9d52a",
-          pass: "bc5320d12428c3"
+          user: user?.strValue,
+          pass: pass?.strValue
         }
       });  
 

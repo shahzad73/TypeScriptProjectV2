@@ -7,6 +7,7 @@ import {user_contacts} from "../../entity/user_contacts";
 import {addresses} from "../../entity/addresses";
 import { findMany } from "../../core/mysql";
 import { update } from "../../core/mysql";
+import { params } from "../../entity/params";
 import fs from "fs";
 import path from "path";
 import { v4 as uuidv4 } from 'uuid';

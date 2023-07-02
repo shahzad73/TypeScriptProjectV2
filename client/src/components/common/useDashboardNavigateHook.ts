@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import MyAppContext  from './AppContext';
 import { useContext } from 'react';
 
+import Public_Enums_Constants from "./PublicEnums";
+
 export const useDashboardNavigateHook = () => {
   const navigate = useNavigate();
   const appContext = useContext(MyAppContext);
@@ -12,11 +14,11 @@ export const useDashboardNavigateHook = () => {
 
       var link = "";
 
-      if( dashboard === 1 ) 
+      if( dashboard === Public_Enums_Constants.DASHBOARD.Shared ) 
           link = '/admin/share';       
-      else if( dashboard === 2 ) 
+      else if( dashboard === Public_Enums_Constants.DASHBOARD.Issuer ) 
           link = '/admin/issuer'; 
-      else if( dashboard === 3 ) 
+      else if( dashboard === Public_Enums_Constants.DASHBOARD.Holder ) 
           link = '/admin/holder';
 
       // if move to specific page

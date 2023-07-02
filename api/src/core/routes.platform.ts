@@ -14,12 +14,14 @@ const securityPlatform = function (req: any, res: any, next: any) {
 
     jwt.verify(tok, process.env.JWT_SECRET, function(err: any, decoded: any) {
             if (err) {
-                console.log("error . . ..  " + err)
+                console.log( err )
             } else { 
                 if(decoded.role == "platform") {
                     next();
                 } else 
                     console.log("not correct tole")
             }
-      });
+    });
 }
+
+

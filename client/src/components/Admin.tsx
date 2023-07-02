@@ -10,6 +10,7 @@ import SharedSidebar from './shared/SharedSidebar';
 import IssuerSidebar from './issuer/IssuerSidebar';
 import InvestorSidebar from './holders/InvestorSidebar';
 import Commons from './common/Commons';
+import Public_Enums_Constants from "./common/PublicEnums";
 
 
 import $ from 'jquery';
@@ -51,14 +52,14 @@ export default function Admin() {
     };
 
     async function myProfile() {
-        dashboardNavigationhook(1, "profile");
+        dashboardNavigationhook(Public_Enums_Constants.DASHBOARD.Shared, "profile");
     };
 
     function switchDashboard() {
-        if(appContext.currentSideMenu === 1 || appContext.currentSideMenu === 3 ) {
-            dashboardNavigationhook(2, "")
-        } else if (appContext.currentSideMenu === 2) {
-            dashboardNavigationhook(3, "")
+        if(appContext.currentSideMenu === Public_Enums_Constants.DASHBOARD.Shared || appContext.currentSideMenu === Public_Enums_Constants.DASHBOARD.Holder ) {
+            dashboardNavigationhook(Public_Enums_Constants.DASHBOARD.Issuer, "")
+        } else if (appContext.currentSideMenu === Public_Enums_Constants.DASHBOARD.Issuer) {
+            dashboardNavigationhook(Public_Enums_Constants.DASHBOARD.Holder, "")
         }                                    
     }
 

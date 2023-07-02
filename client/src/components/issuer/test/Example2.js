@@ -18,7 +18,6 @@ import Badge from "react-bootstrap/Badge";
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
 
-
 export default function Example() {
 
     const appContext = useContext(AppContext);
@@ -41,6 +40,16 @@ export default function Example() {
     const handleSubmit = (event) => {
       event.preventDefault();
       alert(JSON.stringify(inputs));
+    }
+
+
+    const sendEmail2 = () => {
+        alert("dd")
+        axios.post("/platform/others/sendEmail", {}).then(response => {
+            alert( JSON.stringify(response) )
+        }).catch(function(error) {
+            console.log(error);
+        });   
     }
   
 

@@ -25,10 +25,7 @@ export default function Inbox(props: any) {
   const [deleteRecordID, setDeleteRecordID] = useState(0);
 
 
-
-
-
-
+  
   React.useEffect(() => {
       //alert("This is where you initialization code is execute");
 

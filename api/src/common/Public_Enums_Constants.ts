@@ -32,14 +32,8 @@ const Public_Enums_Constants = {
     ADDRESS_TYPES : {
       Profile: "Profile",
       Company: "Company"
-    },
-
-
-    DASHBOARD : {
-       Shared: 1,
-       Issuer: 2,
-       Holder: 3
     }
+
 
 }
 
