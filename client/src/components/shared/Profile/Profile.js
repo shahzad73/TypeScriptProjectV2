@@ -1,6 +1,7 @@
 import React from "react";
 import ProfilePersonal from "./ProfilePersonal";
 import ProfileContacts from "./ProfileContacts";
+import ProfileDocuments from "./ProfileDocuments";
 import Addresses from "../../issuer/Addresses";
 import Public_Enums_Constants from "../../common/PublicEnums";
 
@@ -72,6 +73,7 @@ export default function Profile() {
             </div>
         </div>
 
+        <ProfileDocuments></ProfileDocuments>
         <ProfilePersonal></ProfilePersonal>
         <ProfileContacts></ProfileContacts>
         <Addresses 

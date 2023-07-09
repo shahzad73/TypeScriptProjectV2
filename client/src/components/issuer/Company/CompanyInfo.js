@@ -6,6 +6,7 @@ import Loading from "../../common/loading"
 import { useForm } from "react-hook-form";
 import commons from "../../common/Commons";
 import AppContext from '../../common/AppContext';
+import Public_Enums_Constants from "../../common/PublicEnums";
 
 export default function ProfileContacts(params) {
     const countries = commons.getCountryNamesJSON();
@@ -18,7 +19,7 @@ export default function ProfileContacts(params) {
     const [contactModelShow, setContactModelShow] = useState(false);
     const [profileErrorMessages, setProfileErrorMessages] = useState("");
     const [imageDialog, setImageDialog] = useState(false);
-    const [companyLogo, setCompanyLogo] = useState("");;
+    const [companyLogo, setCompanyLogo] = useState("");
 
     React.useEffect(() => {
         const id = params.id;
@@ -40,6 +41,7 @@ export default function ProfileContacts(params) {
 
     const [percent, setPercent] = useState(0); 
     const companyInfoUploadEvent = (data) =>  {
+        setPercent(0);
         if(data.status == 0) {
             alert("Some issues uploading file. please try again")
         } else {
@@ -144,12 +146,12 @@ export default function ProfileContacts(params) {
                                                 />
                                             </div>
                                             <div className="col-xl-2">
-                                                <Button type="button" color="vk" size="tiny" onClick={ () => commons.uploadFile("accounts/backend/uploadfile", "documentFileUploadFileInput", 2, setPercent, companyInfoUploadEvent) }>Upload</Button> 
+                                                <Button type="button" color="vk" size="tiny" onClick={ () => commons.uploadFile("accounts/backend/uploadfile", "documentFileUploadFileInput", Public_Enums_Constants.SERVER_FILE_DESTINATION.AWS_Bucket_Public, setPercent, companyInfoUploadEvent) }>Upload</Button> 
                                             </div>
                                         </div> 
 
                                         <div className="row">
-                                            <div className="col-xl-6">
+                                            <div className="col-xl-12">
                                                 <br />
                                                 {(percent > 0) && (
                                                     <div className="progress">
