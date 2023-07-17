@@ -45,5 +45,10 @@ export class users extends BaseEntity {
    @Length(0, 100)
    "Occupation": string; 
 
+   @Column() 
+   @Length(0, 150)
+   "pic": string; 
+
+   
 }
 

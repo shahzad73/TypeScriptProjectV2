@@ -4,7 +4,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import CompanyInfo from "./CompanyInfo";
 import Paras from "../paras";
 import Contacts from "../Contacts"
-import Documents from "../documents";
+import Documents from "../../common/documents";
 import Addresses from "../Addresses";
 import Public_Enums_Constants from "../../common/PublicEnums";
 

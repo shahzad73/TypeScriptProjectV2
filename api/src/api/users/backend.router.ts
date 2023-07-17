@@ -48,6 +48,19 @@ bckendDataRouter.post("/setProfile", async (req: Request, res: Response) => {
 });
 
 
+bckendDataRouter.post("/updateProfileImage", async (req: Request, res: Response) => {
+console.log(req.body)
+    await getConnection()
+    .createQueryBuilder()
+    .update(users)
+    .set({ "pic": req.body.pic })
+    .where("id = :id", { id: req.userid })
+    .execute();
+
+    res.json(  {status: 1}  );
+
+});
+
 
 
 bckendDataRouter.get("/getProfileContacts", async (req: Request, res: Response) => {
@@ -302,6 +315,36 @@ bckendDataRouter.post("/saveDocument", async (req: Request, res: Response) => {
 
 });
 
+bckendDataRouter.post("/updateDocument", async (req: Request, res: Response) => {
+    const data = {};
+    data.title = req.body.title;
+    data.description = req.body.description;
+
+    if( req.body.typeDocuments === "Profile_Document" ) {
+        console.log("get in profile document uplaod")
+        req.body.recordID = req.userid;
+    }
+
+    const manager = getManager();
+    const newUpdates = manager.create(documents, data);
+
+    const errors = await validate(newUpdates, { skipMissingProperties: true });
+
+    if (errors.length > 0) {
+        res.json({status: -1, error: errors});
+    } else {
+        await getConnection()
+        .createQueryBuilder()
+        .update(documents)
+        .set(data)
+        .where("id = :id and recordID = :recordID", { id: req.body.id,  recordID: req.body.recordID })
+        .execute();
+
+        res.json(  await getDocuments(req.body.recordID, req.body.type)  ); 
+    }
+});
+
+
 bckendDataRouter.post("/deleteUploadedfile", async (req: Request, res: Response) => {
     await deleteFileFromuploadedLocation(req.body.filename, req.body.destination);
     res.send({'status': 1});
@@ -334,30 +377,6 @@ bckendDataRouter.get("/getDocument", async (req: Request, res: Response) => {
         id: req.query.id
     });
     res.json( data[0] );
-});
-
-bckendDataRouter.post("/updateDocument", async (req: Request, res: Response) => {
-    const data = {};
-    data.title = req.body.title;
-    data.description = req.body.description;
-
-    const manager = getManager();
-    const newUpdates = manager.create(documents, data);    
-
-    const errors = await validate(newUpdates, { skipMissingProperties: true });
-
-    if (errors.length > 0) {
-        res.json({status: -1, error: errors});
-    } else {
-        await getConnection()
-        .createQueryBuilder()
-        .update(documents)
-        .set(data)
-        .where("id = :id and recordID = :recordID", {  id: req.body.id,  recordID: req.body.recordID })
-        .execute();
-
-        res.json(  await getDocuments(req.body.recordID, req.body.type)  ); 
-    }
 });
 
 bckendDataRouter.post("/updateImageRecord", async (req: Request, res: Response) => {

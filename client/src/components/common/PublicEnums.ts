@@ -13,7 +13,8 @@ const Public_Enums_Constants = {
         Company_Document: "Company_Document",
         Company_Image : "Company_Image",
         Token_Document: "Token_Document",
-        Token_Images: "Token_Images"
+        Token_Images: "Token_Images",
+        Profile_Document: "Profile_Document"
     },    
 
 

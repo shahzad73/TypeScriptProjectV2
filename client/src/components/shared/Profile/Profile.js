@@ -4,9 +4,10 @@ import ProfileContacts from "./ProfileContacts";
 import ProfileDocuments from "./ProfileDocuments";
 import Addresses from "../../issuer/Addresses";
 import Public_Enums_Constants from "../../common/PublicEnums";
+import Documents from "../../common/documents";
 
 
-export default function Profile() {
+export default function Profile() {    
 
     React.useEffect(() => {
         return () => {
@@ -83,6 +84,16 @@ export default function Profile() {
             sectionHelperText="you can add your addresses here Addresses "                
             icon = "address.png" 
         ></Addresses>
+        <Documents 
+            id="0"    // because type is Public_Enums_Constants.DOCUMENT_TYPES.Profile_Document so user id will be assiged on the server side
+            caption="List of Profile Document"
+            typeDocuments={Public_Enums_Constants.DOCUMENT_TYPES.Profile_Document}
+            destination = {Public_Enums_Constants.SERVER_FILE_DESTINATION.AWS_Bucket_Public}
+            buttonCaption="Upload Document"
+            icon = "document.png"
+            uploadDialogMessage="Upload Document"
+            sectionHelperText="Please uplaod documents for uploading in cloud"
+        ></Documents>        
     </div>  
 
   );    

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from 'axios';
 import { Button, Form } from 'semantic-ui-react'
 import { Modal } from 'react-bootstrap'
@@ -6,61 +6,32 @@ import Loading from "../../common/loading"
 import commons from "../../common/Commons";
 import Public_Enums_Constants from "../../common/PublicEnums";
 import { useForm } from "react-hook-form";
-
+import MyAppContext  from '../../common/AppContext';
 
 export default function ProfileDocuments() {
 
-    const {register, handleSubmit, reset, formState: { errors }} = useForm();
     const [percent, setPercent] = useState(0); 
-    
+    const appContext = useContext(MyAppContext);
+
     const companyInfoUploadEvent = (data) =>  {
         setPercent(0);
-        /*if(data.status == 0) {
+
+        if(data.status == 0) {
             alert("Some issues uploading file. please try again")
         } else {
-            setShowLoading(true);
-            axios.post("/accounts/backend/updateImageRecord", {targetID: 1, image:data.file, id:companyID}).then(response => {
+            axios.post("/accounts/backend/updateProfileImage", {pic:data.file}).then(response => {
                 setImageDialog(false);
-                setShowLoading(false);
-                setCompanyLogo(appContext.s3DocumentBaseURL +  data.file )
+                setProfilePic( appContext.s3DocumentBaseURL +  data.file )
             }).catch(function(error) {
                 console.log(error);
             });
-        }*/
+        }
     }
 
     const [imageDialog, setImageDialog] = useState(false);
     const [profilePic, setProfilePic] = useState("");
 
 
-
-    const onFormSubmit = (data) => {
-       /* setContactModelShow(false);
-        setShowContactLoading(true);
-
-        var link = "/accounts/backend/addContact";
-        setApiLoadingMessage("Adding new contact");        
-        if( operation == 2 ) {
-            link = "/accounts/backend/editContact";
-            setApiLoadingMessage("Saving contact");
-        }
-
-        setShowContactLoading(true);            
-
-        axios.post(link, data).then(response => {
-
-            if(response.data.status === -1) {
-                setProfileErrorMessages(  commons.getDBErrorMessagesText(response.data.error)   );
-            } else {
-                setUserContacts ( response.data.userContacts );
-                reset();
-                setShowContactLoading(false);
-            }
-
-        }).catch(function(error) {
-            console.log(error);
-        });                */
-    }    
 
 
     React.useEffect(() => {
@@ -110,10 +81,9 @@ export default function ProfileDocuments() {
 
 
             <Modal size="lg" show={imageDialog} onHide={() => setImageDialog(false)}>
-                <Form onSubmit={handleSubmit(onFormSubmit)}>
 
                     <Modal.Header closeButton>
-                    <Modal.Title> <img src="/img/image.png" width="33px"/>  &nbsp; Upload Company Logo</Modal.Title>
+                    <Modal.Title> <img src="/img/image.png" width="33px"/>  &nbsp; Upload Your Profile Image</Modal.Title>
                     </Modal.Header>
                     <Modal.Body  >
                         <br />
@@ -133,7 +103,7 @@ export default function ProfileDocuments() {
                                                 />
                                             </div>
                                             <div className="col-xl-2">
-                                                <Button type="button" color="vk" size="tiny" onClick={ () => commons.uploadFile("accounts/backend/uploadfile", "documentFileUploadFileInput", Public_Enums_Constants.SERVER_FILE_DESTINATION.AWS_Bucket_Public, setPercent, companyInfoUploadEvent) }>Upload</Button> 
+                                                <Button type="button" color="vk" size="tiny" onClick={ () => commons.uploadFile("accounts/backend/uploadfile", "documentFileUploadFileInput", Public_Enums_Constants.SERVER_FILE_DESTINATION.AWS_Bucker_Private, setPercent, companyInfoUploadEvent) }>Upload</Button> 
                                             </div>
                                         </div> 
 
@@ -161,7 +131,7 @@ export default function ProfileDocuments() {
                     <Modal.Footer>
                         <Button color="red" size="tiny" type="button" onClick={() => setImageDialog(false)}>Close</Button>
                     </Modal.Footer>
-                </Form>
+
             </Modal>
 
         </div>

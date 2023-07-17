@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Button, Form } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
-import Documents from "../documents";
+import Documents from "../../common/documents";
 import Paras from "../paras";
 import Contacts from "../Contacts";
 import { useDashboardNavigateHook } from "../../common/useDashboardNavigateHook";
