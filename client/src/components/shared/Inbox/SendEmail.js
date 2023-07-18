@@ -9,7 +9,7 @@ import commons from "../../common/Commons";
 import Modal from "react-bootstrap/Modal";
 import CustomTextEditor from "../../common/CustomTextEditor"
 import { useDashboardNavigateHook } from "../..//common/useDashboardNavigateHook";
-import Public_Enums_Constants from "../../common/PublicEnums";
+import Public_Enums_Constants from "../../common/Public_Enums_Constants";
 
 export default function SendEmail() {
 

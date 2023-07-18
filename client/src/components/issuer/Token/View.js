@@ -7,7 +7,7 @@ import Documents from "../../common/documents";
 import Paras from "../paras";
 import Contacts from "../Contacts";
 import { useDashboardNavigateHook } from "../../common/useDashboardNavigateHook";
-import Public_Enums_Constants from "../../common/PublicEnums";
+import Public_Enums_Constants from "../../common/Public_Enums_Constants";
 
 
 export default function Dashboard() {

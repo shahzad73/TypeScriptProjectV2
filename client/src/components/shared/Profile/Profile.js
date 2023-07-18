@@ -3,7 +3,7 @@ import ProfilePersonal from "./ProfilePersonal";
 import ProfileContacts from "./ProfileContacts";
 import ProfileDocuments from "./ProfileDocuments";
 import Addresses from "../../issuer/Addresses";
-import Public_Enums_Constants from "../../common/PublicEnums";
+import Public_Enums_Constants from "../../common/Public_Enums_Constants";
 import Documents from "../../common/documents";
 
 

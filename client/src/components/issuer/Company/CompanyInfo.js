@@ -6,7 +6,7 @@ import Loading from "../../common/loading"
 import { useForm } from "react-hook-form";
 import commons from "../../common/Commons";
 import AppContext from '../../common/AppContext';
-import Public_Enums_Constants from "../../common/PublicEnums";
+import Public_Enums_Constants from "../../common/Public_Enums_Constants";
 
 export default function ProfileContacts(params) {
     const countries = commons.getCountryNamesJSON();

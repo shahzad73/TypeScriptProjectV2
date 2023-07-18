@@ -10,7 +10,7 @@ import SharedSidebar from './shared/SharedSidebar';
 import IssuerSidebar from './issuer/IssuerSidebar';
 import InvestorSidebar from './holders/InvestorSidebar';
 import Commons from './common/Commons';
-import Public_Enums_Constants from "./common/PublicEnums";
+import Public_Enums_Constants from "./common/Public_Enums_Constants";
 
 
 import $ from 'jquery';

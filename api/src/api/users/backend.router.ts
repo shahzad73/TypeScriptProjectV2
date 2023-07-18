@@ -15,7 +15,7 @@ import { s3UploadFile } from '../../common/s3';
 import { Web3Storage, getFilesFromPath } from 'web3.storage'
 import { deleteFileFromuploadedLocation } from '../../common/commons';
 import { documents } from "../../entity/documents";
-import { json } from "stream/consumers";
+import Public_Enums_Constants from "../../common/Public_Enums_Constants";
 
 const uploadFile = require("../../common/fileupload");
 
@@ -296,13 +296,19 @@ bckendDataRouter.post("/uploadfile", async (req: Request, res: Response) => {
     }
 });
 
+
+
+
 bckendDataRouter.get("/getDocuments", async (req: Request, res: Response) => {
-    res.json( await getDocuments(req.query.recordID, req.query.type) );    
+    res.json( await getDocuments(req.query.recordID, req.query.type, req.userid) );    
 });
 
 bckendDataRouter.post("/saveDocument", async (req: Request, res: Response) => {
     const manager = getManager();
     const newUpdates = manager.create(documents, req.body);    
+
+    if( req.body.type == Public_Enums_Constants.DOCUMENT_TYPES.Profile_Document ) 
+        newUpdates.recordID = req.userid;
 
     const errors = await validate(newUpdates);
 
@@ -310,7 +316,7 @@ bckendDataRouter.post("/saveDocument", async (req: Request, res: Response) => {
         res.json({status: -1, error: errors});
     } else {
         const data = await documents.insert ( newUpdates );
-        res.json( await getDocuments(req.body.recordID, req.body.type) );
+        res.json( await getDocuments(req.body.recordID, req.body.type, req.userid) );
     }
 
 });
@@ -320,10 +326,8 @@ bckendDataRouter.post("/updateDocument", async (req: Request, res: Response) => 
     data.title = req.body.title;
     data.description = req.body.description;
 
-    if( req.body.typeDocuments === "Profile_Document" ) {
-        console.log("get in profile document uplaod")
+    if( req.body.type == Public_Enums_Constants.DOCUMENT_TYPES.Profile_Document )
         req.body.recordID = req.userid;
-    }
 
     const manager = getManager();
     const newUpdates = manager.create(documents, data);
@@ -340,10 +344,9 @@ bckendDataRouter.post("/updateDocument", async (req: Request, res: Response) => 
         .where("id = :id and recordID = :recordID", { id: req.body.id,  recordID: req.body.recordID })
         .execute();
 
-        res.json(  await getDocuments(req.body.recordID, req.body.type)  ); 
+        res.json(  await getDocuments(req.body.recordID, req.body.type, req.userid)  ); 
     }
 });
-
 
 bckendDataRouter.post("/deleteUploadedfile", async (req: Request, res: Response) => {
     await deleteFileFromuploadedLocation(req.body.filename, req.body.destination);
@@ -368,16 +371,19 @@ bckendDataRouter.get("/deleteDocuments", async (req: Request, res: Response) => 
     .where("id = :id and recordID = :recordID", { id: req.query.id, recordID: req.query.recordID })
     .execute();
 
-    res.json( await getDocuments(req.query.recordID, req.query.type) );
+    res.json( await getDocuments(req.query.recordID, req.query.type, req.userid) );
 
 });
 
 bckendDataRouter.get("/getDocument", async (req: Request, res: Response) => {
-    const data = await documents.find ({
-        id: req.query.id
-    });
-    res.json( data[0] );
+    const data = await documents.findOne (
+        { "where": { id: req.query.id }  }
+    );
+    res.json( data );
 });
+
+
+
 
 bckendDataRouter.post("/updateImageRecord", async (req: Request, res: Response) => {
     var sql = "";
@@ -452,16 +458,19 @@ async function getUsrProfile(userid: number) {
     return usr[0];
 }
 
-async function getDocuments(recordID: string, type: string) {
+async function getDocuments(recordID: string, type: string, userid: number) {
 
-        const docs = await getConnection()
-        .createQueryBuilder()
-        .select(["*"])
-        .from(documents, "documents")
-        .where("recordID = :id and type = :type", { id: recordID, type: type })
-        .execute();
+    if( type == Public_Enums_Constants.DOCUMENT_TYPES.Profile_Document ) 
+        recordID = userid;
+    
+    const docs = await getConnection()
+    .createQueryBuilder()
+    .select(["*"])
+    .from(documents, "documents")
+    .where("recordID = :id and type = :type", { id: recordID, type: type })
+    .execute();
 
-        return docs;
+    return docs;
 
 }
 
