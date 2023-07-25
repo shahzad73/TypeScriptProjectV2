@@ -28,9 +28,9 @@ async function s3UploadFile(fileName: string, filePath: string, bucket: string):
 
     let promise = new Promise<any>(async (resolve, reject) => {
         
-        const data = await params.findOne ({where: { param: "AWS_API_Version" }});
+        //const data = await params.findOne ({where: { param: "AWS_API_Version" }});
 
-        const s3 = new AWS.S3({apiVersion: data?.strValue});
+        const s3 = new AWS.S3({apiVersion: "latest"});
         const fileContent = fs.readFileSync(filePath + "/" +fileName);
 
         const params2 = {
@@ -56,9 +56,9 @@ async function s3DeleteFile(fileName: string, bucket: string): Promise<void> {
 
     let promise = new Promise<any>(async (resolve, reject) => {
 
-        const data = await params.findOne ({where: { param: "AWS_API_Version" }});
+        //const data = await params.findOne ({where: { param: "AWS_API_Version" }});
 
-        const s3 = new AWS.S3({apiVersion: data?.strValue});
+        const s3 = new AWS.S3({apiVersion: "latest"});
 
         const params2 = {
             Bucket: bucket,
@@ -69,7 +69,6 @@ async function s3DeleteFile(fileName: string, bucket: string): Promise<void> {
             await s3.deleteObject(params2);
             resolve("done");
         } catch (e:any) {
-            console.log("first catch")
             reject("error");
         }
 
@@ -78,6 +77,7 @@ async function s3DeleteFile(fileName: string, bucket: string): Promise<void> {
     return await promise;  
 
 }
+
 
 // this will upload files to FileBase file service which is IPFS pinning service
 // it also uses the AWS code base
@@ -105,10 +105,9 @@ async function s3UploadFileFileBase(fileName: string, filePath: string): Promise
             ACL: 'public-read',
         };
 
-        console.log("obj created")
+
         const request = s3.putObject(params);
         await request.send();
-        console.log("file send")
 
         resolve( "success" );
     });

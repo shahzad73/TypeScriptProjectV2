@@ -13,9 +13,12 @@ import {updates} from "./entity/updates";
 
 import flash from 'connect-flash';
 import compression from 'compression';
-import session from 'express-session';
+//import session from 'express-session';
 import bodyParser from 'body-parser';
 import hpp from 'hpp';
+import "reflect-metadata"
+
+
 
 dotenv.config();
 
@@ -28,6 +31,8 @@ const app = express();
 
 app.use(flash());
 app.use(compression());
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(helmet.hidePoweredBy()); // change value of X-Powered-By header to given value
 //app.use(helmet.noCache()); // set Cache-Control header
@@ -91,9 +96,9 @@ app.use(notFoundHandler);
 	app.listen(PORT, () => {
 
 		const SESConfig = {
-			/*apiVersion: "latest",
+			apiVersion: "latest",
 			accessKeyId: process.env.AWS_ACCESS_KEY,
-			accessSecretKey: process.env.AWS_SECRET_KEY,*/
+			accessSecretKey: process.env.AWS_SECRET_KEY,
 			region: "US-East-1"
 		}
 		AWS.config.update(SESConfig);

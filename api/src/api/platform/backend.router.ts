@@ -24,7 +24,7 @@ bckendDataRouter.get("/getUpdate", async (req: Request, res: Response) => {
         'details',
         "DATE_FORMAT(UpdateDate, '%M %d %Y') as UpdateDate"
     ])
-    .from(updates)
+    .from(updates, "s")
     .where("id = :id", { id: req.query.id })
     .execute();
 
@@ -102,7 +102,7 @@ bckendDataRouter.get("/getAccount", async (req: Request, res: Response) => {
         'lastname',
         'email'
     ])
-    .from(users)
+    .from(users, "u")
     .where("id = :id", { id: req.query.id })
     .execute();
 

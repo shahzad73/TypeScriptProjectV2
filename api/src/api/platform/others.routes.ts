@@ -56,7 +56,7 @@ bckOtherRouters.get("/getInboxDetails", async (req: Request, res: Response) => {
         'Response',  
         'ResponseDate'         
     ])
-    .from(inbox)
+    .from(inbox, "i")
     .where("id = :id", { id: req.query.id })
     .execute();
 
@@ -69,7 +69,7 @@ bckOtherRouters.get("/getInboxDetails", async (req: Request, res: Response) => {
         'firstname', 
         'lastname'
     ])
-    .from(users)
+    .from(users, "u")
     .where("id = :id", { id: email[0].UserID })
     .execute();
 
@@ -89,7 +89,7 @@ bckOtherRouters.post("/respondEmail", async (req: Request, res: Response) => {
         'firstname', 
         'lastname'
     ])
-    .from(users)
+    .from(users, "u")
     .where("id = :id", { id: req.body.userID })
     .execute();
 

@@ -12,11 +12,14 @@ export const companyDataRouter = express.Router();
 
 companyDataRouter.get("/companies", async (req: Request, res: Response) => {
 
+    const size: number = parseInt(req.query.size as string, 10);
+    const page: number = parseInt(req.query.page as string, 10);
+
     const [result, total] = await company.findAndCount(
         {
             where: { userid: req.userid }, order: { id: "ASC" },
-            take: req.query.size,
-            skip: (req.query.page * req.query.size)
+            take: size,
+            skip: page * size
         }
     );
 
@@ -174,9 +177,11 @@ companyDataRouter.get("/deleteParagraph", async (req: Request, res: Response) =>
 
 
 
-
 companyDataRouter.get("/getdetails", async (req: Request, res: Response) => {
-    const data = await getCompanyContacts( req.query.id, req.query.type );
+    const id: number = parseInt(req.query.id as string, 10);
+    const type: string = req.query.type ? String(req.query.type) : '';
+
+    const data = await getCompanyContacts( id, type );
     res.json( data );
 });
 
@@ -213,7 +218,7 @@ companyDataRouter.post("/addContact", async (req: Request, res: Response) => {
         res.json({status: -1, error: errors});
     } else {
         const data = await contacts.insert ( newUpdates );
-        res.json(   await getCompanyContacts(req.body.recordID, req.body.type)  );
+        res.json(   await getCompanyContacts(parseInt(req.body.recordID), req.body.type)  );
     }
 
 });
@@ -257,8 +262,7 @@ companyDataRouter.post("/editCompanyContact", async (req: Request, res: Response
 
 
 
-async function getCompanyContacts(recordID: number, type: number) {
-    var data = {}
+async function getCompanyContacts(recordID: number, type: string) {
 
     const typ1 = await getConnection()
     .createQueryBuilder()
@@ -266,16 +270,17 @@ async function getCompanyContacts(recordID: number, type: number) {
     .from(contacts_types, "contacts_types")
     .where("type = :id", { id: 1 })
     .execute();
-    data.mobileTypes = typ1;
 
 
     const usrContacts = await findMany(`select u.id, u.contact, u.nameOfPerson, c.title 
         from contacts_types c, contacts u 
         where u.contactTypeID = c.id and u.recordID = ? and u.type = ?`, [recordID, type])
-    data.userContacts = usrContacts;
 
+    return {
+        mobileTypes: typ1,
+        userContacts: usrContacts
+    }
 
-    return data;
 }
 
 

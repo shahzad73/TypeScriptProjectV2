@@ -27,6 +27,7 @@ const securityAccount = function (req: any, res: any, next: any) {
                 } else 
                     console.log("not correct tole")
             }
-      });
+    });
 
 }
+

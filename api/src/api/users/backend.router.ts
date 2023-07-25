@@ -22,6 +22,9 @@ const uploadFile = require("../../common/fileupload");
 export const bckendDataRouter = express.Router();
 
 
+
+
+
 bckendDataRouter.get("/getProfilePersonal", async (req: Request, res: Response) => {
     res.json(  await getUsrProfile(req.userid)  );
 });
@@ -49,7 +52,7 @@ bckendDataRouter.post("/setProfile", async (req: Request, res: Response) => {
 
 
 bckendDataRouter.post("/updateProfileImage", async (req: Request, res: Response) => {
-console.log(req.body)
+
     await getConnection()
     .createQueryBuilder()
     .update(users)
@@ -108,13 +111,24 @@ bckendDataRouter.post("/editContact", async (req: Request, res: Response) => {
     }
 });
 
+
 bckendDataRouter.get("/getContactRecord", async (req: Request, res: Response) => {
+
+    const id: number = parseInt(req.query.id as string, 10);
+
+    if (isNaN(id)) {
+        // Handle the case when 'id' is not present or not a valid number
+        res.status(400).json({ error: 'Invalid or missing id' });
+        return;
+    }
+
     const data = await user_contacts.findOne ({where: {
-        id: parseInt(req.query.id),
+        id: id,
         userid: req.userid
     }});
 
     res.json( data );
+
 });
 
 bckendDataRouter.post("/deleteContact", async (req: Request, res: Response) => {
@@ -133,14 +147,14 @@ bckendDataRouter.post("/deleteContact", async (req: Request, res: Response) => {
 
 
 bckendDataRouter.get("/getProfileAddress", async (req: Request, res: Response) => {
-    var recordID = 0;
+    var recordID: number = 0;
 
     if(req.query.recordID == "-1")
         recordID = req.userid;
     else
-        recordID = req.query.recordID;
+        recordID = parseInt(req.query.recordID);
 
-    const usr = await getUserAddresses(recordID, req.query.type);
+    const usr = await getUserAddresses(recordID, parseInt(req.query.type));
     res.json(  usr  );
 });
 
@@ -164,7 +178,7 @@ bckendDataRouter.post("/deleteAddress", async (req: Request, res: Response) => {
 
 bckendDataRouter.get("/getAddressRecord", async (req: Request, res: Response) => {
     const data = await addresses.findOne ({where: {
-        id: req.query.id
+        id: parseInt(req.query.id)
     }});
 
     res.json( data );
@@ -322,7 +336,10 @@ bckendDataRouter.post("/saveDocument", async (req: Request, res: Response) => {
 });
 
 bckendDataRouter.post("/updateDocument", async (req: Request, res: Response) => {
-    const data = {};
+    const data = {
+        title: "",
+        description: ""
+    };
     data.title = req.body.title;
     data.description = req.body.description;
 
@@ -354,24 +371,25 @@ bckendDataRouter.post("/deleteUploadedfile", async (req: Request, res: Response)
 });
 
 bckendDataRouter.get("/deleteDocuments", async (req: Request, res: Response) => {
-    const data = await documents.find ({
-        id: req.query.id
-    });
+    const data = await documents.findOne (
+        { "where": { id: req.query.id } }
+    );
 
     try {
-        await deleteFileFromuploadedLocation(data[0].document , data[0].destination);
+        await deleteFileFromuploadedLocation(data.document , data.destination);
+
+        /*await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(documents)
+        .where("id = :id and recordID = :recordID", { id: req.query.id, recordID: req.query.recordID })
+        .execute();*/
+    
+        res.json( await getDocuments(req.query.recordID, req.query.type, req.userid) );        
     } catch (e:any) {
         console.log(e)
     }
-    
-    await getConnection()
-    .createQueryBuilder()
-    .delete()
-    .from(documents)
-    .where("id = :id and recordID = :recordID", { id: req.query.id, recordID: req.query.recordID })
-    .execute();
 
-    res.json( await getDocuments(req.query.recordID, req.query.type, req.userid) );
 
 });
 

@@ -12,7 +12,8 @@ async function deleteFileFromuploadedLocation(file:string, destination:string) {
     } else if(destination == Public_Enums_Constants.SERVER_FILE_DESTINATION.AWS_Bucket_Public) {
         try {
             const data = await params.findOne ({where: { param: "AWS_Cloud_Public_Folder" }});
-            if(data != null)
+
+            if(data != null) 
                 await s3DeleteFile(file, data.strValue); 
             else
                 throw new Error("AWS Public folder setting not found in params table");                
