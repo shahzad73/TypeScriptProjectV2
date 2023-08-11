@@ -2,15 +2,16 @@ import { bckendDataRouter } from "../api/users/backend.router";
 import { othersDataRouter } from "../api/users/others.router";
 import { companyDataRouter } from "../api/users/company.router";
 import { tokenDataRouter } from "../api/users/token.router";
+import { holderRouter } from "../api/users/holders.router";
 
 var jwt = require('jsonwebtoken');
-
 
 module.exports = function(app: any){
     app.use("/accounts/backend", securityAccount,  bckendDataRouter);    
     app.use("/accounts/others", securityAccount,  othersDataRouter);   
     app.use("/accounts/company", securityAccount,  companyDataRouter);       
     app.use("/accounts/token", securityAccount,  tokenDataRouter);           
+    app.use("/accounts/holders", securityAccount,  holderRouter);               
 }
 
 

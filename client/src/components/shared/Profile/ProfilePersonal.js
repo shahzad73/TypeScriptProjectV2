@@ -17,6 +17,7 @@ export default function ProfilePersonal() {
     const [showLoading, setShowLoading] = useState(true);
     const {register, handleSubmit, reset, formState: { errors }} = useForm();
     const [DOBDate, setDOBDate] = useState("");
+    const [countries, setCountries] = useState([]);    
     const [profileModelShow, setProfileModelShow] = useState(false); 
     const onFormSubmit = (data) => {
         setApiOperationMessage("Saving Profile");        
@@ -50,13 +51,22 @@ export default function ProfilePersonal() {
 
     React.useEffect(() => {
         setApiOperationMessage("Loading Profile");
+
+
         axios.get("/accounts/backend/getProfilePersonal").then(response => {
             setApiOperationMessage("");
             setData( response.data );
             setShowLoading(false);
         }).catch(function(error) {
             console.log(error);
-        }); 
+        });         
+
+
+        axios.get("/common/getCountries").then(response => {
+            setCountries( response.data );
+        }).catch(function(error) {
+            console.log(error);
+        });
 
         return () => {
             //alert("Bye");
@@ -156,7 +166,8 @@ export default function ProfilePersonal() {
             </div>
         </div>
 
-        <Modal size="lg" show={profileModelShow} onHide={() => setProfileModelShow(false)}>
+
+        <Modal size="xl" show={profileModelShow} onHide={() => setProfileModelShow(false)}>
             <Form onSubmit={handleSubmit(onFormSubmit)}>
 
                 <Modal.Header closeButton>
@@ -211,6 +222,7 @@ export default function ProfilePersonal() {
                                                         onChange={(date) => setDOBDate(  date  )} />
                                             </div>
                                     </div>
+                                    
                                 </div>
 
                                 <div className="row">
@@ -245,6 +257,7 @@ export default function ProfilePersonal() {
                                     </div>
                                 </div>
 
+
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div className="form-group">
@@ -259,7 +272,6 @@ export default function ProfilePersonal() {
                                                     <option value="Married">Married</option>
                                                 </select>
                                             </Form.Field>
-
                                         </div>
                                     </div>
 
@@ -279,6 +291,27 @@ export default function ProfilePersonal() {
 
                                     </div>
                                 </div>
+
+
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <div className="form-group">
+                                            Select Country
+                                            <Form.Field>
+                                                <select 
+                                                id="countryid"  
+                                                name="countryid"
+                                                {...register("countryid", { maxLength: 100 })}                                                
+                                                className="form-control form-select">
+                                                    { countries && countries.map(dat =>
+                                                        <option value={dat.id} label={dat.country} />
+                                                    )}
+                                                </select>
+                                            </Form.Field>
+                                        </div>
+                                    </div>   
+                                </div>                                            
+
                         </div>
                     </div>
 

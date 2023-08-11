@@ -14,8 +14,8 @@ import Token from "./issuer/Token/Token"
 import ViewToken from "./issuer/Token/View"
 
 import InvestorList from "./issuer/investor/list"
-
-
+import InvestorView from "./issuer/investor/InvestorView"
+ 
 
 export default function Issuer() {
 
@@ -47,6 +47,7 @@ export default function Issuer() {
                                         <Route path="/tokenview" element={<ViewToken />} />
 
                                         <Route path="/investorList" element={<InvestorList />} />
+                                        <Route path="/investorView" element={<InvestorView />} />
                                     </Routes>
                                 </div>
                             </div>

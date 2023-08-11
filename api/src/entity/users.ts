@@ -49,6 +49,8 @@ export class users extends BaseEntity {
    @Length(0, 150)
    "pic": string; 
 
+   @Column() 
+   "countryid": number; 
    
 }
 

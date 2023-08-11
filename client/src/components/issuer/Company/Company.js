@@ -79,9 +79,7 @@ export default function Company() {
                                         </span>
                                     )}
 
-                                    {
-                                        totalPages > 1
-                                        &&
+                                    { totalPages > 1 &&
                                         <Pagination 
                                             defaultActivePage={1} 
                                             totalPages={totalPages} 

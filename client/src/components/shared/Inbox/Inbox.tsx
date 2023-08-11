@@ -4,21 +4,12 @@ import {Modal} from 'react-bootstrap'
 import { Link } from "react-router-dom";
 import { Button, Label } from 'semantic-ui-react'
 import Moment from 'moment';
+import { iInbox } from '../../common/EntityInterfaces/Inbox';
 
 
 export default function Inbox(props: any) {
-    interface Inbox {
-        ID: number;
-        Title: string;
-        isResponded: number;
-        DateEmail: Date
-      }
 
-      const inboxDataSet2: Inbox[] = [
-        // Your inbox data objects here
-      ];
-
-
+  const inboxDataSet2: iInbox[] = [];
   const [inboxDataSet, setInboxDataSet] = useState(inboxDataSet2);
 
   const [deleteModelShow, setDeleteModelShow] = useState(false);

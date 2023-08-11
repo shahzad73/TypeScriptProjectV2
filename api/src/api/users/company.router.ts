@@ -7,8 +7,8 @@ import {contacts_types} from "../../entity/contact_types";
 import { findMany } from "../../core/mysql";
 import { paragraphs } from "../../entity/paragraphs";
 import { contacts } from "../../entity/contacts";
-export const companyDataRouter = express.Router();
 
+export const companyDataRouter = express.Router();
 
 companyDataRouter.get("/companies", async (req: Request, res: Response) => {
 

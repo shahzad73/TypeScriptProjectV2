@@ -20,7 +20,7 @@ othersDataRouter.get("/inbox", async (req: Request, res: Response) => {
         'Response',  
         'ResponseDate'
     ])
-    .from(inbox)
+    .from(inbox, "i")
     .where("userID = :id", { id: req.userid })
     .execute();
 
@@ -73,7 +73,7 @@ othersDataRouter.get("/deleteInbox", async (req: Request, res: Response) => {
         'Response',  
         'ResponseDate'
     ])
-    .from(inbox)
+    .from(inbox, "i")
     .where("userID = :id", { id: req.userid })
     .execute();
 
@@ -95,7 +95,7 @@ othersDataRouter.get("/detailsEmail", async (req: Request, res: Response) => {
         'Response',  
         'ResponseDate'         
     ])
-    .from(inbox)
+    .from(inbox, "i")
     .where("id = :id", { id: req.query.id })
     .execute();
 

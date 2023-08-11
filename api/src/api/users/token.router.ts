@@ -8,8 +8,13 @@ import {validate} from "class-validator";
 export const tokenDataRouter = express.Router();
 
 tokenDataRouter.get("/token", async (req: Request, res: Response) => {
+
+    const size: number = parseInt(req.query.size as string, 10);
+    const page: number = parseInt(req.query.page as string, 10);
+
+
     res.json( 
-        await( getCompanyContacts(req.userid, req.query.size,  (req.query.page * req.query.size) ) ) 
+        await( getCompanyContacts(req.userid, size,  (page * size) ) ) 
     );
 });
 
@@ -19,6 +24,8 @@ tokenDataRouter.post("/addtoken", async (req: Request, res: Response) => {
     const newUpdates = manager.create(token, req.body);    
     newUpdates.userID = req.userid;
 
+    const size: number = parseInt(req.query.size as string, 10);
+
     const errors = await validate(newUpdates, { skipMissingProperties: true });
 
     if (errors.length > 0) {
@@ -27,7 +34,7 @@ tokenDataRouter.post("/addtoken", async (req: Request, res: Response) => {
         await token.insert ( newUpdates );
 
         res.json( 
-            await( getCompanyContacts(req.userid, req.query.size, 0) ) 
+            await( getCompanyContacts(req.userid, size, 0) ) 
         );
     }
 
@@ -41,7 +48,7 @@ tokenDataRouter.get("/gettoken", async (req: Request, res: Response) => {
         'Details',
         'isdeloyed'
     ])
-    .from(token)
+    .from(token, "t")
     .where("id = :id", { id: req.query.id })
     .execute();
 
@@ -56,7 +63,7 @@ async function getCompanyContacts(userid: number, size: number, skipRecord: numb
         'id',
         'Title'
     ])
-    .from(company)
+    .from(company, "c")
     .where("userID = :id", { id: userid })
     .execute();
 

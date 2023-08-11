@@ -7,7 +7,6 @@ import {user_contacts} from "../../entity/user_contacts";
 import {addresses} from "../../entity/addresses";
 import { findMany } from "../../core/mysql";
 import { update } from "../../core/mysql";
-import { params } from "../../entity/params";
 import fs from "fs";
 import path from "path";
 import { v4 as uuidv4 } from 'uuid';
@@ -151,10 +150,11 @@ bckendDataRouter.get("/getProfileAddress", async (req: Request, res: Response) =
 
     if(req.query.recordID == "-1")
         recordID = req.userid;
-    else
-        recordID = parseInt(req.query.recordID);
+    else 
+        recordID = parseInt(req.query.recordID as string, 10);
+    
+    const usr = await getUserAddresses(recordID, req.query.type as string);
 
-    const usr = await getUserAddresses(recordID, parseInt(req.query.type));
     res.json(  usr  );
 });
 
@@ -172,13 +172,15 @@ bckendDataRouter.post("/deleteAddress", async (req: Request, res: Response) => {
     .where("id = :id and recordID = :recordID", { id: req.body.id, recordID: recordID })
     .execute();
 
-    const usr = await getUserAddresses(recordID, req.body.type);
+    const usr = await getUserAddresses(recordID, req.body.type as string);
     res.json(  usr  );
 });
 
 bckendDataRouter.get("/getAddressRecord", async (req: Request, res: Response) => {
+    const id: number = parseInt(req.query.id as string, 10);
+
     const data = await addresses.findOne ({where: {
-        id: parseInt(req.query.id)
+        id: id
     }});
 
     res.json( data );
@@ -212,7 +214,7 @@ bckendDataRouter.post("/editAddress", async (req: Request, res: Response) => {
         .where("id = :id", {  id: id })
         .execute();
 
-        res.json(  await getUserAddresses(recordID, req.body.type)  ); 
+        res.json(  await getUserAddresses(recordID, req.body.type as string)  ); 
     }
 })
 
@@ -236,7 +238,7 @@ bckendDataRouter.post("/addAddress", async (req: Request, res: Response) => {
         res.json({status: -1, error: errors});
     } else {
         const data = await addresses.insert ( newUpdates );
-        const usr = await getUserAddresses(recordID, req.body.type);
+        const usr = await getUserAddresses(recordID, req.body.type as string);
         res.json(  usr  ); 
     }
 });
@@ -295,9 +297,7 @@ bckendDataRouter.post("/uploadfile", async (req: Request, res: Response) => {
 
         });
 
-    } catch (err) {
-        console.log(err);
-
+    } catch (err: any) {
         if (err.code == "LIMIT_FILE_SIZE") {
             return res.status(500).send({
                 message: "File size cannot be larger than 2MB!",
@@ -311,10 +311,8 @@ bckendDataRouter.post("/uploadfile", async (req: Request, res: Response) => {
 });
 
 
-
-
 bckendDataRouter.get("/getDocuments", async (req: Request, res: Response) => {
-    res.json( await getDocuments(req.query.recordID, req.query.type, req.userid) );    
+    res.json( await getDocuments(req.query.recordID as string, req.query.type as string, req.userid) );    
 });
 
 bckendDataRouter.post("/saveDocument", async (req: Request, res: Response) => {
@@ -330,7 +328,7 @@ bckendDataRouter.post("/saveDocument", async (req: Request, res: Response) => {
         res.json({status: -1, error: errors});
     } else {
         const data = await documents.insert ( newUpdates );
-        res.json( await getDocuments(req.body.recordID, req.body.type, req.userid) );
+        res.json( await getDocuments(req.body.recordID as string, req.body.type as string, req.userid) );
     }
 
 });
@@ -353,7 +351,7 @@ bckendDataRouter.post("/updateDocument", async (req: Request, res: Response) => 
 
     if (errors.length > 0) {
         res.json({status: -1, error: errors});
-    } else {
+    } else {    
         await getConnection()
         .createQueryBuilder()
         .update(documents)
@@ -361,7 +359,7 @@ bckendDataRouter.post("/updateDocument", async (req: Request, res: Response) => 
         .where("id = :id and recordID = :recordID", { id: req.body.id,  recordID: req.body.recordID })
         .execute();
 
-        res.json(  await getDocuments(req.body.recordID, req.body.type, req.userid)  ); 
+        res.json(  await getDocuments(req.body.recordID as string, req.body.type as string, req.userid)  ); 
     }
 });
 
@@ -371,36 +369,28 @@ bckendDataRouter.post("/deleteUploadedfile", async (req: Request, res: Response)
 });
 
 bckendDataRouter.get("/deleteDocuments", async (req: Request, res: Response) => {
+    const id: number = parseInt(req.query.id as string, 10);
+
     const data = await documents.findOne (
-        { "where": { id: req.query.id } }
+        { "where": { id: id } }
     );
 
     try {
-        await deleteFileFromuploadedLocation(data.document , data.destination);
-
-        /*await getConnection()
-        .createQueryBuilder()
-        .delete()
-        .from(documents)
-        .where("id = :id and recordID = :recordID", { id: req.query.id, recordID: req.query.recordID })
-        .execute();*/
-    
-        res.json( await getDocuments(req.query.recordID, req.query.type, req.userid) );        
+        await deleteFileFromuploadedLocation(data.document , data.destination);    
+        res.json( await getDocuments(req.query.recordID as string, req.query.type as string, req.userid) );        
     } catch (e:any) {
         console.log(e)
     }
-
-
 });
 
 bckendDataRouter.get("/getDocument", async (req: Request, res: Response) => {
+    const id: number = parseInt(req.query.id as string, 10);
+
     const data = await documents.findOne (
-        { "where": { id: req.query.id }  }
+        { "where": { id: id }  }
     );
     res.json( data );
 });
-
-
 
 
 bckendDataRouter.post("/updateImageRecord", async (req: Request, res: Response) => {
@@ -415,15 +405,10 @@ bckendDataRouter.post("/updateImageRecord", async (req: Request, res: Response) 
 });
 
 
-
 async function getUserContacts(userid: number) {
-    var data = {}
-
     const usrContacts = await findMany(`select u.id, u.contact, c.title 
         from contacts_types c, user_contacts u 
         where u.contactTypeID = c.id and u.userid = ?`, [userid])
-    data.userContacts = usrContacts;
-
 
     const typ1 = await getConnection()
     .createQueryBuilder()
@@ -431,28 +416,29 @@ async function getUserContacts(userid: number) {
     .from(contacts_types, "contacts_types")
     .where("type = :id", { id: 1 })
     .execute();
-    data.mobileTypes = typ1;
 
-    return data;
+    return {
+        userContacts: usrContacts,
+        mobileTypes: typ1
+    }
 }
 
-async function getUserAddresses(recordID: number, type: number) {
-    var data = {}
-
+async function getUserAddresses(recordID: number, type: string) {
     const typ2 = await getConnection()
     .createQueryBuilder()
     .select(["*"])
     .from(contacts_types, "contacts_types")
     .where("type = :id", { id: 2 })
     .execute();
-    data.addressTypes = typ2;
 
     const usrAddresses = await findMany(`select u.id, c.title, u.contact, u.zip, u.state, u.country 
         from contacts_types c, addresses u 
         where u.contactTypeID = c.id and u.recordID = ? and u.type = ?`, [recordID, type])
-    data.usrAddresses = usrAddresses;
-
-    return data;
+    
+    return {
+        addressTypes: typ2,
+        usrAddresses: usrAddresses
+    };
 }
 
 async function getUsrProfile(userid: number) {
@@ -467,7 +453,8 @@ async function getUsrProfile(userid: number) {
         "NationalID", 
         "MaritalStatus", 
         "Occupation",
-        "DATE_FORMAT(DOB, '%M %d %Y') as DOB"
+        "DATE_FORMAT(DOB, '%M %d %Y') as DOB",
+        "countryid"
     ])
     .from(users,"users")
     .where("id = :id", { id: userid })
@@ -479,7 +466,7 @@ async function getUsrProfile(userid: number) {
 async function getDocuments(recordID: string, type: string, userid: number) {
 
     if( type == Public_Enums_Constants.DOCUMENT_TYPES.Profile_Document ) 
-        recordID = userid;
+        recordID = userid.toString();
     
     const docs = await getConnection()
     .createQueryBuilder()
