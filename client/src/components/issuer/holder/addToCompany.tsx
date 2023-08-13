@@ -8,11 +8,11 @@ import AppContext from '../../common/AppContext';
 import { useLocation } from "react-router-dom";
 
 
-export default function InvestorView(props) {
+export default function addToCompany(props: any) {
   const appContext = useContext(AppContext);
   const location = useLocation();
 
-  React.useEffect((props) => {
+  React.useEffect(() => {
       const id = location.state.id;
       alert( id )
 

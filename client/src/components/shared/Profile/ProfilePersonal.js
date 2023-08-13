@@ -13,6 +13,7 @@ export default function ProfilePersonal() {
     // Profile related data
     const [data, setData] = useState([]);
     const [profileErrorMessages, setProfileErrorMessages] = useState("");  
+    const [country, setCountry] = useState("");      
     const [apiOperationMessage, setApiOperationMessage] = useState("Loading Profile ...");      
     const [showLoading, setShowLoading] = useState(true);
     const {register, handleSubmit, reset, formState: { errors }} = useForm();
@@ -32,8 +33,10 @@ export default function ProfilePersonal() {
             setShowLoading(false);
             if(response.data.status == -1) {
                 setProfileErrorMessages(  commons.getDBErrorMessagesText(response.data.error)   );
-            } else 
-                setData( response.data )
+            } else {
+                setData( response.data.user )
+                setCountry( response.data.country )
+            }
 
             setShowLoading(false);
 
@@ -55,7 +58,8 @@ export default function ProfilePersonal() {
 
         axios.get("/accounts/backend/getProfilePersonal").then(response => {
             setApiOperationMessage("");
-            setData( response.data );
+            setData( response.data.user );
+            setCountry( response.data.country )
             setShowLoading(false);
         }).catch(function(error) {
             console.log(error);
@@ -159,6 +163,18 @@ export default function ProfilePersonal() {
                                 </div>
                             </div>
 
+                            <br />
+                            <div className="row">
+                                <div className="col-2">
+                                    <span className="CaptionLabel">Country</span>
+                                </div>
+                                <div className="col-4">
+                                    {country}                                  
+                                </div>
+
+                            </div>
+
+
                             { showLoading && ( <Loading message={apiOperationMessage} /> ) }
 
                         </div>
@@ -207,6 +223,7 @@ export default function ProfilePersonal() {
                                             {errors.lastname && <p className="ErrorLabel">Please enter last name  (min 4, max 200 characters)</p>}
                                         </div>
                                     </div>
+
                                 </div>
 
                                 <div className="row">
@@ -222,7 +239,23 @@ export default function ProfilePersonal() {
                                                         onChange={(date) => setDOBDate(  date  )} />
                                             </div>
                                     </div>
-                                    
+
+                                    <div className="col-md-6">
+                                        <div className="form-group">
+                                            Select Country
+                                            <Form.Field>
+                                                <select 
+                                                id="countryid"  
+                                                name="countryid"
+                                                {...register("countryid", { maxLength: 100 })}                                                
+                                                className="form-control form-select">
+                                                    { countries && countries.map(dat =>
+                                                        <option value={dat.id} label={dat.country} />
+                                                    )}
+                                                </select>
+                                            </Form.Field>
+                                        </div>
+                                    </div>                                      
                                 </div>
 
                                 <div className="row">
@@ -292,25 +325,6 @@ export default function ProfilePersonal() {
                                     </div>
                                 </div>
 
-
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <div className="form-group">
-                                            Select Country
-                                            <Form.Field>
-                                                <select 
-                                                id="countryid"  
-                                                name="countryid"
-                                                {...register("countryid", { maxLength: 100 })}                                                
-                                                className="form-control form-select">
-                                                    { countries && countries.map(dat =>
-                                                        <option value={dat.id} label={dat.country} />
-                                                    )}
-                                                </select>
-                                            </Form.Field>
-                                        </div>
-                                    </div>   
-                                </div>                                            
 
                         </div>
                     </div>

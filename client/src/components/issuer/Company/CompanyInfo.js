@@ -247,7 +247,6 @@ export default function ProfileContacts(params) {
                                             <div className="col-md-1"></div>
                                         </div>
 
-
                                 </div>
                             </div>
                         <br /><br />
@@ -265,3 +264,4 @@ export default function ProfileContacts(params) {
     );
 
 }
+

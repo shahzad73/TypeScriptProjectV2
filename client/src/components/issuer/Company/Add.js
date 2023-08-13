@@ -15,14 +15,13 @@ export default function Company() {
     const countries = commons.getCountryNamesJSON();
     const [profileErrorMessages, setProfileErrorMessages] = useState("");
 
-    
     const { register, handleSubmit, trigger, setValue, reset, formState: { errors } } = useForm();
 
     React.useEffect(() => {
         if(location.state.update != 0) {
             alert( location.state.id );
         }
-        
+
         var select = document.getElementById('country');
         setValue(  "country",  select.options[select.selectedIndex].value  );
 

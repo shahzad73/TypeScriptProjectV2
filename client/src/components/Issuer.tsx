@@ -13,8 +13,8 @@ import EditCompany from "./issuer/Company/Edit.js"
 import Token from "./issuer/Token/Token"
 import ViewToken from "./issuer/Token/View"
 
-import InvestorList from "./issuer/investor/list"
-import InvestorView from "./issuer/investor/InvestorView"
+import InvestorList from "./issuer/holder/list"
+import InvestorView from "./issuer/holder/InvestorView"
  
 
 export default function Issuer() {

@@ -84,13 +84,15 @@ export default function Dashboard() {
                                                     <img src="/img/delete.png" className="listIconImage" ></img>
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             </div>
-                                            <div className="col-xl-8">
+                                            <div className="col-xl-7">
                                                 {dat.title}
                                             </div>
-                                            <div className="col-xl-2">
-                                                <Link to="/admin/issuer/tokenview" 
-                                                state = {{id: dat.id}}
-                                                > <Button color="vk" size='tiny'>Info</Button> </Link>
+                                            <div className="col-xl-3">
+                                                <Link to="/admin/issuer/tokenview" state = {{id: dat.id}}> 
+                                                <Button color="vk" size='tiny'>Info</Button> </Link>
+
+                                                <Link to="/admin/issuer/tokenview" state = {{id: dat.id}}> 
+                                                <Button color="vk" size='tiny'>Holders</Button> </Link>
                                             </div>
                                         </div>
                                     </span> 

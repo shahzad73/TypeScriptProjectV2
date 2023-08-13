@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { getConnection, getManager } from "typeorm"; 
-import {users} from "../../entity/users";
-import {user_issuer} from "../../entity/user_issuer";
+import { users } from "../../entity/users";
+import { user_issuer } from "../../entity/user_issuer";
 import { findMany, findOne } from "../../core/mysql";
 import { validate } from "class-validator";
 
@@ -64,7 +64,6 @@ holderRouter.post("/saveNewHolders", async (req: Request, res: Response) => {
         req.body.secret = "random secret"
         const data = await users.insert(req.body);
 
-        console.log(data.generatedMaps[0].ID);
         
         user_issuer.insert({
             userID : data.generatedMaps[0].ID,
@@ -77,4 +76,65 @@ holderRouter.post("/saveNewHolders", async (req: Request, res: Response) => {
 
 
 });
+
+holderRouter.get("/getInvestor", async (req: Request, res: Response) => {
+
+    const result = await findOne (`select u.ID, u.firstname, u.lastname, u.email, u.PassportNumber, 
+            u.NationalID, u.DOB, u.MaritalStatus, u.Occupation, u.countryid, 
+            c.country, i.issuerCanEditProfile
+            from users u, user_issuer i, country c where 
+            i.userID = u.id and 
+            i.issuerID = ? and
+            c.id = u.countryid and 
+            i.userid = ?`, 
+        [req.userid, req.query.id]
+    );
+console.log( result )
+    res.json( {
+        data: result
+    } );
+
+});
+
+holderRouter.post("/updateHolders", async (req: Request, res: Response) => {
+
+    const id = req.body.ID;
+    delete req.body.ID;
+
+
+    const issuerRec = await user_issuer.findOne ({ 
+        "where": { userID: id, issuerID: req.userid } }
+    );
+
+    if( issuerRec == null )
+        res.json( {status: 2} );
+    else {
+     
+        if( issuerRec.issuerCanEditProfile === 1 ) {
+
+                const manager = getManager();
+                const newUpdates = manager.create(users, req.body);    
+
+                const errors = await validate(newUpdates, { skipMissingProperties: true });
+
+                if (errors.length > 0) {
+                    res.json( {status: -1, error: errors} );
+                } else {
+                    await getConnection()
+                    .createQueryBuilder()
+                    .update(users)
+                    .set(req.body)
+                    .where("id = :id", {  id: id  })
+                    .execute();
+
+                    res.json( {status: 1} );
+                }
+
+        } else 
+            res.json( {status: 2} );
+
+    }
+
+});
+
 

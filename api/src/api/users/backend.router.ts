@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { getConnection, getManager } from "typeorm"; 
 import {validate} from "class-validator";
 import {users} from "../../entity/users";
+import {country} from "../../entity/country";
 import {contacts_types} from "../../entity/contact_types";
 import {user_contacts} from "../../entity/user_contacts";
 import {addresses} from "../../entity/addresses";
@@ -460,7 +461,17 @@ async function getUsrProfile(userid: number) {
     .where("id = :id", { id: userid })
     .execute();
 
-    return usr[0];
+
+    const countrydata = await country.findOne ({ 
+        "where": { id: usr[0].countryid } }
+    );
+    
+
+    return {
+        user: usr[0],
+        country: countrydata!.country
+    }
+
 }
 
 async function getDocuments(recordID: string, type: string, userid: number) {

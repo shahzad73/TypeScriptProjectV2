@@ -1,151 +1,126 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from 'axios';
 import {Modal} from 'react-bootstrap'
-import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { Button, Pagination, Form } from 'semantic-ui-react'
-import moment from 'moment';
-import Loading from "../../common/loading"
-import commons from '../../common/Commons'
-import { useNavigate, useLocation } from "react-router-dom";
+import { Button, Label, Form } from 'semantic-ui-react'
+import Moment from 'moment';
+import AppContext from '../../common/AppContext';
+import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import moment from 'moment';
+
+import Loading from "../../common/loading"
+import { useForm } from "react-hook-form";
 
 
-export default function InvestorList(props) {
-
-  const [usersList, setUsersList] = useState([]);
-
-  const [totalPages, setTotalPages] = useState(0);
-  const [showLoading, setShowLoading] = useState(false);
-  const [countries, setCountries] = useState([]);  
+export default function InvestorView(props) {
+  const appContext = useContext(AppContext);
+  const location = useLocation();
+  const [profileDataSet, setProfileDataSet] = useState([]);
   const [contactModelShow, setContactModelShow] = useState(false);
   const [DOBDate, setDOBDate] = useState("");
-  const [emailAlreadyExistsError, setEmailAlreadyExistsError] = useState(false);
   const [showSavingUserLoading, setShowSavingUserLoading] = useState(false); 
 
   const { register, handleSubmit, trigger, setValue, reset, formState: { errors } } = useForm();
 
-  const [profileErrorMessages, setProfileErrorMessages] = useState("");
+  const [countries, setCountries] = useState([]);  
+  
 
-  React.useEffect(() => {
 
-    axios.get( "/common/getCountries", {}).then(response => {
+
+  React.useEffect((props) => {
+
+      axios.get( "/common/getCountries", {}).then(response => {
         setCountries(response.data);        
-        getPageData(0);
-    }).catch(function(error) {
-        console.log(error);
-    });
+        getProfileInfo();
+      }).catch(function(error) {
+            console.log(error);
+      });
+
+
+      return () => {
+        //alert("This is where when control is being transferred to another page");
+      };
 
   }, []);
 
-  const onFormSubmit = (data) => {    
 
-    if(DOBDate != "" && DOBDate != null)
-        data.DOB =  new Date(  moment(DOBDate).format('YYYY-MM-DD')  ) 
+    function getProfileInfo() {
+        const id = location.state.id;
 
-    setShowSavingUserLoading(true);
-    axios.post("/accounts/holders/saveNewHolders", data).then(response => {
-        setShowSavingUserLoading(false);
+        axios.get("/accounts/holders/getInvestor?id=" + id).then(response => {
+            setProfileDataSet( response.data.data );
 
-        if(response.data.status == -1) {
-            setProfileErrorMessages(  commons.getDBErrorMessagesText(response.data.error) )                
-        }
-        else if(response.data.status === 2 ) {
-            setEmailAlreadyExistsError(true);
-        } else {
-            setContactModelShow(false);           
-            alert("Refresh Page going to refresh page");
-            getPageData(0);
-        } 
+            if(response.data.data.DOB != "" && response.data.data.DOB != null)
+                setDOBDate( new Date(response.data.data.DOB ) )
 
-    }).catch(function(error) {
-        console.log(error);
-    });
-  }
+            reset(response.data.data);
+        }).catch(function(error) {
+            console.log(error);
+        });        
+    }
 
-  const openNewUser = () => {
-    reset({});
-    setEmailAlreadyExistsError(false);
-    setContactModelShow(true);
-  }
 
-  const handlePageChange = (event, data) => {        
-    getPageData(data.activePage - 1);
-  }
+    function openEditProfile() {
+        setContactModelShow(true);
+    }
 
-  function getPageData(page) {
 
-        setShowLoading(true);
-        axios.get(
-            "/accounts/holders/getHolders",
-            { params: {page: page, size: commons.getPaginationSize()} })
-        .then(response => {
-            setTotalPages ( commons.calculateTotalPages ( response.data.count ) );
-            setUsersList(response.data.data);
-            setShowLoading(false);
+    const onFormSubmit = (data) => {    
+
+        delete data.country;
+        delete data.issuerCanEditProfile;
+
+        if(DOBDate != "" && DOBDate != null)
+            data.DOB =  new Date(  moment(DOBDate).format('YYYY-MM-DD')  ) 
+
+        setShowSavingUserLoading(true);
+        axios.post("/accounts/holders/updateHolders", data).then(response => {
+            setShowSavingUserLoading(false);
+            setContactModelShow(false);
+            getProfileInfo();
         }).catch(function(error) {
             console.log(error);
         });
+        
+    }
 
-  }
-  
+
+
   return (
+
     <div className="row">
-    
         <div className="col-xl-12">
             <div className="card">
-
                 <div className="card-header">
                     <div className="row">
                         <div className="col-xl-10">
-                            <h5> <img src="/img/company.png" width="33px"/> &nbsp; List of Holders</h5>
+                            <h5><img width="30px" src="/img/emailclosed.jpg"></img> &nbsp;  Holder View</h5>
                             <span className="d-block m-t-5">use className <code>table</code> inside table element</span>
                         </div>
                         <div className="col-xl-2">
-                            <Button color="vk" onClick={openNewUser} size='tiny'>Add New User</Button>
+                            { profileDataSet.issuerCanEditProfile == 1 && 
+                                (<span>
+                                    <Button onClick={openEditProfile} color="vk" size='tiny'>Edit</Button> 
+                                </span>)
+                            }
                         </div>
                     </div>
-                </div>      
+                </div>
+
 
                 <div className="card-block table-border-style">
 
-                {usersList && usersList.map( data => 
-
-                      <span>                                        
-                          <div className="row">
-                              <div className="col-xl-3"> 
-                                  {data.firstname} {data.lastname}
-                              </div>
-                              <div className="col-xl-3">
-                                  {data.email}
-                              </div>
-                              <div className="col-xl-3">
-                                  {data.country}
-                              </div>                              
-                              <div className="col-xl-3">
-                                    <Link to="/admin/issuer/investorView" state = {{id: data.ID}} >
-                                        <Button color="vk" size='tiny'>View &nbsp; / &nbsp; Edit</Button> 
-                                    </Link>
-                              </div>                                                            
-                          </div>                                      
-                          <br />
-                      </span>
-
-                )}
+                    {profileDataSet.firstname} {profileDataSet.lastname} 
+                    <br />
+                    {profileDataSet.email}
+                    <br />
+                    {profileDataSet.country}
 
                 </div>
-
-                { totalPages > 1 &&
-                    <Pagination 
-                        defaultActivePage={1} 
-                        totalPages={totalPages} 
-                        onPageChange={handlePageChange}
-                    />
-                }
-
-                { showLoading && ( <Loading message="Loading Company Information" /> ) }
             </div>
         </div>
+
 
 
         <Modal size="xl" show={contactModelShow} onHide={() => setContactModelShow(false)}>
@@ -156,26 +131,9 @@ export default function InvestorList(props) {
                 </Modal.Header>
                 <Modal.Body  >
                     <br />
-                    
+
                     <div>
                         <div className="row">
-
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <div className="form-group">
-                                                Email Address
-                                                <Form.Field>
-                                                    <input type="text" className="form-control" placeholder="Enter Email Address" 
-                                                        id="email"  
-                                                        name="email"
-                                                        {...register("email", { required: true, minLength:4, maxLength: 200 })}
-                                                        />
-                                                </Form.Field>
-                                                {errors.email && <p className="ErrorLabel">Please enter email address</p>}
-                                                {emailAlreadyExistsError && <p className="ErrorLabel">Email is taken. Try another one</p>}
-                                            </div>
-                                    </div>
-                                </div>
 
                                 <div className="row">
                                     <div className="col-md-6">
@@ -307,10 +265,10 @@ export default function InvestorList(props) {
 
                                     </div>
                                 </div>
+
                         </div>
                     </div>
                     { showSavingUserLoading && ( <Loading message="Saving new User" /> ) }
-                    <br /><br />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button color="vk" type='submit'  size='tiny'>Save</Button>   
@@ -320,9 +278,11 @@ export default function InvestorList(props) {
 
             </Form>
         </Modal>
-        
+
+
 
     </div>
-  )
+
+  );
 
 }
