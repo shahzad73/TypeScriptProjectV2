@@ -23,10 +23,10 @@ export class token extends BaseEntity {
    blockchainID!: number; 
 
    @Column() 
-   isSecurityToken!: number; 
+   tokenProtocol!: number; 
 
    @Column() 
-   tokenProtocol!: number; 
+   type!: number; 
 
    @Column() 
    companyID!: number; 
