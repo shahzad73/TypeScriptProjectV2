@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import { getConnection, getManager } from "typeorm"; 
 import { users } from "../../entity/users";
-import { user_issuer } from "../../entity/user_issuer";
+import { token } from "../../entity/token";
+import { user_token } from "../../entity/user_token";
 import { findMany, findOne } from "../../core/mysql";
 import { validate } from "class-validator";
 
@@ -89,7 +90,7 @@ holderRouter.get("/getInvestor", async (req: Request, res: Response) => {
             i.userid = ?`, 
         [req.userid, req.query.id]
     );
-console.log( result )
+
     res.json( {
         data: result
     } );
@@ -137,4 +138,33 @@ holderRouter.post("/updateHolders", async (req: Request, res: Response) => {
 
 });
 
+holderRouter.get("/getInvestorTokensList", async (req: Request, res: Response) => {
+
+    const tokenNotHolder =  await findMany(`select id, title from token where id not in
+                                (select tokenid from user_token where userid = ${req.query.userid} )`)
+    const tokenHolder =  await findMany(`select id, title from token where id in
+                                (select tokenid from user_token where userid = ${req.query.userid} )`)
+
+    res.json({
+        tokenNotHolder: tokenNotHolder,
+        tokenHolder: tokenHolder
+    });
+
+});
+
+holderRouter.post("/setHolderToken", async (req: Request, res: Response) => {
+    try {
+        const data = req.body;
+
+        data.admin_details = ""
+        data.kycSubmitted = 1;
+        data.iskYC = 1;
+
+        await user_token.insert ( data );
+
+        res.json({status: 1})
+    } catch {
+        console.log("err")
+    }
+})
 

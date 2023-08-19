@@ -14,7 +14,7 @@ import Token from "./issuer/Token/Token"
 import ViewToken from "./issuer/Token/View"
 
 import InvestorList from "./issuer/holder/list"
-import InvestorView from "./issuer/holder/InvestorView"
+import InvestorView from "./issuer/holder/view/InvestorView"
  
 
 export default function Issuer() {

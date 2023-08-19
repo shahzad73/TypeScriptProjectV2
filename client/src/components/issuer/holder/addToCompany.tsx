@@ -16,7 +16,7 @@ export default function addToCompany(props: any) {
       const id = location.state.id;
       alert( id )
 
- 
+      
       /*axios.get("/accounts/others/inbox").then(response => {
         
       }).catch(function(error) {
@@ -49,7 +49,7 @@ function handleDeleteModelEvent() {
                 <div className="card-header">
                     <div className="row">
                         <div className="col-xl-10">
-                            <h5><img width="30px" src="/img/emailclosed.jpg"></img> &nbsp;  Holder View</h5>
+                            <h5><img width="30px" src="/img/emailclosed.jpg"></img> &nbsp;  Holder View111</h5>
                             <span className="d-block m-t-5">use className <code>table</code> inside table element</span>
                         </div>
                     </div>

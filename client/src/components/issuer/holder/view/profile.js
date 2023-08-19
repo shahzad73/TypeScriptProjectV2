@@ -4,17 +4,16 @@ import {Modal} from 'react-bootstrap'
 import { Link } from "react-router-dom";
 import { Button, Label, Form } from 'semantic-ui-react'
 import Moment from 'moment';
-import AppContext from '../../common/AppContext';
+import AppContext from '../../../common/AppContext';
 import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import moment from 'moment';
 
-import Loading from "../../common/loading"
+import Loading from "../../../common/loading"
 import { useForm } from "react-hook-form";
 
 
-export default function InvestorView(props) {
-  const appContext = useContext(AppContext);
+export default function Profile(props) {
   const location = useLocation();
   const [profileDataSet, setProfileDataSet] = useState([]);
   const [contactModelShow, setContactModelShow] = useState(false);
@@ -24,8 +23,6 @@ export default function InvestorView(props) {
   const { register, handleSubmit, trigger, setValue, reset, formState: { errors } } = useForm();
 
   const [countries, setCountries] = useState([]);  
-  
-
 
 
   React.useEffect((props) => {
