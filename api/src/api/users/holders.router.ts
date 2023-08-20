@@ -34,7 +34,7 @@ holderRouter.get("/getHolders", async (req: Request, res: Response) => {
 
 
     const resultCount = await findOne(`select count(*) as count from user_issuer where issuerID = ?`, [req.userid]);
-    
+
     res.json( {
         data: result,
         count: resultCount.count

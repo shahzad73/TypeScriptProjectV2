@@ -32,6 +32,6 @@ export class token extends BaseEntity {
    companyID!: number; 
 
    @Column() 
-   isdeloyed!: number;    
+   isDeployed!: number;    
 }
 

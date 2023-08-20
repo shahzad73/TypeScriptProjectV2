@@ -2,7 +2,9 @@ import express, { Request, Response } from "express";
 import { createQueryBuilder, getConnection, getManager } from "typeorm"; 
 import { company } from "../../entity/company";
 import { token } from "../../entity/token";
+import { user_token } from "../../entity/user_token";
 import {validate} from "class-validator";
+import { findMany, findOne } from "../../core/mysql";
 
 
 export const tokenDataRouter = express.Router();
@@ -46,7 +48,7 @@ tokenDataRouter.get("/gettoken", async (req: Request, res: Response) => {
     .select([
         'Title',
         'Details',
-        'isdeloyed'
+        'isDeployed'
     ])
     .from(token, "t")
     .where("id = :id", { id: req.query.id })
@@ -54,6 +56,23 @@ tokenDataRouter.get("/gettoken", async (req: Request, res: Response) => {
 
     res.json( tok[0] )
 });
+
+tokenDataRouter.get("/tokenholders", async (req: Request, res: Response) => {
+    const size: number = parseInt(req.query.size as string, 10);
+    const page: number = parseInt(req.query.page as string, 10) * size;
+
+    const tokenHolder =  await findMany(  `select u.firstname, u.lastname from users u, user_token t 
+                                           where u.id = t.userid and t.tokenid = ? limit ? offset ?`, 
+                                           [req.query.tokenid, size.toString(), page.toString()]  )
+
+    const resultCount = await findOne(  `select count(*) as count from user_token where tokenid = ?`, [req.query.tokenid]  );
+
+    res.json( {
+        tokenUserList: tokenHolder,
+        tokenUserListCount: resultCount.count
+    } ); 
+});
+
 
 async function getCompanyContacts(userid: number, size: number, skipRecord: number) {
 

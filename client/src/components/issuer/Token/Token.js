@@ -91,7 +91,7 @@ export default function Dashboard() {
                                                 <Link to="/admin/issuer/tokenview" state = {{id: dat.id}}> 
                                                 <Button color="vk" size='tiny'>Info</Button> </Link>
 
-                                                <Link to="/admin/issuer/tokenview" state = {{id: dat.id}}> 
+                                                <Link to="/admin/issuer/tokenholders" state = {{id: dat.id}}> 
                                                 <Button color="vk" size='tiny'>Holders</Button> </Link>
                                             </div>
                                         </div>

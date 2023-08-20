@@ -10,7 +10,7 @@ interface MyJsonResponse {
 }
 type JsonFunction = (json: MyJsonResponse) => void;
 
-const PaginationSize :number = 4;
+const PaginationSize :number = 2;
 const LinkToAPIServer: string = "http://localhost:7000";
 
 
