@@ -16,7 +16,7 @@ export default function CAP(props: any) {
         setInboxDataSet(response.data);
       }).catch(function(error) {
         console.log(error);
-      });      
+      });
 
       return () => {
 

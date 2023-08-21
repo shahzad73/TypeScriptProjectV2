@@ -10,7 +10,7 @@ import ViewInbox from "./shared/Inbox/ViewInbox"
 import Company from "./issuer/Company/Company.js"
 import AddCompany from "./issuer/Company/Add.js"
 import EditCompany from "./issuer/Company/Edit.js"
-import Token from "./issuer/Token/Token"
+import TokenList from "./issuer/Token/TokenList"
 import ViewToken from "./issuer/Token/View"
 import TokenHolders from "./issuer/Token/TokenHolders"
 
@@ -44,7 +44,7 @@ export default function Issuer() {
                                         <Route path="/company" element={<Company />} />   
                                         <Route path="/addcompany" element={<AddCompany />} />  
                                         <Route path="/editcompany" element={<EditCompany />} />
-                                        <Route path="/token" element={<Token />} />     
+                                        <Route path="/token" element={<TokenList />} />     
                                         <Route path="/tokenview" element={<ViewToken />} />
                                         <Route path="/tokenholders" element={<TokenHolders />} />                                        
 

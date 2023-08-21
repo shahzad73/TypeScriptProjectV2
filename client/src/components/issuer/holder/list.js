@@ -23,13 +23,20 @@ export default function InvestorList(props) {
   const [emailAlreadyExistsError, setEmailAlreadyExistsError] = useState(false);
   const [showSavingUserLoading, setShowSavingUserLoading] = useState(false); 
 
+  const [searchParameters, setSearchParameters] = useState({
+    txtFirstNameSearch: '',
+    txtLastNameSearch: '',
+    countryIDSearch: -1
+  });
+
   const { register, handleSubmit, trigger, setValue, reset, formState: { errors } } = useForm();
 
   const [profileErrorMessages, setProfileErrorMessages] = useState("");
 
   React.useEffect(() => {
-
+ 
     axios.get( "/common/getCountries", {}).then(response => {
+        response.data.unshift ( {id: -1, country: ''} );
         setCountries(response.data);        
         getPageData(0);
     }).catch(function(error) {
@@ -78,7 +85,7 @@ export default function InvestorList(props) {
         setShowLoading(true);
         axios.get(
             "/accounts/holders/getHolders",
-            { params: {page: page, size: commons.getPaginationSize()} })
+            { params: {page: page, size: commons.getPaginationSize(), searchParameters: searchParameters} })
         .then(response => {
             setTotalPages ( commons.calculateTotalPages ( response.data.count ) );
             setUsersList(response.data.data);
@@ -88,7 +95,15 @@ export default function InvestorList(props) {
         });
 
   }
-  
+
+  const handleChangeSearch = event => {
+        const { name, value } = event.target;
+        setSearchParameters((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));        
+  }
+
   return (
     <div className="row">
     
@@ -108,6 +123,51 @@ export default function InvestorList(props) {
                 </div>      
 
                 <div className="card-block table-border-style">
+
+                
+                <div className="row">
+                    <div className="col-md-6">
+                        First Name
+                            <input type="text" className="form-control" placeholder="Enter First Name" 
+                                style={{ width:"85%" }}
+                                id="txtFirstNameSearch"  
+                                name="txtFirstNameSearch"
+                                onChange={handleChangeSearch}
+                            />
+                    </div>                 
+                    <div className="col-md-6">
+                        Last Name
+                            <input type="text" className="form-control" placeholder="Enter Last Name" 
+                                style={{ width:"85%" }}                            
+                                id="txtLastNameSearch"  
+                                name="txtLastNameSearch"
+                                onChange={handleChangeSearch}
+                            />
+                    </div>
+                </div>
+
+                <br />
+
+                <div className="row">
+                    <div className="col-md-6">
+                        Select Country
+                        <select 
+                            style={{ width:"85%" }}         
+                            className="form-control form-select"
+                            id="countryIDSearch"  
+                            name="countryIDSearch"
+                            onChange={handleChangeSearch}
+                        >
+                            {countries && countries.map( data => 
+                                <option value={data.id}>{data.country}</option>
+                            )}
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <hr /><br />
 
                 {usersList && usersList.map( data => 
 

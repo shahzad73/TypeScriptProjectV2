@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import commons from '../../common/Commons'
 
 
-export default function Dashboard() {
+export default function TokenList() {
     const {register, handleSubmit, reset, formState: { errors }} = useForm();
     const [contactModelShow, setContactModelShow] = useState(false);
     const [errorMessages, setErrorMessages] = useState("");

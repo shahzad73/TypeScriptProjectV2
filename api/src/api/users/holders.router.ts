@@ -9,7 +9,6 @@ import { validate } from "class-validator";
 export const holderRouter = express.Router();
 
 holderRouter.get("/getHolders", async (req: Request, res: Response) => {
-
     const size: number = parseInt(req.query.size as string, 10);
     const page: number = parseInt(req.query.page as string, 10) * size;
 
