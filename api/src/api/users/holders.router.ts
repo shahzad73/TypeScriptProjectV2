@@ -5,6 +5,8 @@ import { token } from "../../entity/token";
 import { user_token } from "../../entity/user_token";
 import { findMany, findOne } from "../../core/mysql";
 import { validate } from "class-validator";
+import { user_issuer } from "../../entity/user_issuer";
+
 
 export const holderRouter = express.Router();
 
@@ -12,27 +14,29 @@ holderRouter.get("/getHolders", async (req: Request, res: Response) => {
     const size: number = parseInt(req.query.size as string, 10);
     const page: number = parseInt(req.query.page as string, 10) * size;
 
-    /*const [result, total] = await users.findAndCount(
-        {
-            where: { }, order: { ID: "ASC" },
-            select: ['ID', 'firstname', 'lastname', 'email'],            
-            take: size,
-            skip: page * size
-        }
-    );*/
+    var sql = ``;
 
-    const result = await findMany(`
-        select u.ID, u.firstname, u.lastname, u.email, i.issuerCanEditProfile, c.country
-        from users u, user_issuer i, country c where 
-        i.userID = u.id and 
-        i.issuerID = ? and
-        c.id = u.countryid
-        limit ? offset ?`, 
-        [req.userid, size.toString(), page.toString()]
-    );
+    if(req.query.searchParameters.txtFirstNameSearch !== null && req.query.searchParameters.txtFirstNameSearch !== '') 
+        sql = ` and firstname like '%` + req.query.searchParameters.txtFirstNameSearch + `%'`;
+
+    if(req.query.searchParameters.txtLastNameSearch !== null && req.query.searchParameters.txtLastNameSearch !== '') 
+        sql = sql + ` and lastname like '%` + req.query.searchParameters.txtLastNameSearch + `%'`;
+
+    console.log(req.query.searchParameters.countryIDSearch);
+    if(req.query.searchParameters.countryIDSearch !== "-1" ) 
+        sql = sql + ` and countryid = ` + req.query.searchParameters.countryIDSearch;
 
 
-    const resultCount = await findOne(`select count(*) as count from user_issuer where issuerID = ?`, [req.userid]);
+    const result = await findMany(`select u.ID, u.firstname, u.lastname, u.email, i.issuerCanEditProfile, c.country
+                                    from users u, user_issuer i, country c where 
+                                    i.userID = u.id and i.issuerID = ? 
+                                    and c.id = u.countryid` +  sql + ` limit ? offset ?`, 
+                                    [ req.userid, size.toString(), page.toString() ] );
+
+
+    const resultCount = await findOne(`select count(*) as count from users u, user_issuer i, country c where 
+                                        i.userID = u.id and i.issuerID = ? 
+                                        and c.id = u.countryid` + sql, [req.userid]);
 
     res.json( {
         data: result,
@@ -64,7 +68,7 @@ holderRouter.post("/saveNewHolders", async (req: Request, res: Response) => {
         req.body.secret = "random secret"
         const data = await users.insert(req.body);
 
-        
+
         user_issuer.insert({
             userID : data.generatedMaps[0].ID,
             issuerID: req.userid,

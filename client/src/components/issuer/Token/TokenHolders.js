@@ -7,23 +7,40 @@ import commons from '../../common/Commons'
 import { useLocation } from  "react-router-dom";
 
 
+
 export default function TokenHolders(props) {
+
+    const [searchParameters, setSearchParameters] = useState({
+        txtFirstNameSearch: '',
+        txtLastNameSearch: '',
+        countryIDSearch: -1
+    });
 
   const [totalPages, setTotalPages] = useState(0);
   const [tokensList, setTokensList] = useState([]);  
   const [tokenInfo, setTokenInfo] = useState([]);    
   const location = useLocation();  
-  
+  const [countries, setCountries] = useState([]); 
+
 
   React.useEffect(() => {
 
-    axios.get("/accounts/token/gettoken",  { params: {id: location.state.id} }
-    ).then(response => {
-        setTokenInfo( response.data );
-        getPageData(0);
+    axios.get( "/common/getCountries", {}).then(response => {
+        response.data.unshift ( {id: -1, country: ''} );
+        setCountries(response.data);        
+
+        axios.get("/accounts/token/gettoken",  { params: {id: location.state.id} }
+        ).then(response => {
+            setTokenInfo( response.data );
+            getPageData(0);
+        }).catch(function(error) {
+            console.log(error);
+        });          
+    
+
     }).catch(function(error) {
         console.log(error);
-    });          
+    });
     
 
   }, []);
@@ -54,6 +71,31 @@ export default function TokenHolders(props) {
   }
 
 
+  const resetSearchCriteria = () => {
+    setSearchParameters({
+          txtFirstNameSearch: '',
+          txtLastNameSearch: '',
+          countryIDSearch: -1
+    });
+
+    getPageZeroWithSearch();
+  }
+
+
+  const getPageZeroWithSearch = () => {    
+    //setActivePageNumber(1);    // set semantic page control active page property to 1 
+    getPageData(0);            // and in API 0 is the first page
+ }
+
+
+  const handleChangeSearch = event => {
+    const { name, value } = event.target;
+    setSearchParameters((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));        
+  }  
+
 
 
   return (
@@ -76,18 +118,85 @@ export default function TokenHolders(props) {
 
                 <div className="card-block table-border-style">
 
+                        <div className="row">
+                            <div className="col-md-2">
+                                <b>Title</b>
+                            </div>
+                            <div className="col-md-6">
+                                {tokenInfo.Title}
+                            </div>                            
+                        </div>
 
-                        <b>Title</b>  &nbsp;&nbsp;&nbsp; {tokenInfo.Title}
+
+                        <div className="row">
+                            <div className="col-md-2">
+                                <b>Details</b>
+                            </div>
+                            <div className="col-md-6">
+                                {tokenInfo.Details}
+                            </div>                            
+                        </div>
+
+                        <br /><br />
+
+                        <div className="row">
+                            <div className="col-md-6">
+                                First Name
+                                    <input type="text" className="form-control" placeholder="Enter First Name" 
+                                        value={searchParameters.txtFirstNameSearch}
+                                        style={{ width:"85%" }}
+                                        id="txtFirstNameSearch"  
+                                        name="txtFirstNameSearch"
+                                        onChange={handleChangeSearch}
+                                    />
+                            </div>                 
+                            <div className="col-md-6">
+                                Last Name
+                                    <input type="text" className="form-control" placeholder="Enter Last Name" 
+                                        value={searchParameters.txtLastNameSearch}
+                                        style={{ width:"85%" }}                            
+                                        id="txtLastNameSearch"  
+                                        name="txtLastNameSearch"
+                                        onChange={handleChangeSearch}
+                                    />
+                            </div>
+                        </div>
+
                         <br />
-                        <b>Details</b>  &nbsp;&nbsp;&nbsp;  {tokenInfo.Details}
-                        <br />
+
+                        <div className="row">
+                            <div className="col-md-6">
+                                Select Country
+                                <select 
+                                    value={searchParameters.countryIDSearch}
+                                    style={{ width:"85%" }}         
+                                    className="form-control form-select"
+                                    id="countryIDSearch"  
+                                    name="countryIDSearch"
+                                    onChange={handleChangeSearch}
+                                >
+                                    {countries && countries.map( data => 
+                                        <option value={data.id}>{data.country}</option>
+                                    )}
+                                </select>
+                            </div>
+                            <div className="col-md-6">
+                                <br />
+                                <Button color="vk" onClick={getPageZeroWithSearch} size='tiny'>Search</Button>
+                                <Button color="vk" onClick={resetSearchCriteria} size='tiny'>Reset</Button>
+                            </div>
+                        </div>
+
+
+                        <hr /><br />
+
 
                         {tokensList && tokensList.map(dat =>                                    
                             <span>
                                 <br />
                                 <div className="row">
                                     <div className="col-xl-7">
-                                        {dat.firstname}
+                                        {dat.firstname} {dat.lastname}
                                     </div>
                                     <div className="col-xl-3">
                                         <Link to="/admin/issuer/tokenview" state = {{id: dat.id}}> 

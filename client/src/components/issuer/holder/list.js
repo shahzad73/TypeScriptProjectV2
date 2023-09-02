@@ -3,19 +3,20 @@ import axios from 'axios';
 import {Modal} from 'react-bootstrap'
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { Button, Pagination, Form } from 'semantic-ui-react'
+import { Button, Pagination, Form, Icon } from 'semantic-ui-react'
 import moment from 'moment';
 import Loading from "../../common/loading"
 import commons from '../../common/Commons'
 import { useNavigate, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 
-
 export default function InvestorList(props) {
 
   const [usersList, setUsersList] = useState([]);
 
   const [totalPages, setTotalPages] = useState(0);
+  const [activePageNumber, setActivePageNumber] = useState(1);
+
   const [showLoading, setShowLoading] = useState(false);
   const [countries, setCountries] = useState([]);  
   const [contactModelShow, setContactModelShow] = useState(false);
@@ -76,7 +77,8 @@ export default function InvestorList(props) {
     setContactModelShow(true);
   }
 
-  const handlePageChange = (event, data) => {        
+  const handlePageChange = (event, data) => {  
+    setActivePageNumber(data.activePage);
     getPageData(data.activePage - 1);
   }
 
@@ -86,7 +88,7 @@ export default function InvestorList(props) {
         axios.get(
             "/accounts/holders/getHolders",
             { params: {page: page, size: commons.getPaginationSize(), searchParameters: searchParameters} })
-        .then(response => {
+        .then(response => {            
             setTotalPages ( commons.calculateTotalPages ( response.data.count ) );
             setUsersList(response.data.data);
             setShowLoading(false);
@@ -94,6 +96,21 @@ export default function InvestorList(props) {
             console.log(error);
         });
 
+  }
+
+  const getPageZeroWithSearch = () => {    
+     setActivePageNumber(1);    // set semantic page control active page property to 1 
+     getPageData(0);            // and in API 0 is the first page
+  }
+
+  const resetSearchCriteria = () => {
+      setSearchParameters({
+            txtFirstNameSearch: '',
+            txtLastNameSearch: '',
+            countryIDSearch: -1
+      });
+
+      getPageZeroWithSearch();
   }
 
   const handleChangeSearch = event => {
@@ -124,11 +141,12 @@ export default function InvestorList(props) {
 
                 <div className="card-block table-border-style">
 
-                
+
                 <div className="row">
                     <div className="col-md-6">
                         First Name
                             <input type="text" className="form-control" placeholder="Enter First Name" 
+                                value={searchParameters.txtFirstNameSearch}
                                 style={{ width:"85%" }}
                                 id="txtFirstNameSearch"  
                                 name="txtFirstNameSearch"
@@ -138,6 +156,7 @@ export default function InvestorList(props) {
                     <div className="col-md-6">
                         Last Name
                             <input type="text" className="form-control" placeholder="Enter Last Name" 
+                                value={searchParameters.txtLastNameSearch}
                                 style={{ width:"85%" }}                            
                                 id="txtLastNameSearch"  
                                 name="txtLastNameSearch"
@@ -152,6 +171,7 @@ export default function InvestorList(props) {
                     <div className="col-md-6">
                         Select Country
                         <select 
+                            value={searchParameters.countryIDSearch}
                             style={{ width:"85%" }}         
                             className="form-control form-select"
                             id="countryIDSearch"  
@@ -162,7 +182,11 @@ export default function InvestorList(props) {
                                 <option value={data.id}>{data.country}</option>
                             )}
                         </select>
-
+                    </div>
+                    <div className="col-md-6">
+                        <br />
+                        <Button color="vk" onClick={getPageZeroWithSearch} size='tiny'>Search</Button>
+                        <Button color="vk" onClick={resetSearchCriteria} size='tiny'>Reset</Button>
                     </div>
                 </div>
 
@@ -197,7 +221,12 @@ export default function InvestorList(props) {
 
                 { totalPages > 1 &&
                     <Pagination 
-                        defaultActivePage={1} 
+                        ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
+                        firstItem={{ content: <Icon name='angle double left' />, icon: true }}
+                        lastItem={{ content: <Icon name='angle double right' />, icon: true }}
+                        prevItem={{ content: <Icon name='angle left' />, icon: true }}
+                        nextItem={{ content: <Icon name='angle right' />, icon: true }}
+                        activePage={activePageNumber}
                         totalPages={totalPages} 
                         onPageChange={handlePageChange}
                     />
