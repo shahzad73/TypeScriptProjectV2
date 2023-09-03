@@ -22,21 +22,19 @@ holderRouter.get("/getHolders", async (req: Request, res: Response) => {
     if(req.query.searchParameters.txtLastNameSearch !== null && req.query.searchParameters.txtLastNameSearch !== '') 
         sql = sql + ` and lastname like '%` + req.query.searchParameters.txtLastNameSearch + `%'`;
 
-    console.log(req.query.searchParameters.countryIDSearch);
     if(req.query.searchParameters.countryIDSearch !== "-1" ) 
         sql = sql + ` and countryid = ` + req.query.searchParameters.countryIDSearch;
-
 
     const result = await findMany(`select u.ID, u.firstname, u.lastname, u.email, i.issuerCanEditProfile, c.country
                                     from users u, user_issuer i, country c where 
                                     i.userID = u.id and i.issuerID = ? 
-                                    and c.id = u.countryid` +  sql + ` limit ? offset ?`, 
+                                    and c.id = u.countryid ${sql} limit ? offset ?`, 
                                     [ req.userid, size.toString(), page.toString() ] );
 
 
     const resultCount = await findOne(`select count(*) as count from users u, user_issuer i, country c where 
                                         i.userID = u.id and i.issuerID = ? 
-                                        and c.id = u.countryid` + sql, [req.userid]);
+                                        and c.id = u.countryid ${sql}`, [req.userid]);
 
     res.json( {
         data: result,

@@ -61,11 +61,24 @@ tokenDataRouter.get("/tokenholders", async (req: Request, res: Response) => {
     const size: number = parseInt(req.query.size as string, 10);
     const page: number = parseInt(req.query.page as string, 10) * size;
 
+    var sql = ``;
+
+    if(req.query.searchParameters.txtFirstNameSearch !== null && req.query.searchParameters.txtFirstNameSearch !== '') 
+        sql = ` and firstname like '%` + req.query.searchParameters.txtFirstNameSearch + `%'`;
+
+    if(req.query.searchParameters.txtLastNameSearch !== null && req.query.searchParameters.txtLastNameSearch !== '') 
+        sql = sql + ` and lastname like '%` + req.query.searchParameters.txtLastNameSearch + `%'`;
+
+    if(req.query.searchParameters.countryIDSearch !== "-1" ) 
+        sql = sql + ` and countryid = ` + req.query.searchParameters.countryIDSearch;
+
+
     const tokenHolder =  await findMany(  `select u.firstname, u.lastname from users u, user_token t 
-                                           where u.id = t.userid and t.tokenid = ? limit ? offset ?`, 
+                                           where u.id = t.userid and t.tokenid = ? ${sql} limit ? offset ?`, 
                                            [req.query.tokenid, size.toString(), page.toString()]  )
 
-    const resultCount = await findOne(  `select count(*) as count from user_token where tokenid = ?`, [req.query.tokenid]  );
+    const resultCount = await findOne(  `select count(*) as count from users u, user_token t 
+                                         where u.id = t.userid and t.tokenid = ? ` + sql, [req.query.tokenid]  );
 
     res.json( {
         tokenUserList: tokenHolder,

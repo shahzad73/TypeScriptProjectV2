@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import {Modal} from 'react-bootstrap'
 import { Link } from "react-router-dom";
-import { Button, Label, Pagination } from 'semantic-ui-react'
+import { Button, Label, Pagination, Icon } from 'semantic-ui-react'
 import commons from '../../common/Commons'
 import { useLocation } from  "react-router-dom";
 
@@ -10,17 +10,20 @@ import { useLocation } from  "react-router-dom";
 
 export default function TokenHolders(props) {
 
-    const [searchParameters, setSearchParameters] = useState({
-        txtFirstNameSearch: '',
-        txtLastNameSearch: '',
-        countryIDSearch: -1
-    });
+  const [searchParameters, setSearchParameters] = useState({
+    txtFirstNameSearch: '',
+    txtLastNameSearch: '',
+    countryIDSearch: -1
+  });
 
   const [totalPages, setTotalPages] = useState(0);
   const [tokensList, setTokensList] = useState([]);  
   const [tokenInfo, setTokenInfo] = useState([]);    
   const location = useLocation();  
   const [countries, setCountries] = useState([]); 
+
+  const [activePageNumber, setActivePageNumber] = useState(1);
+
 
 
   React.useEffect(() => {
@@ -45,16 +48,15 @@ export default function TokenHolders(props) {
 
   }, []);
 
-  
-  const handlePageChange = (event, data) => {        
+  const handlePageChange = (event, data) => {    
+    setActivePageNumber(data.activePage);    
     getPageData(data.activePage - 1);
   };    
-
 
   function getPageData(page) {
     
     axios.get("/accounts/token/tokenholders",
-    { params: {tokenid: location.state.id,  page: page, size: commons.getPaginationSize()} }
+    { params: {tokenid: location.state.id,  page: page, size: commons.getPaginationSize(), searchParameters: searchParameters} }
     ).then(response => {
 
         setTokensList(  response.data.tokenUserList  );
@@ -70,7 +72,6 @@ export default function TokenHolders(props) {
 
   }
 
-
   const resetSearchCriteria = () => {
     setSearchParameters({
           txtFirstNameSearch: '',
@@ -81,12 +82,10 @@ export default function TokenHolders(props) {
     getPageZeroWithSearch();
   }
 
-
   const getPageZeroWithSearch = () => {    
-    //setActivePageNumber(1);    // set semantic page control active page property to 1 
+    setActivePageNumber(1);    // set semantic page control active page property to 1 
     getPageData(0);            // and in API 0 is the first page
  }
-
 
   const handleChangeSearch = event => {
     const { name, value } = event.target;
@@ -213,6 +212,12 @@ export default function TokenHolders(props) {
                             totalPages > 1
                             &&
                             <Pagination 
+                                ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
+                                firstItem={{ content: <Icon name='angle double left' />, icon: true }}
+                                lastItem={{ content: <Icon name='angle double right' />, icon: true }}
+                                prevItem={{ content: <Icon name='angle left' />, icon: true }}
+                                nextItem={{ content: <Icon name='angle right' />, icon: true }}
+                                activePage={activePageNumber}                            
                                 defaultActivePage={1} 
                                 totalPages={totalPages} 
                                 onPageChange={handlePageChange}
