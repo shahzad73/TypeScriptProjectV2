@@ -13,6 +13,9 @@ import EditCompany from "./issuer/Company/Edit.js"
 import TokenList from "./issuer/Token/TokenList"
 import ViewToken from "./issuer/Token/View"
 import TokenHolders from "./issuer/Token/TokenHolders"
+import Deploy from "./issuer/Token/Deploy"
+import CAP from "./issuer/Token/CAP"
+
 
 import InvestorList from "./issuer/holder/list"
 import InvestorView from "./issuer/holder/view/InvestorView"
@@ -47,6 +50,8 @@ export default function Issuer() {
                                         <Route path="/token" element={<TokenList />} />     
                                         <Route path="/tokenview" element={<ViewToken />} />
                                         <Route path="/tokenholders" element={<TokenHolders />} />                                        
+                                        <Route path="/tokendeploy" element={<Deploy />} />                                                                                
+                                        <Route path="/tokencap" element={<CAP />} />                                                                                                                        
 
                                         <Route path="/investorList" element={<InvestorList />} />
                                         <Route path="/investorView" element={<InvestorView />} />

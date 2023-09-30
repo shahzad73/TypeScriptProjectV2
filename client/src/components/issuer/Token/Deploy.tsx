@@ -33,7 +33,7 @@ export default function Deploy(props: any) {
                 <div className="card-header">
                     <div className="row">
                         <div className="col-xl-10">
-                            <h5><img width="30px" src="/img/emailclosed.jpg"></img> &nbsp;  Token Holders</h5>
+                            <h5><img width="30px" src="/img/emailclosed.jpg"></img> &nbsp;  Select Blockchain</h5>
                             <span className="d-block m-t-5">use className <code>table</code> inside table element</span>
                         </div>
                         <div className="col-xl-2">
@@ -45,7 +45,14 @@ export default function Deploy(props: any) {
 
                 <div className="card-block table-border-style">
 
-                    Page data
+                    <h4>Ethereum Virtual Machine</h4>
+                    <br />
+                    Ethereum <br /><br />
+                    Polygon <br /><br />
+                    Binance <br /><br />
+
+                    <br /><br />
+                    
 
                 </div>
             </div>
@@ -57,3 +64,6 @@ export default function Deploy(props: any) {
   );
 
 }
+
+
+

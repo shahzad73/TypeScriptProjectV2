@@ -84,15 +84,33 @@ export default function TokenList() {
                                                     <img src="/img/delete.png" className="listIconImage" ></img>
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             </div>
-                                            <div className="col-xl-7">
+                                            <div className="col-xl-6">
                                                 {dat.title}
                                             </div>
-                                            <div className="col-xl-3">
+                                            <div className="col-xl-4">
+
+                                                {dat.isDeployed ? (<span></span>) : ( 
+                                                    <span>
+                                                        <Link to="/admin/issuer/tokendeploy" state = {{id: dat.id}}> 
+                                                        <Button color="vk" size='tiny'>Deploy</Button> </Link>    
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    </span>
+                                                ) }
+
+                                                {dat.isDeployed ? ( 
+                                                    <span>
+                                                        <Link to="/admin/issuer/tokencap" state = {{id: dat.id}}> 
+                                                        <Button color="vk" size='tiny'>CAP Table</Button> </Link>                                                        
+                                                    </span>
+                                                ) : (<span></span>) }
+
+
                                                 <Link to="/admin/issuer/tokenview" state = {{id: dat.id}}> 
                                                 <Button color="vk" size='tiny'>Info</Button> </Link>
 
                                                 <Link to="/admin/issuer/tokenholders" state = {{id: dat.id}}> 
-                                                <Button color="vk" size='tiny'>Holders</Button> </Link>
+                                                <Button color="vk" size='tiny'>Holders</Button> </Link>    
+                                                                                           
                                             </div>
                                         </div>
                                     </span> 

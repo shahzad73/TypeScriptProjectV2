@@ -14,7 +14,6 @@ tokenDataRouter.get("/token", async (req: Request, res: Response) => {
     const size: number = parseInt(req.query.size as string, 10);
     const page: number = parseInt(req.query.page as string, 10);
 
-
     res.json( 
         await( getCompanyContacts(req.userid, size,  (page * size) ) ) 
     );
@@ -107,7 +106,6 @@ async function getCompanyContacts(userid: number, size: number, skipRecord: numb
         }
     );
 
- 
     return({
         company: comp,
         token: tok,

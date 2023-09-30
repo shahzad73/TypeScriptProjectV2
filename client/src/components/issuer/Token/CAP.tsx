@@ -45,7 +45,7 @@ export default function CAP(props: any) {
 
                 <div className="card-block table-border-style">
 
-                    Page data
+                    CAP table
 
                 </div>
             </div>
