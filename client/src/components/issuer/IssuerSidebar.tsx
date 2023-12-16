@@ -2,14 +2,23 @@ import React from "react";
 import {
   Link
 } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 export default function IssuerSidebar() {
+  const navigate = useNavigate();
 
   React.useEffect(() => {
       return () => {
           //alert("Bye");
       };
   }, []);
+
+
+  const redirectToTokenListing = (type: string) => {
+    alert(type)
+    navigate("/admin/issuer/setToken", {state:{type: type}});
+  }
 
 
   return (  
@@ -39,32 +48,8 @@ export default function IssuerSidebar() {
             </li>  
                         
 
-            <li data-username="" className="nav-item">
-                <Link to={`/admin/issuer/token`} >
-                    <span className="pcoded-micon">
-                        <i className="feather icon-monitor"></i>
-                    </span>
-                    <span className="pcoded-mtext">
-                        Security Tokens
-                    </span>
-                </Link>
-            </li>  
-
-
-            <li data-username="" className="nav-item">
-                <Link to={`/admin/issuer/token`} >
-                    <span className="pcoded-micon">
-                        <i className="feather icon-monitor"></i>
-                    </span>
-                    <span className="pcoded-mtext">
-                        NFT
-                    </span>
-                </Link>
-            </li>  
-
-
-            <li data-username="" className="nav-item">
-                <Link to={`/admin/issuer/token`} >
+            <li data-username="" className="nav-item" onClick={ () => redirectToTokenListing("ICO") }>
+                <Link to={''}>
                     <span className="pcoded-micon">
                         <i className="feather icon-monitor"></i>
                     </span>
@@ -75,7 +60,31 @@ export default function IssuerSidebar() {
             </li>  
 
 
-            <li data-username="" className="nav-item">
+            <li data-username="" className="nav-item" onClick={ () => redirectToTokenListing("Security") } >
+                <Link to="">
+                    <span className="pcoded-micon">
+                        <i className="feather icon-monitor"></i>
+                    </span>
+                    <span className="pcoded-mtext">
+                        Security Tokens
+                    </span>
+                </Link>
+            </li>  
+
+
+            <li data-username="" className="nav-item" onClick={ () => redirectToTokenListing("NFT") }>
+                <Link to={""}>
+                    <span className="pcoded-micon">
+                        <i className="feather icon-monitor"></i>
+                    </span>
+                    <span className="pcoded-mtext">
+                        NFT
+                    </span>
+                </Link>
+            </li>  
+
+
+            <li data-username="" className="nav-item" >
                 <Link to={`/admin/issuer/investorList`} >
                     <span className="pcoded-micon">
                         <i className="feather icon-cloud-snow"></i>
@@ -85,7 +94,6 @@ export default function IssuerSidebar() {
                     </span>
                 </Link>
             </li>  
-
 
 
             <li data-username="" className="nav-item">
@@ -98,7 +106,6 @@ export default function IssuerSidebar() {
                     </span>
                 </Link>
             </li>  
-
 
 
         </ul>

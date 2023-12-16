@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import MyAppContext  from './components/common/AppContext';
 import './App.css';
 
+
 export default function App() {
 
     // declare all global state varibales here

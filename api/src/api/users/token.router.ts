@@ -45,8 +45,8 @@ tokenDataRouter.get("/gettoken", async (req: Request, res: Response) => {
     var tok = await getConnection()
     .createQueryBuilder()
     .select([
-        'Title',
-        'Details',
+        'title',
+        'details',
         'isDeployed'
     ])
     .from(token, "t")

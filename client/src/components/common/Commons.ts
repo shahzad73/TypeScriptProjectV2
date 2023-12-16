@@ -14,6 +14,12 @@ const PaginationSize :number = 2;
 const LinkToAPIServer: string = "http://localhost:7000";
 
 
+export interface fileUploadEvent {
+    status: number, 
+    file: string    
+}
+
+
 const Commons = {
 
     getDBErrorMessagesText: function(errors: any[]) {
@@ -62,8 +68,8 @@ const Commons = {
     uploadFile: function( 
         url: string, 
         fileID: string, 
-        fileDestination: number, 
-        updatePercentage: SetStateFunction<number>,
+        fileDestination: string, 
+        updatePercentage: React.Dispatch<React.SetStateAction<number>>,
         documentFilesUploadedEvent: JsonFunction
     ) {
         let formData = new FormData();
@@ -87,10 +93,14 @@ const Commons = {
             },
         }).then((data) => {
             delete( uploadFilesArray[fileID] );
-            documentFilesUploadedEvent({"status": 1, "file":data.data.fileName });            
+            //documentFilesUploadedEvent({"status": 1, "file":data.data.fileName });     
+            let res: fileUploadEvent = {"status": 1, "file":data.data.fileName };
+            documentFilesUploadedEvent( res );
             updatePercentage(0);
         }).catch((err) => {
-            documentFilesUploadedEvent({"status": 0, "file":"" });  
+            //documentFilesUploadedEvent({"status": 0, "file":"" });  
+            let res: fileUploadEvent = {"status": 0, "file":"" };
+            documentFilesUploadedEvent( res );            
             updatePercentage(0);
         });
     }

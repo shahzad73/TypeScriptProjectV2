@@ -10,10 +10,19 @@ import { user_issuer } from "../../entity/user_issuer";
 
 export const holderRouter = express.Router();
 
-holderRouter.get("/getHolders", async (req: Request, res: Response) => {
-    const size: number = parseInt(req.query.size as string, 10);
-    const page: number = parseInt(req.query.page as string, 10) * size;
 
+interface queryParams {
+    page: number,
+    size: number,
+    searchParameters: {
+      txtFirstNameSearch: string,
+      txtLastNameSearch: string,
+      countryIDSearch: string
+    }  
+};
+
+
+holderRouter.get("/getHolders", async (req: Request<any, any, any, queryParams>, res: Response) => {
     var sql = ``;
 
     if(req.query.searchParameters.txtFirstNameSearch !== null && req.query.searchParameters.txtFirstNameSearch !== '') 
@@ -29,7 +38,7 @@ holderRouter.get("/getHolders", async (req: Request, res: Response) => {
                                     from users u, user_issuer i, country c where 
                                     i.userID = u.id and i.issuerID = ? 
                                     and c.id = u.countryid ${sql} limit ? offset ?`, 
-                                    [ req.userid, size.toString(), page.toString() ] );
+                                    [ req.userid, req.query.size, req.query.page ] );
 
 
     const resultCount = await findOne(`select count(*) as count from users u, user_issuer i, country c where 
@@ -97,7 +106,7 @@ holderRouter.get("/getInvestor", async (req: Request, res: Response) => {
     } );
 
 });
-
+ 
 holderRouter.post("/updateHolders", async (req: Request, res: Response) => {
 
     const id = req.body.ID;
@@ -143,6 +152,7 @@ holderRouter.get("/getInvestorTokensList", async (req: Request, res: Response) =
 
     const tokenNotHolder =  await findMany(`select id, title from token where id not in
                                 (select tokenid from user_token where userid = ${req.query.userid} )`)
+
     const tokenHolder =  await findMany(`select id, title from token where id in
                                 (select tokenid from user_token where userid = ${req.query.userid} )`)
 

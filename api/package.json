@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/nodemailer": "^6.4.8",
+    "@vitejs/plugin-react": "^4.2.0",
     "aws-sdk": "^2.1387.0",
     "axios": "^1.4.0",
     "body-parser": "^1.20.2",
@@ -42,6 +43,8 @@
     "typeorm": "^0.3.16",
     "util": "^0.12.5",
     "uuid": "^9.0.0",
+    "vite": "^5.0.4",
+    "vite-tsconfig-paths": "^4.2.1",
     "web3.storage": "^4.5.4"
   },
   "devDependencies": {

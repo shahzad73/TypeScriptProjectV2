@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Dashboard from "./issuer/Dashboard";
 import Items from "./issuer/test/Items";
-import Test from './issuer/test/Example2';
 import $ from 'jquery';
 
 import SendEmail from "./shared/Inbox/SendEmail.js"
@@ -15,20 +14,22 @@ import ViewToken from "./issuer/Token/View"
 import TokenHolders from "./issuer/Token/TokenHolders"
 import Deploy from "./issuer/Token/Deploy"
 import CAP from "./issuer/Token/CAP"
-
+import Example from "./issuer/test/Example";
 
 import InvestorList from "./issuer/holder/list"
 import InvestorView from "./issuer/holder/view/InvestorView"
- 
+
 
 export default function Issuer() {
+
+    const navigate = useNavigate();
+
 
     React.useEffect(() => {
         return () => {
 
         };
     }, []);
-
 
     return (
         <div className="pcoded-main-container">
@@ -41,7 +42,6 @@ export default function Issuer() {
                                     <Routes>
                                         <Route path="/" element={<Dashboard />} />
                                         <Route path="/items" element={<Items />} /> 
-                                        <Route path="/test" element={<Test />} /> 
                                         <Route path="/sendemail" element={<SendEmail />} />
                                         <Route path="/viewinbox" element={<ViewInbox />} />   
                                         <Route path="/company" element={<Company />} />   
@@ -53,8 +53,12 @@ export default function Issuer() {
                                         <Route path="/tokendeploy" element={<Deploy />} />                                                                                
                                         <Route path="/tokencap" element={<CAP />} />                                                                                                                        
 
+                                        <Route path="/setToken" element={<TokenList />} />
+
                                         <Route path="/investorList" element={<InvestorList />} />
                                         <Route path="/investorView" element={<InvestorView />} />
+
+                                        <Route path="/test" element={<Example />} />                                             
                                     </Routes>
                                 </div>
                             </div>
