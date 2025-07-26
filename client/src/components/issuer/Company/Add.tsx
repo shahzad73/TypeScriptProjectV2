@@ -52,7 +52,7 @@ export default function Company() {
 
     const handleAddressChange = (e: ChangeEvent<HTMLSelectElement>) => {
         setValue(  e.target.name, e.target.value.trim()  );
-    };    
+    };
 
 
     return (          
@@ -98,7 +98,6 @@ export default function Company() {
                                                         </Form.Field>
                                                         {errors.details && <p className="ErrorLabel">Please enter details  (min 5, max 1000 characters)</p>}
                                                     </div>     
-
 
                                                     <div className="form-group">
                                                         <Form.Field>

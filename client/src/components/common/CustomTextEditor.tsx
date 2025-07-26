@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, ContentState, convertToRaw } from 'draft-js';
-import { convertToHTML, convertFromHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 
 
-export default function CustomTextEditor(props: { defaultHTML: any; onChange: (arg0: any) => void; height: any; }) {
+export default function CustomTextEditor(props: { defaultHTML: string; onChange: (arg0: string) => void; height: string }) {
 
     const hashConfig = {
       trigger: '#',

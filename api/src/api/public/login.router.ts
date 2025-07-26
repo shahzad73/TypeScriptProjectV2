@@ -24,6 +24,7 @@ loginRouter.post("/login", async (req: Request, res: Response) => {
     if(usr == null || usr.length == 0) {
         res.json({status:0});
     } else {
+        console.log( SHA256(usr[0].secret + req.body.password).toString() );
         if(  SHA256(usr[0].secret + req.body.password).toString() != usr[0].password ) {
             res.json({status:0});
         } else {
@@ -36,6 +37,7 @@ loginRouter.post("/login", async (req: Request, res: Response) => {
         }
 
     }
+    
 });
 
 loginRouter.post("/loginplatform", async (req: Request, res: Response) => {

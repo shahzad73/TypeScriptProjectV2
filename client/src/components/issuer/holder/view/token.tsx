@@ -94,13 +94,13 @@ export default function InvestorTokens() {
                                     <br />
                                     { tokenHolder.map(data => 
 
-                                            <span>                                        
-                                                <div className="row">
-                                                    <div className="col-xl-5"> 
-                                                        {data.title}                                                               
-                                                    </div>
-                                                </div>                                      
-                                            </span>
+                                        <span>                                        
+                                            <div className="row">
+                                                <div className="col-xl-5"> 
+                                                    {data.title}                                                               
+                                                </div>
+                                            </div>                                      
+                                        </span>
 
                                     )}
 

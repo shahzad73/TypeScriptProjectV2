@@ -30,6 +30,7 @@ export default function ProfileContacts(params: any) {
 
     const [htmlText, setHtmlText] = useState("");
     function textEditorTextChangeEvent(data: any) {
+        alert(data)
         setHtmlText(data)
     }
     const handleParagraphChange = (e: any) => {
@@ -39,7 +40,7 @@ export default function ProfileContacts(params: any) {
         });
     };
     const addParagraphDataForm = (e: any) => {
-        
+
         if(htmlText.length > 4000) {
             setErrorMessage("Details cannot be greater than 4000 characters");
             return;

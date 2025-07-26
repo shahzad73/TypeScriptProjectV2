@@ -311,7 +311,6 @@ bckendDataRouter.post("/uploadfile", async (req: Request, res: Response) => {
     }
 });
 
-
 bckendDataRouter.get("/getDocuments", async (req: Request, res: Response) => {
     res.json( await getDocuments(req.query.recordID as string, req.query.type as string, req.userid) );    
 });
@@ -393,7 +392,6 @@ bckendDataRouter.get("/getDocument", async (req: Request, res: Response) => {
     res.json( data );
 });
 
-
 bckendDataRouter.post("/updateImageRecord", async (req: Request, res: Response) => {
     var sql = "";
 
@@ -404,7 +402,6 @@ bckendDataRouter.post("/updateImageRecord", async (req: Request, res: Response) 
     
     res.json({"status": 1});
 });
-
 
 async function getUserContacts(userid: number) {
     const usrContacts = await findMany(`select u.id, u.contact, c.title 
